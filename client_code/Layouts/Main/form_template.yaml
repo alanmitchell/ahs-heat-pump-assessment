@@ -1,4 +1,5 @@
 components_by_slot:
+  content: []
   navigation:
   - components:
     - layout_properties: {grid_position: 'FRSVQJ,QMRWPO'}
@@ -42,4 +43,8 @@ components_by_slot:
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
 is_package: true
 layout: {type: 'form:dep_lin1x4oec0ytd:Layouts.NavigationDrawerLayout'}
-slots: {}
+slots:
+  content:
+    index: 0
+    set_layout_properties: {}
+    target: {name: content, type: slot}

@@ -17,5 +17,5 @@ services:
 - client_config: {}
   server_config: {}
   source: /runtime/services/tables.yml
-startup: {module: Layouts.Main, type: form}
+startup: {module: Pages.Login, type: form}
 startup_form: null
