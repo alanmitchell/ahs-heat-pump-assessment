@@ -1,2 +1,16 @@
+components_by_slot:
+  content:
+  - layout_properties: {}
+    name: spacer_1
+    properties: {height: '100'}
+    type: Spacer
+  - layout_properties: {}
+    name: heading_1
+    properties: {align: center, style: headline, text: Log In to Heat Pump Assessment}
+    type: form:dep_lin1x4oec0ytd:_Components.Heading
+  - layout_properties: {}
+    name: but_login
+    properties: {align: center, appearance: tonal, icon_align: left, text: Log In}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
 is_package: true
 layout: {type: 'form:Layouts.Main'}
