@@ -9,6 +9,4 @@ class SelectClient(SelectClientTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
-    #self.layout.deselect_all_nav_links()
     self.layout.select_client_link.selected = True

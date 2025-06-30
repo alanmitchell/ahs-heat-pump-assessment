@@ -4,23 +4,17 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
-from anvil.js import window
-
-# now window is the JS global, and your M3 namespace lives under window.m3
-NavigationLink = window.m3.NavigationLink
+import m3.components as m3
 
 class Main(MainTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    print(self.layout.slots['navigation'])
-    self._deselect_recursive(self.layout.slots['navigation'])
+    self._deselect_recursive(self.nav_panel)
 
   def _deselect_recursive(self, container):
-    print(container.get_components())
     for comp in container.get_components():
-      print(comp)
-      if isinstance(comp, NavigationLink):
+      if isinstance(comp, m3.NavigationLink):
         comp.selected = False
       if hasattr(comp, "get_components"):
         self._deselect_recursive(comp)

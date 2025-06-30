@@ -2,57 +2,62 @@ components_by_slot:
   content: []
   navigation:
   - components:
-    - layout_properties: {grid_position: 'FRSVQJ,QMRWPO'}
-      name: heading_1
-      properties:
-        scale: small
-        text: |
-          Staff Items
+    - components:
+      - layout_properties: {grid_position: 'NGJQND,MLVFYO'}
+        name: heading_1
+        properties:
+          scale: small
+          text: |
+            Staff Items
+        type: form:dep_lin1x4oec0ytd:_Components.Heading
+      - layout_properties: {grid_position: 'GMPIWQ,OCGBFG'}
+        name: select_client_link
+        properties: {icon: 'mi:people', text: Select Client}
+        type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+      - layout_properties: {grid_position: 'GMUXYI,EAHLUG'}
+        name: model_inputs_link
+        properties: {icon: 'mi:input', text: Model Inputs}
+        type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+      - layout_properties: {grid_position: 'PPGZKW,KPSKEQ'}
+        name: discussion_link
+        properties: {icon: 'mi:format_paragraph', text: Discussion / Recommendations}
+        type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+      - layout_properties: {grid_position: 'MENJAI,IQBNIV'}
+        name: admin_link
+        properties: {icon: 'mi:pen_size_4', text: Admin Tasks}
+        type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+      layout_properties: {grid_position: ',undefined'}
+      name: panel_staff
+      properties: {}
+      type: ColumnPanel
+    - layout_properties: {grid_position: 'YXDZHI,NMDIGP'}
+      name: heading_2
+      properties: {scale: small, text: Client Section}
       type: form:dep_lin1x4oec0ytd:_Components.Heading
-    - layout_properties: {grid_position: ''}
-      name: select_client_link
-      properties: {icon: 'mi:people', text: Select Client}
+    - layout_properties: {grid_position: 'CKVZFE,EKEWJQ'}
+      name: home_info_link
+      properties: {icon: 'mi:house', text: Home Information}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
-    - layout_properties: {grid_position: 'KMJKJF,KYJTKC'}
-      name: model_inputs_link
-      properties: {icon: 'mi:input', text: Model Inputs}
+    - layout_properties: {grid_position: 'ZOCPQL,JHBBVS'}
+      name: past_use_link
+      properties: {icon: 'mi:oil_barrel', text: Past Fuel & Electricity Use}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
-    - layout_properties: {grid_position: 'IDZDCY,YESEUY'}
-      name: discussion_link
-      properties: {icon: 'mi:format_paragraph', text: Discussion / Recommendations}
+    - layout_properties: {grid_position: 'ECVHPG,HTNMNO'}
+      name: pictures_link
+      properties: {icon: 'mi:image', text: Pictures}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
-    - layout_properties: {grid_position: 'TNXFQY,XQNMDX'}
-      name: admin_link
-      properties: {icon: 'mi:pen_size_4', text: Admin Tasks}
+    - layout_properties: {grid_position: 'CQCSJF,LEAHZI'}
+      name: reports_link
+      properties: {icon: 'mi:apk_document', text: Reports}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+    - layout_properties: {grid_position: 'IEJLPB,PSGNXN'}
+      name: but_logout
+      properties: {align: left, appearance: tonal, text: Log Out}
+      type: form:dep_lin1x4oec0ytd:_Components.Button
     layout_properties: {}
-    name: panel_staff
+    name: nav_panel
     properties: {}
     type: ColumnPanel
-  - layout_properties: {}
-    name: heading_2
-    properties: {scale: small, text: Client Section}
-    type: form:dep_lin1x4oec0ytd:_Components.Heading
-  - layout_properties: {}
-    name: home_info_link
-    properties: {icon: 'mi:house', text: Home Information}
-    type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
-  - layout_properties: {}
-    name: past_use_link
-    properties: {icon: 'mi:oil_barrel', text: Past Fuel & Electricity Use}
-    type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
-  - layout_properties: {}
-    name: pictures_link
-    properties: {icon: 'mi:image', text: Pictures}
-    type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
-  - layout_properties: {}
-    name: reports_link
-    properties: {icon: 'mi:apk_document', text: Reports}
-    type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
-  - layout_properties: {}
-    name: but_logout
-    properties: {align: left, appearance: tonal, text: Log Out}
-    type: form:dep_lin1x4oec0ytd:_Components.Button
 is_package: true
 layout: {type: 'form:dep_lin1x4oec0ytd:Layouts.NavigationDrawerLayout'}
 slots:
