@@ -10,6 +10,7 @@ class Login(LoginTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.layout.panel_staff.visible = False
 
     # Any code you write here will run before the form opens.
 
@@ -17,6 +18,8 @@ class Login(LoginTemplate):
     State.current_user = anvil.users.login_with_form()
     State.target_user = State.current_user.get_id()
     if State.current_user['is_super_user']:
+      self.layout.panel_staff.visible = True
       open_form('Pages.SelectClient')
     else:
+      self.layout.panel_staff.visible = False
       open_form('Pages.HomeInfo')

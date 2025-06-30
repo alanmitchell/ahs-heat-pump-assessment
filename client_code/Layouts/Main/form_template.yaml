@@ -10,19 +10,19 @@ components_by_slot:
           Staff Items
       type: form:dep_lin1x4oec0ytd:_Components.Heading
     - layout_properties: {grid_position: ''}
-      name: navigation_link_1
+      name: select_client_link
       properties: {icon: 'mi:people', text: Select Client}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
     - layout_properties: {grid_position: 'KMJKJF,KYJTKC'}
-      name: navigation_link_2
+      name: model_inputs_link
       properties: {icon: 'mi:input', text: Model Inputs}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
     - layout_properties: {grid_position: 'IDZDCY,YESEUY'}
-      name: navigation_link_4
+      name: discussion_link
       properties: {icon: 'mi:format_paragraph', text: Discussion / Recommendations}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
     - layout_properties: {grid_position: 'TNXFQY,XQNMDX'}
-      name: navigation_link_6
+      name: admin_link
       properties: {icon: 'mi:pen_size_4', text: Admin Tasks}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
     layout_properties: {}
@@ -34,19 +34,19 @@ components_by_slot:
     properties: {scale: small, text: Client Section}
     type: form:dep_lin1x4oec0ytd:_Components.Heading
   - layout_properties: {}
-    name: navigation_link_3
+    name: home_info_link
     properties: {icon: 'mi:house', text: Home Information}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
   - layout_properties: {}
-    name: navigation_link_8
+    name: past_use_link
     properties: {icon: 'mi:oil_barrel', text: Past Fuel & Electricity Use}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
   - layout_properties: {}
-    name: navigation_link_5
+    name: pictures_link
     properties: {icon: 'mi:image', text: Pictures}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
   - layout_properties: {}
-    name: navigation_link_7
+    name: reports_link
     properties: {icon: 'mi:apk_document', text: Reports}
     type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
   - layout_properties: {}
