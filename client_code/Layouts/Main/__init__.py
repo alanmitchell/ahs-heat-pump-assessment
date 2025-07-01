@@ -34,3 +34,27 @@ class Main(MainTemplate):
     """This method is called when the component is clicked."""
     anvil.users.logout()
     open_form('Pages.Login')
+
+  def model_inputs_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    open_form('Pages.ModelInputs')
+
+  def discussion_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    open_form('Pages.Discussion')
+
+  def admin_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    open_form('Pages.Admin')
+
+  def past_use_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    open_form('Pages.PastFuel')
+
+  def pictures_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    open_form('Pages.Pictures')
+
+  def reports_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    open_form('Pages.Reports')
