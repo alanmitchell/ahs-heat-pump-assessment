@@ -1,5 +1,40 @@
 allow_embedding: false
 db_schema:
+  pdf_info:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      name: Homeowner
+      type: string
+    - admin_ui: {order: 1, width: 200}
+      name: Home_address
+      type: string
+    - admin_ui: {order: 2, width: 200}
+      name: AHS_ID
+      type: string
+    - admin_ui: {order: 3, width: 200}
+      name: Assessor
+      type: string
+    - admin_ui: {order: 4, width: 200}
+      name: Date
+      type: date
+    - admin_ui: {order: 5, width: 200}
+      name: square_footage
+      type: number
+    - admin_ui: {order: 6, width: 200}
+      name: year_built
+      type: number
+    - admin_ui: {order: 7, width: 200}
+      name: heating_system
+      type: string
+    - admin_ui: {order: 8, width: 200}
+      name: current_annual_heating_cost
+      type: number
+    - admin_ui: {order: 9, width: 200}
+      name: domestic_hot_water
+      type: string
+    server: full
+    title: PDF_Info
   users:
     client: none
     columns:
