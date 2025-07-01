@@ -10,7 +10,8 @@ components_by_slot:
           text: |
             Staff Items
         type: form:dep_lin1x4oec0ytd:_Components.Heading
-      - layout_properties: {grid_position: 'GMPIWQ,OCGBFG'}
+      - event_bindings: {click: select_client_link_click}
+        layout_properties: {grid_position: 'GMPIWQ,OCGBFG'}
         name: select_client_link
         properties: {icon: 'mi:people', text: Select Client}
         type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
@@ -34,7 +35,8 @@ components_by_slot:
       name: heading_2
       properties: {scale: small, text: Client Section}
       type: form:dep_lin1x4oec0ytd:_Components.Heading
-    - layout_properties: {grid_position: 'CKVZFE,EKEWJQ'}
+    - event_bindings: {click: home_info_link_click}
+      layout_properties: {grid_position: 'CKVZFE,EKEWJQ'}
       name: home_info_link
       properties: {icon: 'mi:house', text: Home Information}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
@@ -50,7 +52,8 @@ components_by_slot:
       name: reports_link
       properties: {icon: 'mi:apk_document', text: Reports}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
-    - layout_properties: {grid_position: 'IEJLPB,PSGNXN'}
+    - event_bindings: {click: but_logout_click}
+      layout_properties: {grid_position: 'IEJLPB,PSGNXN'}
       name: but_logout
       properties: {align: left, appearance: tonal, text: Log Out}
       type: form:dep_lin1x4oec0ytd:_Components.Button
