@@ -21,5 +21,5 @@ class Login(LoginTemplate):
       self.layout.panel_staff.visible = True
       open_form('Pages.SelectClient')
     else:
-      self.layout.panel_staff.visible = False
+      self.layout.panel_staff. = False
       open_form('Pages.HomeInfo')

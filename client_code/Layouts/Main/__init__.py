@@ -18,3 +18,16 @@ class Main(MainTemplate):
         comp.selected = False
       if hasattr(comp, "get_components"):
         self._deselect_recursive(comp)
+
+  def select_client_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    open_form('Pages.SelectClient')
+
+  def home_info_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    open_form('Pages.HomeInfo')
+
+  def but_logout_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    anvil.users.logout()
+    open_form('Pages.Login')
