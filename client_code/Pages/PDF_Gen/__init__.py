@@ -1,7 +1,8 @@
 from ._anvil_designer import PDF_GenTemplate
 from anvil import *
+import anvil.server
 import anvil.users
-from Pages import PDF_Gen_mod
+from ..Pages import PDF_Gen_mod
 
 client_name = 'Niko Gessner'
 client_address = '11100 Stony Brook Dr'
@@ -44,8 +45,15 @@ class PDF_Gen(PDF_GenTemplate):
 
     # Any code you write here will run before the form opens.
 
-  def register_button_click(self, **event_args):
+
+  def button_1_click(self, **event_args):
+    """This method is called when the component is clicked."""
     """This method is called when the button is clicked"""
 
-    pdf = PDF_Gen_mod.AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_footage, year_built, heating_system, current_annual_heating_cost, domestic_hot_water, electrical_service, heat_pump_1,heat_pump_2)
+    pdf = PDF_Gen_mod.AkHeatSmartPDF(client_name, client_address, ahs_id, 
+                                     assessor, date, square_footage, year_built,
+                                     heating_system, current_annual_heating_cost,
+                                     domestic_hot_water, electrical_service,
+                                     heat_pump_1,heat_pump_2)
     anvil.media.download(pdf)
+    pass

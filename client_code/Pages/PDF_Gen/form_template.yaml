@@ -8,7 +8,8 @@ components_by_slot:
     name: divider_1
     properties: {color: '#000000', type: inset}
     type: form:dep_lin1x4oec0ytd:_Components.Divider
-  - layout_properties: {}
+  - event_bindings: {click: button_1_click}
+    layout_properties: {}
     name: button_1
     properties: {text: CLICK FOR DOWNLOAD}
     type: form:dep_lin1x4oec0ytd:_Components.Button

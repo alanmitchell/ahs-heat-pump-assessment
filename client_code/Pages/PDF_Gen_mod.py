@@ -1,3 +1,4 @@
+import anvil.server
 import os
 from fpdf import FPDF
 from fpdf import Align
@@ -44,7 +45,12 @@ ahs_energy_advisor= 'Shakespeare'
 heat_pump_1 = ['option 1', 2000,12,23,34,45,56,67,78,89,90]
 heat_pump_2 = ['option 2', 3000,12,23,34,45,56,67,78,89,90]
 
-def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_footage, year_built, heating_system, current_annual_heating_cost, domestic_hot_water, electrical_service, *args):
+
+@anvil.server.callable
+def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor,
+                   date, square_footage, year_built, heating_system, 
+                   current_annual_heating_cost, domestic_hot_water, 
+                   electrical_service, *args):
   class PDF(FPDF):
     def header(self):
 
@@ -75,7 +81,9 @@ def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_f
       # set font
       self.set_font('arial', 'B', 10)
       # Page number
-      self.cell(0, 10, 'Alaska Heat Smart | 9360 Glacier Highway, #202 | Juneau, Alaska 99802 | www.akheatsmart.org', align='C')
+      self.cell(0, 10,
+                'Alaska Heat Smart | 9360 Glacier Highway, #202 | Juneau, Alaska 99802 | www.akheatsmart.org',
+                align='C')
       # add line
       self.set_y(-20)
       self.cell(0,9, '_'*85, align='C')
@@ -155,29 +163,7 @@ def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_f
       heat_pump_options_table[index].append(str(elem))
       index += 1
 
-  explanations = [
-    'Heat Pump Instilation Cost',
-    "Installation costs are 'ballpark' estimates based on prevailing market costs. Includes heat pump equipment purchase, installation, and associated electrical work. These costs can vary based on the installer, system chosen, component options, site conditions, etc. Install cost includes tax credit reduction if applicable.",
-    "Non-Heat Pump Costs",
-    "Costs not directly related to heat pump installation, but part of the larger building heating & electrification strategy. Examples might be electrical service and panel upgrades, electric water heater installation, supplemental electric resistance heating, etc",
-    "Tax Credits & Incentives",
-    "Tax credits may include federal credit of 30% up to $2,000 for heat pumps, $600 federal credit for eligible electrical panel upgrades, AK Carbon Reduction Fund program contributions, etc. These credits and incentives vary based on installation cost, program eligibility, tax status, etc. Learn more here.",
-    "Total Net Heat Pump Cost",
-    "Total out-of-pocket capital expenses after taking heat pump costs and credits/incentives into account.",
-    "Total Net Cost",
-    "Total out-of-pocket capital expenses after taking all costs and reductions into account, including the non-heat pump costs.",
-    "Annual Electricity Cost Change",
-    "Heat pumps require electricity. If the heat pump displaces oil, propane, or wood heat, you'll see an increase in your electricity bill. If the heat pump displaces electric resistance heat you'll see a decrease in your electricity bill.",
-    "Net Annual Savings",
-    "Estimated reduction from current heating costs. This takes into account reductions in current heating expenses and possible increases in electricity costs for powering the heat pump. Actual savings could vary based on weather, behavior, energy prices, etc",
-    "Payback (years)",
-    "This estimate is a simple metric of how long it will take for the energy savings to pay for thesystem installation cost. It does not account for fuel price escalation, maintenance,depreciation, etc.",
-    "Remaining Oil Usage (gallons)",
-    "This accounts for supplemental oil usage required for heating remote areas of the building not fully served by heat pump, as well as possible domestic hot water heating if provided by oil boiler.",
-    "Avoided CO₂ Emissions (pounds)",
-    "Estimated reduction in CO2 due to burning less oil. One gallon of oil produces 22.4 lbs of CO2"
-  ]
-
+  
   pdf = FPDF
 
   # Create a PDF object
@@ -200,7 +186,9 @@ def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_f
   # Add Page
   pdf.add_page()
   # Add donation text
-  pdf.multi_cell(w = 0, text = "NOTE: Alaska Heat Smart Home Energy Assessments cost an average of $175 to cover assessors' time, administrative costs, report writing, and potential follow up. Please help us cover our costs during these challenging financial times by", h = 6, align = 'C')
+  pdf.multi_cell(w = 0, 
+                 text = "NOTE: Alaska Heat Smart Home Energy Assessments cost an average of $175 to cover assessors' time, administrative costs, report writing, and potential follow up. Please help us cover our costs during these challenging financial times by",
+                 h = 6, align = 'C')
   pdf.ln(1)
   pdf.cell(w=80,text='making a',align='r')
   color_link(1,'donation.','https://akheatsmart.org/donate/',cell=True)
@@ -347,12 +335,15 @@ def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_f
   byte_string = pdf.output(dest='S').encode('latin-1')
 
   # Create an Anvil Media object from the encoded bytes.
-  retun BlobMedia("application/pdf", byte_string, name="new_file.pdf")
+  pdf= BlobMedia("application/pdf", byte_string, name="new_file.pdf")
+  retun pdf
 
 
 
 
 
 
-AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_footage, year_built, heating_system, current_annual_heating_cost, domestic_hot_water, electrical_service, heat_pump_1,heat_pump_2)
+AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, 
+               square_footage, year_built, heating_system, current_annual_heating_cost,
+               domestic_hot_water, electrical_service, heat_pump_1,heat_pump_2)
 
