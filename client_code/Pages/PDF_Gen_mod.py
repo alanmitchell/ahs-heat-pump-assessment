@@ -1,13 +1,8 @@
-
 import os
 from fpdf import FPDF
 from fpdf import Align
 from fpdf.fonts import FontFace
-from pypdf import PdfMerger
-import pandas as pd
-
-
-
+from pypdf import PdfWriter
 
 ### In class PDF, need to put filepath for AHS logo###
 ### At the very bottom need to put file path for export###
@@ -43,8 +38,11 @@ avoided_co2 = '34'
 #if different than assessor
 ahs_energy_advisor= 'Shakespeare'
 
+heat_pump_1 = ['option 1', 2000,12,23,34,45,56,67,78,89,90]
+heat_pump_2 = ['option 2', 3000,12,23,34,45,56,67,78,89,90]
 
-def AkHeatSmartPDF():
+def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_footage, year_built, heating_system, current_annual_heating_cost, domestic_hot_water, electrical_service, *args):
+
   class PDF(FPDF):
     def header(self):
 
@@ -80,55 +78,7 @@ def AkHeatSmartPDF():
       self.set_y(-20)
       self.cell(0,9, '_'*85, align='C')
 
-      explanations = [
-        ("Heat Pump Installation Cost", 
-         "Installation costs are 'ballpark' estimates based on prevailing market costs. Includes heat pump "
-         "equipment purchase, installation, and associated electrical work. These costs can vary based "
-         "on the installer, system chosen, component options, site conditions, etc. Install cost includes "
-         "tax credit reduction if applicable."),
-
-        ("Non-Heat Pump Costs",
-         "Costs not directly related to heat pump installation, but part of the larger building heating & "
-         "electrification strategy. Examples might be electrical service and panel upgrades, electric water "
-         "heater installation, supplemental electric resistance heating, etc."),
-
-        ("Tax Credits & Incentives",
-         "Tax credits may include federal credit of 30% up to $2,000 for heat pumps, $600 federal credit "
-         "for eligible electrical panel upgrades, AK Carbon Reduction Fund program contributions, etc. "
-         "These credits and incentives vary based on installation cost, program eligibility, tax status, etc. "
-         "Learn more here."),
-
-        ("Total Net Heat Pump Cost",
-         "Total out-of-pocket capital expenses after taking heat pump costs and credits/incentives into "
-         "account."),
-
-        ("Total Net Cost",
-         "Total out-of-pocket capital expenses after taking all costs and reductions into account, including "
-         "the non-heat pump costs."),
-
-        ("Annual Electricity Cost Change",
-         "Heat pumps require electricity. If the heat pump displaces oil, propane, or wood heat, you'll see an "
-         "increase in your electricity bill. If the heat pump displaces electric resistance heat you'll see a "
-         "decrease in your electricity bill."),
-
-        ("Net Annual Savings",
-         "Estimated reduction from current heating costs. This takes into account reductions in current "
-         "heating expenses and possible increases in electricity costs for powering the heat pump. "
-         "Actual savings could vary based on weather, behavior, energy prices, etc."),
-
-        ("Payback (years)",
-         "This estimate is a simple metric of how long it will take for the energy savings to pay for the "
-         "system installation cost. It does not account for fuel price escalation, maintenance, "
-         "depreciation, etc."),
-
-        ("Remaining Oil Usage (gallons)",
-         "This accounts for supplemental oil usage required for heating remote areas of the building not fully "
-         "served by heat pump, as well as possible domestic hot water heating if provided by oil boiler."),
-
-        ("Avoided CO₂ Emissions (pounds)",
-         "Estimated reduction in CO₂ due to burning less oil. One gallon of oil produces 22.4 lbs of CO₂.")
-      ]
-
+      
   def additional_resorces_text( yellow_text):
     '''Changes the text color and size to match AHS's PDF'''
     pdf.ln(10)
@@ -143,18 +93,18 @@ def AkHeatSmartPDF():
     '''Makes links standard blue color with underline and reverts back to normal text'''
     pdf.set_text_color(51,102,204)
     pdf.set_font(style="BU")
-    if cell == True:
+    if cell:
       pdf.cell(text=link_words,link = link)
       pdf.set_text_color(0,0,0)
       pdf.set_font(style='')
-      if period == True:
+      if period:
         pdf.cell(text='.')
     else:
       pdf.write(h,link_words,link)
       pdf.set_text_color(0,0,0)
       pdf.set_font(style='')
 
-      if period == True:
+      if period:
         pdf.write(h,'.')
 
   def bold_words(h,bold_words):
@@ -163,14 +113,9 @@ def AkHeatSmartPDF():
     pdf.write(h,bold_words)
     pdf.set_font(style='')
 
-
-
-
   title = 'Alaska Heat Smart Home Energy Assessment Report'
 
-
   #just filler data currently, I don't think it will be too difficult to make dynamic
-
 
   general_table_data = (
     ("Name",f'   {client_name}'),
@@ -187,19 +132,26 @@ def AkHeatSmartPDF():
     ('Domestic Hot Water', f'   {domestic_hot_water}'),
     ('Electrical Service', f'   {electrical_service}')
   )
-  heat_pump_options_table = (
-    ('Option', f'   {option}',"opt 2"),
-    ('Heat Pump Instilation Cost', f'   ${heat_pump_installation_cost}',"1"),
-    ("Tax Credits & Incentives", f'   ${tax_credits}',"2"),
-    ('Total Net Heat Pump Cost', f"   ${total_heat_pump_cost}","3"),
-    ('Total Net Cost', f'   ${total_cost}',"4"),
-    ('Annual Electricity Cost Change', f'   ${electricy_cost_change}',"5"),
-    ('Net Annual Savings',  f'   ${net_annual_savings}',"6"),
-    ('% Reduction Space & HW Cost', f'   {percent_reduction}',"7"),
-    ('Payback', f'   {payback} years',"8"),
-    ('Remaining Oil Usage', f"   {remaining_oil_usage} gallons","9"),
-    ('Avoided CO2 Emissions', f'   {avoided_co2} pounds',"10")
-  )
+  heat_pump_options_table = [
+    ['Option'],
+    ['Heat Pump Instilation Cost'],
+    ["Tax Credits & Incentives"],
+    ['Total Net Heat Pump Cost'],
+    ['Total Net Cost'],
+    ['Annual Electricity Cost Change',],
+    ['Net Annual Savings'],
+    ['% Reduction Space & HW Cost'],
+    ['Payback'],
+    ['Remaining Oil Usage'],
+    ['Avoided CO2 Emissions']
+  ]
+
+  # combines however many options there are (args) into nested list
+  for arg in args:
+    index = 0
+    for elem in arg:
+      heat_pump_options_table[index].append(str(elem))
+      index += 1
 
   explanations = [
     'Heat Pump Instilation Cost',
@@ -223,6 +175,7 @@ def AkHeatSmartPDF():
     "Avoided CO₂ Emissions (pounds)",
     "Estimated reduction in CO2 due to burning less oil. One gallon of oil produces 22.4 lbs of CO2"
   ]
+
   pdf = FPDF
 
   # Create a PDF object
@@ -415,41 +368,12 @@ def AkHeatSmartPDF():
 ### client imputs
 # general info
 
-client_name = 'Niko Gessner'
-client_address = '11100 Stony Brook Dr'
-ahs_id = '123'
-assessor = 'Jane Austen'
-date = '12/13/23'
-
-#home desctiption info
-square_footage = '200000'
-year_built = '1354'
-heating_system = "Gas Stove"
-current_annual_heating_cost = '204'
-domestic_hot_water = 'Heater Tank'
-electrical_service = 'Chugach'
-
-# heat pump options
-option= 'Air souirce heat pump'
-heat_pump_installation_cost = '2000'
-tax_credits = '400'
-total_heat_pump_cost = '2300'
-total_cost = '345890'
-electricy_cost_change = '34'
-net_annual_savings= '234'
-percent_reduction = '34'
-payback = '3'
-remaining_oil_usage = '34'
-avoided_co2 = '34'
-
-#if different than assessor
-ahs_energy_advisor= 'Shakespeare'
 
 
 
-AkHeatSmartPDF()
+AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_footage, year_built, heating_system, current_annual_heating_cost, domestic_hot_water, electrical_service, heat_pump_1,heat_pump_2)
 
-merger = PdfMerger()
+merger = PdfWriter()
 merger.append('/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/AKHeatSmartPDFs/AHS_Function_no4_PDF.pdf')
 merger.append('/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/AKHeatSmartPDFs/Just_additional_resources.docx.pdf')
 merger.write(os.path.join("/Users/nikojtgessner/Desktop/HelloWorld//AHS_proj/Automate_pdf_proj/AKHeatSmartPDFs/AHS_Function_w4_PDF.pdf"))
