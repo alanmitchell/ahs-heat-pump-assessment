@@ -86,7 +86,7 @@ dependencies:
   dep_id: dep_lin1x4oec0ytd
   resolution_hints: {app_id: 4UK6WHQ6UX7AKELK, name: Material 3 Theme, package_name: m3}
   version: {version_tag: v1.2.5}
-metadata: {description: Assesses the performance of a heat pump retrofit., logo_img: 'asset:HEAT-SMART-logo-1-e1604519572587.webp', title: Alaska Heat Smart Heat Pump Assessment}
+metadata: {description: Assesses the performance of a heat pump retrofit., logo_img: 'asset:AlaskaHeatSmart.jpg', title: Alaska Heat Smart Heat Pump Assessment}
 name: AHS Heat Pump Assessment
 native_deps: null
 package_name: AHS_Heat_Pump_Assessment
@@ -102,5 +102,5 @@ services:
 - client_config: {allow_remember_me: true, allow_signup: true, confirm_email: false, enable_automatically: true, remember_me_days: 30, use_email: true}
   server_config: {user_table: users}
   source: /runtime/services/anvil/users.yml
-startup: {module: Pages.Login, type: form}
+startup: {module: Pages.PDF_Gen, type: form}
 startup_form: null

@@ -3,6 +3,9 @@ from fpdf import FPDF
 from fpdf import Align
 from fpdf.fonts import FontFace
 from pypdf import PdfWriter
+from anvil.Media import BlobMedia
+import anvil.media
+
 
 ### In class PDF, need to put filepath for AHS logo###
 ### At the very bottom need to put file path for export###
@@ -42,7 +45,6 @@ heat_pump_1 = ['option 1', 2000,12,23,34,45,56,67,78,89,90]
 heat_pump_2 = ['option 2', 3000,12,23,34,45,56,67,78,89,90]
 
 def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_footage, year_built, heating_system, current_annual_heating_cost, domestic_hot_water, electrical_service, *args):
-
   class PDF(FPDF):
     def header(self):
 
@@ -50,7 +52,7 @@ def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_f
       # font
       self.set_font('arial', 'B', 12)
       # Logo
-      self.image(name = '/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/AlaskaHeatSmart.jpg', w=76, keep_aspect_ratio=True, x = Align.C)
+      self.image(name = 'AlaskaHeatSmart.jpg', w=76, keep_aspect_ratio=True, x = Align.C)
       self.ln(2)
       # Calculate width of title and position
       title_w = self.get_string_width(title) + 6
@@ -182,10 +184,10 @@ def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_f
   pdf = PDF('P', 'mm', 'Letter')
 
   # Import font (not neccecerry in this version, but without it you get depreciation notices)
-  pdf.add_font("arial", style="", fname="/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/Arial_font/Arial.ttf")
-  pdf.add_font("arial", style="b", fname="/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/Arial_font/Arial_Bold.ttf")
-  pdf.add_font("arial", style="i", fname="/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/Arial_font/Arial_Italic.ttf")
-  pdf.add_font("arial", style="bi", fname="/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/Arial_font/Arial_Bold_Italic.ttf")
+  # pdf.add_font("arial", style="", fname="/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/Arial_font/Arial.ttf")
+  # pdf.add_font("arial", style="b", fname="/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/Arial_font/Arial_Bold.ttf")
+  # pdf.add_font("arial", style="i", fname="/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/Arial_font/Arial_Italic.ttf")
+  # pdf.add_font("arial", style="bi", fname="/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/Arial_font/Arial_Bold_Italic.ttf")
 
   # get total page numbers
   pdf.alias_nb_pages()
@@ -193,10 +195,6 @@ def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_f
   # Set auto page break
   pdf.set_auto_page_break(auto = True, margin = 15)
   pdf.set_margin(25)
-
-
-
-
 
   ###PAGE 1#####
   # Add Page
@@ -346,35 +344,15 @@ def AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_f
   pdf.write(5, f'Date:   {date}')
 
 
+  byte_string = pdf.output(dest='S').encode('latin-1')
 
-  ### Export code ###
-  # not sure its needed, but I was having some trouble without it earlier
-
-
-
-
-  # Create a PDFs folder and ensure it exists
-  pdf_folder = os.path.join(os.path.expanduser("~"), "/Users/nikojtgessner/Desktop/HelloWorld//AHS_proj/Automate_pdf_proj/AKHeatSmartPDFs")
-  os.makedirs(pdf_folder, exist_ok=True)  # Creates the directory if it doesn't exist
-
-  # Save the PDF
-  pdf_path = os.path.join(pdf_folder, "AHS_Function_no4_PDF.pdf")
-  pdf.output(pdf_path)
+  # Create an Anvil Media object from the encoded bytes.
+  retun BlobMedia("application/pdf", byte_string, name="new_file.pdf")
 
 
-
-
-#               ### imputs ####
-### client imputs
-# general info
 
 
 
 
 AkHeatSmartPDF(client_name, client_address, ahs_id, assessor, date, square_footage, year_built, heating_system, current_annual_heating_cost, domestic_hot_water, electrical_service, heat_pump_1,heat_pump_2)
 
-merger = PdfWriter()
-merger.append('/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/AKHeatSmartPDFs/AHS_Function_no4_PDF.pdf')
-merger.append('/Users/nikojtgessner/Desktop/HelloWorld/AHS_proj/Automate_pdf_proj/AKHeatSmartPDFs/Just_additional_resources.docx.pdf')
-merger.write(os.path.join("/Users/nikojtgessner/Desktop/HelloWorld//AHS_proj/Automate_pdf_proj/AKHeatSmartPDFs/AHS_Function_w4_PDF.pdf"))
-merger.close()
