@@ -1,0 +1,22 @@
+components:
+- data_bindings:
+  - {code: 'self.item[''email'']', property: text, writeback: false}
+  layout_properties: {column: UZHLXU}
+  name: text_email
+  properties:
+    spacing:
+      margin: [null, null, null, null]
+      padding: [null, null, null, null]
+  type: form:dep_lin1x4oec0ytd:_Components.Text
+- data_bindings:
+  - {code: 'self.item[''is_staff'']', property: checked, writeback: false}
+  event_bindings: {change: checkbox_is_staff_change}
+  layout_properties: {column: TTWHDZ}
+  name: checkbox_is_staff
+  properties: {text: ''}
+  type: form:dep_lin1x4oec0ytd:_Components.Checkbox
+container:
+  properties:
+    margin: [0, 0, 0, null]
+  type: DataRowPanel
+is_package: true

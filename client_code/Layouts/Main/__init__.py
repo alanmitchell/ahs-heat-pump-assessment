@@ -1,5 +1,6 @@
 from ._anvil_designer import MainTemplate
 from anvil import *
+import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
@@ -13,7 +14,7 @@ class Main(MainTemplate):
     self.init_components(**properties)
     self._deselect_recursive(self.nav_panel)
     if State.current_user is not None:
-      self.panel_staff.visible = State.current_user['is_super_user']
+      self.panel_staff.visible = State.current_user['is_staff']
 
   def _deselect_recursive(self, container):
     for comp in container.get_components():

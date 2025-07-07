@@ -1,5 +1,6 @@
 from ._anvil_designer import LoginTemplate
 from anvil import *
+import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
@@ -17,7 +18,7 @@ class Login(LoginTemplate):
   def but_login_click(self, **event_args):
     State.current_user = anvil.users.login_with_form()
     State.target_user = State.current_user.get_id()
-    if State.current_user['is_super_user']:
+    if State.current_user['is_staff']:
       open_form('Pages.SelectClient')
     else:
       open_form('Pages.HomeInfo')
