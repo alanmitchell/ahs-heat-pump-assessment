@@ -17,7 +17,7 @@ class Login(LoginTemplate):
     # update State information for the User that just logged in
     State.current_user = anvil.users.login_with_form()
     user_id = State.current_user.get_id()
-    State.target_user = user_id
+    State.target_user_id = user_id
     
     # run server processing that is needed at log in.
     anvil.server.call('user_processing_at_login', user_id)
