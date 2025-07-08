@@ -1,4 +1,4 @@
-from ._anvil_designer import SelectClientTemplate
+from ._anvil_designer import RowTemplate1Template
 from anvil import *
 import anvil.server
 import anvil.users
@@ -6,11 +6,9 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-class SelectClient(SelectClientTemplate):
+class RowTemplate1(RowTemplate1Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.layout.select_client_link.selected = True
 
-    self.all_users = anvil.server.call('get_users_public_fields')
-    self.repeating_panel_select_client.items = self.all_users
+    # Any code you write here will run before the form opens.

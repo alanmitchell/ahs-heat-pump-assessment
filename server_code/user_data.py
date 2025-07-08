@@ -14,7 +14,7 @@ def update_is_staff(user_id, new_value):
 def get_users_public_fields():
   """Returns publicly-viewable User fields."""
   return [
-    {'id': u.get_id(), 'email': u['email'], 'is_staff': u['is_staff']}
+    {'id': u.get_id(), 'email': u['email'], 'is_staff': u['is_staff'], 'name': 'Aaa Bbb'}
     for u in app_tables.users.search()
   ]
 

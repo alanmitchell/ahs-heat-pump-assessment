@@ -14,8 +14,9 @@ components_by_slot:
           Select Users with Staff Privileges
       type: form:dep_lin1x4oec0ytd:_Components.Heading
     - event_bindings: {change: text_search_email_change}
+      layout_properties: {}
       name: text_search_email
-      properties: {label: Search Emails, label_bold: false, label_italic: true, leading_icon: 'mi:search'}
+      properties: {label: Search Email or Name, label_bold: false, label_italic: true, leading_icon: 'mi:search'}
       type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
     - components:
       - layout_properties: {}
@@ -30,8 +31,8 @@ components_by_slot:
       properties:
         columns:
         - {data_key: email, expand: true, id: UZHLXU, title: Email, width: '250'}
-        - {data_key: is_staff, id: TTWHDZ, title: Is Staff, width: '100'}
         - {data_key: name, expand: true, id: ZSFOLA, title: Name, width: '100'}
+        - {data_key: is_staff, id: TTWHDZ, title: Is Staff, width: '100'}
         rows_per_page: 10
         spacing_above: none
         spacing_below: none
