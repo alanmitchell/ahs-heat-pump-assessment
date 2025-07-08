@@ -25,11 +25,13 @@ components_by_slot:
           margin: [null, null, null, null]
           role: null
         type: RepeatingPanel
+      layout_properties: {}
       name: data_grid_pick_staff
       properties:
         columns:
         - {data_key: email, expand: true, id: UZHLXU, title: Email, width: '250'}
         - {data_key: is_staff, id: TTWHDZ, title: Is Staff, width: '100'}
+        - {data_key: name, expand: true, id: ZSFOLA, title: Name, width: '100'}
         rows_per_page: 10
         spacing_above: none
         spacing_below: none
