@@ -13,11 +13,14 @@ class Login(LoginTemplate):
     self.init_components(**properties)
     self.layout.panel_staff.visible = False
 
-    # Any code you write here will run before the form opens.
-
   def but_login_click(self, **event_args):
+    # update State information for the User that just logged in
     State.current_user = anvil.users.login_with_form()
-    State.target_user = State.current_user.get_id()
+    user_id = State.current_user.get_id()
+    State.target_user = user_id
+    
+    # run server processing that is needed at log in.
+    anvil.server.call('user_processing_at_login', user_id)
     if State.current_user['is_staff']:
       open_form('Pages.SelectClient')
     else:
