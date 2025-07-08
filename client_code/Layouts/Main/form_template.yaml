@@ -8,7 +8,7 @@ components_by_slot:
         properties:
           scale: small
           text: |
-            Staff Items
+            Staff Section
         type: form:dep_lin1x4oec0ytd:_Components.Heading
       - event_bindings: {click: select_client_link_click}
         layout_properties: {grid_position: 'GMPIWQ,OCGBFG'}
