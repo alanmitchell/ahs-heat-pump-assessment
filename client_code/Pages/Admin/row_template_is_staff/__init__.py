@@ -14,4 +14,4 @@ class row_template_is_staff(row_template_is_staffTemplate):
   def checkbox_is_staff_change(self, **event_args):
     """This method is called when the component is checked or unchecked"""
     self.item['is_staff'] = self.checkbox_is_staff.checked
-    anvil.server.call('update_is_staff', self.item['id'], self.checkbox_is_staff.checked)
+    anvil.server.call('update_user_info_by_staff', self.item['id'], {'is_staff': self.checkbox_is_staff.checked})
