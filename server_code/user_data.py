@@ -35,7 +35,6 @@ def update_user_info_by_staff(user_id, field_dict):
       for field_name, val in field_dict.items():
         user[field_name] = val
 
-
 def current_user_is_staff():
   """Returns True if current user is a Staff user."""
   cur_user = anvil.users.get_user()

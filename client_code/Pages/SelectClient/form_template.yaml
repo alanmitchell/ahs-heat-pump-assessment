@@ -5,9 +5,9 @@ components_by_slot:
     properties: {bold: true, text: Select Client}
     type: form:dep_lin1x4oec0ytd:_Components.Heading
   - layout_properties: {}
-    name: text_selected_client
+    name: rich_text_selected_client
     properties: {}
-    type: form:dep_lin1x4oec0ytd:_Components.Text
+    type: RichText
   - components:
     - event_bindings: {change: text_box_search_change}
       layout_properties: {}

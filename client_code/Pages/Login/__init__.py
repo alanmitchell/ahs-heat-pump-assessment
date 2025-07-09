@@ -17,11 +17,21 @@ class Login(LoginTemplate):
     # update State information for the User that just logged in
     State.current_user = anvil.users.login_with_form()
     user_id = State.current_user.get_id()
-    State.target_user_id = user_id
+    if State.current_user['is_staff']:
+      # staff members work on the last client they worked on from prior session
+      State.target_user_id = State.current_user['last_client_id']
+    else:
+      # clients only get to work on themselves.
+      State.target_user_id = user_id
     
     # run server processing that is needed at log in.
     anvil.server.call('user_processing_at_login', user_id)
     if State.current_user['is_staff']:
-      open_form('Pages.SelectClient')
+      if State.target_user_id:
+        # there already is a target client to go to the Model Inputs page
+        open_form('Pages.ModelInputs')
+      else:
+        # No target client yet, so go select one.
+        open_form('Pages.SelectClient')
     else:
       open_form('Pages.HomeInfo')
