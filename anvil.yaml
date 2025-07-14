@@ -21,21 +21,6 @@ db_schema:
       type: string
     server: full
     title: ClientData
-  miscpictures:
-    client: none
-    columns:
-    - admin_ui: {width: 200}
-      name: client
-      target: clientdata
-      type: link_single
-    - admin_ui: {width: 200}
-      name: image
-      type: media
-    - admin_ui: {width: 200}
-      name: caption
-      type: string
-    server: full
-    title: MiscPictures
   options:
     client: none
     columns:
@@ -54,6 +39,24 @@ db_schema:
       type: string
     server: full
     title: Options
+  pictures:
+    client: none
+    columns:
+    - admin_ui: {order: 0, width: 200}
+      name: client
+      target: users
+      type: link_single
+    - admin_ui: {order: 1, width: 200}
+      name: image
+      type: media
+    - admin_ui: {order: 2, width: 200}
+      name: category
+      type: string
+    - admin_ui: {order: 3, width: 200}
+      name: caption
+      type: string
+    server: full
+    title: Pictures
   users:
     client: none
     columns:
