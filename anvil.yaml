@@ -3,20 +3,20 @@ db_schema:
   clientdata:
     client: none
     columns:
-    - admin_ui: {order: 0, width: 200}
-      name: user
+    - admin_ui: {width: 200}
+      name: client
       target: users
       type: link_single
-    - admin_ui: {order: 1, width: 200}
+    - admin_ui: {width: 200}
       name: address
       type: string
-    - admin_ui: {order: 2, width: 200}
+    - admin_ui: {width: 200}
       name: city
       type: string
-    - admin_ui: {order: 3, width: 200}
+    - admin_ui: {width: 200}
       name: ahs_id
       type: string
-    - admin_ui: {order: 4, width: 200}
+    - admin_ui: {width: 200}
       name: assessor
       type: string
     server: full
@@ -24,14 +24,14 @@ db_schema:
   miscpictures:
     client: none
     columns:
-    - admin_ui: {order: 0, width: 200}
+    - admin_ui: {width: 200}
       name: client
       target: clientdata
       type: link_single
-    - admin_ui: {order: 1, width: 200}
+    - admin_ui: {width: 200}
       name: image
       type: media
-    - admin_ui: {order: 2, width: 200}
+    - admin_ui: {width: 200}
       name: caption
       type: string
     server: full
@@ -39,17 +39,17 @@ db_schema:
   options:
     client: none
     columns:
-    - admin_ui: {order: 0, width: 200}
+    - admin_ui: {width: 200}
       name: client
-      target: clientdata
+      target: users
       type: link_single
-    - admin_ui: {order: 1, width: 200}
+    - admin_ui: {width: 200}
       name: option_number
       type: number
-    - admin_ui: {order: 2, width: 200}
+    - admin_ui: {width: 200}
       name: title
       type: string
-    - admin_ui: {order: 3, width: 200}
+    - admin_ui: {width: 200}
       name: description
       type: string
     server: full

@@ -24,6 +24,19 @@ def user_processing_at_login(user_id):
       if user['is_staff'] is None:
         user['is_staff'] = True
 
+    # If the the user is a Client, add records to the ClientData and Options table
+    # if they do not exist.
+    if not current_user_is_staff():
+      result = app_tables.clientdata.search(client=user)
+      if len(result)==0:
+        app_tables.clientdata.add_row(client=user)
+      result = app_tables.options.search(client=user)
+      if len(result)==0:
+        # add 3 options to the table
+        app_tables.options.add_row(client=user, option_number=1)
+        app_tables.options.add_row(client=user, option_number=2)
+        app_tables.options.add_row(client=user, option_number=3)
+
 @anvil.server.callable
 def update_user_info_by_staff(user_id, field_dict):
   """Allows a currently logged-in staff user to update fields of any user row,
