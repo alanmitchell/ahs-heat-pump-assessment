@@ -17,7 +17,7 @@ class Login(LoginTemplate):
     # update State information for the User that just logged in
     State.current_user = anvil.users.login_with_form()
 
-    #popup = NameInputPopup()
+    popup = NameInputPopup()
     #anvil.alert(content=popup, title="Enter your name", large=False, buttons=[])
     #user_name = popup.result
     #print(user_name)
