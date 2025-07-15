@@ -16,6 +16,12 @@ class Login(LoginTemplate):
   def but_login_click(self, **event_args):
     # update State information for the User that just logged in
     State.current_user = anvil.users.login_with_form()
+
+    popup = NameInputPopup()
+    anvil.alert(content=popup, title="Enter your name", large=False, buttons=[])
+    user_name = popup.result
+    print(user_name)
+    
     user_id = State.current_user.get_id()
     if State.current_user['is_staff']:
       # staff members work on the last client they worked on from prior session
