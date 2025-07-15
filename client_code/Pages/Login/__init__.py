@@ -6,7 +6,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 from ... import State
-import NameInputPopup
 
 class Login(LoginTemplate):
   def __init__(self, **properties):
@@ -18,10 +17,10 @@ class Login(LoginTemplate):
     # update State information for the User that just logged in
     State.current_user = anvil.users.login_with_form()
 
-    popup = NameInputPopup.NameInputPopup()
-    anvil.alert(content=popup, title="Enter your name", large=False, buttons=[])
-    user_name = popup.result
-    print(user_name)
+    #popup = NameInputPopup()
+    #anvil.alert(content=popup, title="Enter your name", large=False, buttons=[])
+    #user_name = popup.result
+    #print(user_name)
     
     user_id = State.current_user.get_id()
     if State.current_user['is_staff']:
