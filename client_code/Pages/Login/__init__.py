@@ -17,7 +17,7 @@ class Login(LoginTemplate):
     # update State information for the User that just logged in
     State.current_user = anvil.users.login_with_form()
 
-    popup = NameInputPopup()
+    #popup = NameInputPopup()
     #anvil.alert(content=popup, title="Enter your name", large=False, buttons=[])
     #user_name = popup.result
     #print(user_name)
@@ -32,12 +32,23 @@ class Login(LoginTemplate):
     
     # run server processing that is needed at log in.
     anvil.server.call('user_processing_at_login', user_id)
-    if State.current_user['is_staff']:
-      if State.target_user_id:
-        # there already is a target client to go to the Model Inputs page
-        open_form('Pages.ModelInputs')
-      else:
-        # No target client yet, so go select one.
-        open_form('Pages.SelectClient')
+
+    # if the name field is empty, show a text box to request it
+    # and stay on this form. Open an appropriate form.
+    full_name = State.current_user['full_name']
+    if full_name is None or len(full_name)==0:
+      pass
     else:
-      open_form('Pages.HomeInfo')
+      if State.current_user['is_staff']:
+        if State.target_user_id:
+          # there already is a target client to go to the Model Inputs page
+          open_form('Pages.ModelInputs')
+        else:
+          # No target client yet, so go select one.
+          open_form('Pages.SelectClient')
+      else:
+        open_form('Pages.HomeInfo')
+
+  def text_box_name_change(self, **event_args):
+    """This method is called when the text in this component is edited."""
+    pass

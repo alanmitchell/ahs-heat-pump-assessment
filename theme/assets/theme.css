@@ -1,3 +1,7 @@
 .anvil-role-narrow-container {
   width: 600px;
 }
+.anvil-role-very-narrow-container {
+  width: 300px;
+  margin: 0 auto;
+}

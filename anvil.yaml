@@ -93,6 +93,9 @@ db_schema:
     - admin_ui: {width: 200}
       name: last_client_id
       type: string
+    - admin_ui: {order: 11, width: 200}
+      name: full_name
+      type: string
     server: full
     title: Users
 dependencies:

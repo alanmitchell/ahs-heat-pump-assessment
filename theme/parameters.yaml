@@ -49,3 +49,4 @@ color_scheme:
   preset_groups: []
 roles:
 - {name: narrow-container}
+- {name: very-narrow-container}
