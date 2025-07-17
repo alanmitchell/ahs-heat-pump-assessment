@@ -37,7 +37,7 @@ class Login(LoginTemplate):
     # and stay on this form. Open an appropriate form.
     full_name = State.current_user['full_name']
     if full_name is None or len(full_name)==0:
-      pass
+      self.text_box_name.visible = True
     else:
       if State.current_user['is_staff']:
         if State.target_user_id:
