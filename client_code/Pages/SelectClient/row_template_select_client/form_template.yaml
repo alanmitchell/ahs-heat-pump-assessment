@@ -7,7 +7,7 @@ components:
   properties: {}
   type: form:dep_lin1x4oec0ytd:_Components.Text
 - data_bindings:
-  - {code: 'self.item[''name'']', property: text, writeback: false}
+  - {code: 'self.item[''full_name'']', property: text, writeback: false}
   layout_properties: {column: GODFHF}
   name: text_name
   properties: {}

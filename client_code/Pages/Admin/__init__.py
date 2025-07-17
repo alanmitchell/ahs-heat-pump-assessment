@@ -20,6 +20,6 @@ class Admin(AdminTemplate):
     query = self.text_search.text.strip().lower()
     self.repeating_panel_is_staff.items = [
       u for u in self.all_users
-      if query in u['email'].lower() or query in u['name'].lower()
+      if query in u['email'].lower() or query in u['full_name'].lower()
     ]
 

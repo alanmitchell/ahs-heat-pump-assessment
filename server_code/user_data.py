@@ -8,7 +8,7 @@ import anvil.server
 def get_users_public_fields():
   """Returns publicly-viewable User fields."""
   return [
-    {'id': u.get_id(), 'email': u['email'], 'is_staff': u['is_staff'], 'name': 'Aaa Bbb'}
+    {'id': u.get_id(), 'email': u['email'], 'is_staff': u['is_staff'], 'full_name': u['full_name']}
     for u in app_tables.users.search()
   ]
 
@@ -47,6 +47,12 @@ def update_user_info_by_staff(user_id, field_dict):
     if user:
       for field_name, val in field_dict.items():
         user[field_name] = val
+
+@anvil.server.callable
+def update_user_full_name(full_name):
+  cur_user = anvil.users.get_user()
+  if cur_user:
+    cur_user['full_name'] = full_name
 
 def current_user_is_staff():
   """Returns True if current user is a Staff user."""

@@ -15,6 +15,12 @@ components:
   name: checkbox_is_staff
   properties: {text: ''}
   type: form:dep_lin1x4oec0ytd:_Components.Checkbox
+- data_bindings:
+  - {code: 'self.item[''full_name'']', property: text, writeback: false}
+  layout_properties: {column: ZSFOLA}
+  name: text_full_name
+  properties: {}
+  type: form:dep_lin1x4oec0ytd:_Components.Text
 container:
   properties:
     margin: [0, 0, 0, null]

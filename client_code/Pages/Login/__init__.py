@@ -37,18 +37,22 @@ class Login(LoginTemplate):
     # and stay on this form. Open an appropriate form.
     full_name = State.current_user['full_name']
     if full_name is None or len(full_name)==0:
-      pass
+      self.flow_panel_name.visible = True
     else:
-      if State.current_user['is_staff']:
-        if State.target_user_id:
-          # there already is a target client to go to the Model Inputs page
-          open_form('Pages.ModelInputs')
-        else:
-          # No target client yet, so go select one.
-          open_form('Pages.SelectClient')
-      else:
-        open_form('Pages.HomeInfo')
+      navigate_to_next_form()
 
-  def text_box_name_change(self, **event_args):
-    """This method is called when the text in this component is edited."""
-    pass
+  def button_save_name_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    anvil.server.call('update_user_full_name', self.text_box_name.text)
+    navigate_to_next_form()
+
+def navigate_to_next_form():
+  if State.current_user['is_staff']:
+    if State.target_user_id:
+      # there already is a target client to go to the Model Inputs page
+      open_form('Pages.ModelInputs')
+    else:
+      # No target client yet, so go select one.
+      open_form('Pages.SelectClient')
+  else:
+    open_form('Pages.HomeInfo')
