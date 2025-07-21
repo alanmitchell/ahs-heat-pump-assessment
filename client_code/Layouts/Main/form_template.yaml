@@ -68,7 +68,7 @@ components_by_slot:
     properties: {}
     type: ColumnPanel
 is_package: true
-layout: {type: 'form:dep_lin1x4oec0ytd:Layouts.NavigationDrawerLayout'}
+layout: {type: 'form:Layouts.Main'}
 slots:
   content:
     index: 0
