@@ -4,5 +4,22 @@ components_by_slot:
     name: heading_1
     properties: {text: Pictures}
     type: form:dep_lin1x4oec0ytd:_Components.Heading
+  - layout_properties: {}
+    name: text_1
+    properties:
+      spacing:
+        padding: [null, 0, 0, null]
+      text: File 1 Upload
+    type: form:dep_lin1x4oec0ytd:_Components.Text
+  - event_bindings: {change: floorplan_change}
+    layout_properties: {}
+    name: floorplan
+    properties: {}
+    type: form:dep_lin1x4oec0ytd:_Components.FileLoader
+  - event_bindings: {click: submit_click}
+    layout_properties: {}
+    name: submit
+    properties: {align: center, icon_align: left, text: Submit, visible: true}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
 is_package: true
 layout: {type: 'form:Layouts.Main'}

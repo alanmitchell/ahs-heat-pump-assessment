@@ -11,3 +11,14 @@ class Pictures(PicturesTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.layout.pictures_link.selected = True
+
+  def submit_click(self, **event_args):
+    """This method is called when the submit botton is clicked."""
+    anvil.server.call('add_pictures', floorplan)
+  def floorplan_change(self, file, **event_args):
+    """This method is called when a new file is loaded into this FileLoader"""
+    file=floorplan
+    
+
+def file_uploaded(uploader, destination):
+  

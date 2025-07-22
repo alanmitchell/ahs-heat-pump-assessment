@@ -61,3 +61,9 @@ def current_user_is_staff():
     return True
   else:
     return False
+
+
+@anvil.server.callable
+def add_pictures(floorplan=floorplan,
+                *additional_pics):
+  app_tables.
