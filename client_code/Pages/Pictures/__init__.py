@@ -14,11 +14,13 @@ class Pictures(PicturesTemplate):
 
   def submit_click(self, **event_args):
     """This method is called when the submit botton is clicked."""
-    floorplan = file.floorplan
+    floorplan = self.floorplan
     anvil.server.call('add_pictures', floorplan)
   def floorplan_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
-    file.floorplan = file
+    uploaded_image = self.file_loader_imageuploader.file
+    self.floorplan_imageImage.source = uploaded_image
+    
     
 
 # def file_uploaded(uploader, destination):

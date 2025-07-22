@@ -14,8 +14,12 @@ components_by_slot:
   - event_bindings: {change: floorplan_change}
     layout_properties: {}
     name: floorplan
-    properties: {}
+    properties: {file_types: '.jpg, .png, .jpeg'}
     type: form:dep_lin1x4oec0ytd:_Components.FileLoader
+  - layout_properties: {}
+    name: floorplan_image
+    properties: {}
+    type: Image
   - event_bindings: {click: submit_click}
     layout_properties: {}
     name: submit
