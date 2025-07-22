@@ -88,7 +88,7 @@ def current_user_is_staff():
 
 
 @anvil.server.callable
-def save_user_image(uploaded_file):
+def save_user_image(floorplan, *additional_photos):
   """Save the uploaded image to the current user's row in the users table"""
 
   # Get the current user
@@ -99,18 +99,18 @@ def save_user_image(uploaded_file):
 
   try:
     # Find the user's row in your data table
-    user_row = app_tables.users.get()
+    user_row = current_user
 
     if user_row is None:
       # Create a new row if the user doesn't exist in the table
       user_row = app_tables.users.add_row(
         user=current_user,
-        floorplan=uploaded_file
+        floorplan=floorplan
       )
       return {"success": True, "message": "New user profile created with image"}
     else:
       # Update the existing row
-      user_row['Floorplan'] = uploaded_file
+      user_row['Floorplan'] = floorplan
       return {"success": True, "message": "Image uploaded successfully"}
 
   except Exception as e:
