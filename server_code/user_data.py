@@ -63,57 +63,31 @@ def current_user_is_staff():
     return False
 
 
-# @anvil.server.callable
-# def add_pictures(floorplan=floorplan,
-#                 *additional_pics):
-#   cur_user = anvil.users.get_user()
-#   row = app_tables.people.get(email=cur_user)
-#   row['Floorplan'] = floorplan
-#   # row['Additional Pictures']
-
-# def add_pic(floorplan=floorplan, *additional_pics):
-#   # Find the user's row in your data table
-#   current_user = anvil.users.get_user()
-#   user_row = app_tables.users.get(user=current_user)
-
-#   if user_row is None:
-#     # Create a new row if the user doesn't exist in the table
-#     user_row = app_tables.users.add_row(
-#       user=current_user,
-#       floorplan=floorplan  # Assuming your Media column is named 'profile_image'
-#     )
-#   else:
-#     # Update the existing row
-#     user_row['profile_image'] = uploaded_file
-
-
 @anvil.server.callable
-def save_user_image(floorplan, *additional_photos):
+def save_user_image(floorplan):
   """Save the uploaded image to the current user's row in the users table"""
 
-  # Get the current user
   current_user = anvil.users.get_user()
-
   if current_user is None:
     return {"success": False, "message": "User not logged in"}
 
   try:
     # Find the user's row in your data table
-    user_row = current_user
-
-    if user_row is None:
-      # Create a new row if the user doesn't exist in the table
-      user_row = app_tables.users.add_row(
-        user=current_user,
-        floorplan=floorplan
-      )
-      return {"success": True, "message": "New user profile created with image"}
-    else:
-      # Update the existing row
-      user_row['Floorplan'] = floorplan
-      return {"success": True, "message": "Image uploaded successfully"}
-
+    current_user['Floorplan'] = floorplan
+    return {"success": True, "message": "Image uploaded successfully"}
   except Exception as e:
     return {"success": False, "message": f"Error saving image: {str(e)}"}
 
+@anvil.server.callable
+def save_additional_images(additional_images: list):
   
+  current_user = anvil.users.get_user()
+  if current_user is None:
+    return {"success": False, "message": "User not logged in"}
+  try:
+    email = current_user['email']
+    image_user_row = app_tables.Images.get(email=email)
+    if image_user_row is None:
+      image_user_row = app_tables.Images.add_row(
+        email = email)
+    

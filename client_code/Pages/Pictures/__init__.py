@@ -12,32 +12,47 @@ class Pictures(PicturesTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.layout.pictures_link.selected = True
+    self.additional_pics = []
 
   def submit_click(self, **event_args):
     # Get the uploaded file from the FileLoader
     uploaded_file = self.floorplan.file
+    additional_pics = self.additional_pics
 
-    if uploaded_file is None:
+    if uploaded_file is None and additional_pics is None:
       alert("Please select an image to upload")
       return
 
     # Call the server function
     try:
       result = anvil.server.call('save_user_image', uploaded_file)
-
       if result['success']:
         alert(result['message'])
         # Optionally clear the file loader
         self.floorplan.clear()
       else:
-        alert(f"Upload failed: {result['message']}")
-
+        alert(f"Floorplan upload failed: {result['message']}")
     except Exception as e:
       alert(f"Error uploading image: {str(e)}")
-    
+
+      try:
+        result = anvil.server.call('save_additional_images', additional_pics)
+        if result['success']:
+          alert(result['message'])
+        # Optionally clear the file loader
+          self.additional_photos.clear()
+        else:
+          alert(f"Floorplan upload failed: {result['message']}")
+      except Exception as e:
+        alert(f"Error uploading image: {str(e)}")
+        
   def floorplan_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
     self.floorplan_image.source = file
     self.floorplan = file
     # self.floorplan_imageImage.source = self.image_1.source
+
+  def additional_photos_change(self, file, **event_args):
+    self.additional_photos_image.source = file
+    self.additional_pics.append(file)
     
