@@ -66,5 +66,8 @@ def current_user_is_staff():
 @anvil.server.callable
 def add_pictures(floorplan=floorplan,
                 *additional_pics):
-  app_tables.
+  cur_user = anvil.users.get_user()
+  row = app_tables.people.get(email=cur_user)
+  row['Floorplan'] = floorplan
+  # row['Additional Pictures']
   pass
