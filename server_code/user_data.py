@@ -67,3 +67,4 @@ def current_user_is_staff():
 def add_pictures(floorplan=floorplan,
                 *additional_pics):
   app_tables.
+  pass
