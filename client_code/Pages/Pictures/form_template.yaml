@@ -22,7 +22,7 @@ components_by_slot:
       properties: {item_template: Pages.Pictures.ItemTemplate3}
       type: RepeatingPanel
     - event_bindings: {show: floorplan_image_show}
-      layout_properties: {grid_position: 'YTXILE,LWRARW'}
+      layout_properties: {grid_position: 'LEISLR,EPWRIO'}
       name: floorplan_image
       properties: {height: 187, visible: true}
       type: Image
@@ -35,20 +35,15 @@ components_by_slot:
     properties: {height: 56}
     type: Spacer
   - components:
-    - layout_properties: {grid_position: 'BLPHQH,UZBWSP WXWRHM,NPKSBW'}
+    - layout_properties: {grid_position: 'WXWRHM,NPKSBW'}
       name: additional_images_text
       properties: {text: Upload additional images here}
       type: form:dep_lin1x4oec0ytd:_Components.Text
     - event_bindings: {change: additional_images_change}
-      layout_properties: {grid_position: 'BLPHQH,UZBWSP DVLTOY,DZFYJW'}
+      layout_properties: {grid_position: 'DVLTOY,DZFYJW'}
       name: additional_images
       properties: {align: center, multiple: true}
       type: form:dep_lin1x4oec0ytd:_Components.FileLoader
-    - event_bindings: {show: additional_images_files_show}
-      layout_properties: {grid_position: 'BLPHQH,UZBWSP XZCGFQ,SNLWNG'}
-      name: additional_images_files
-      properties: {}
-      type: form:dep_lin1x4oec0ytd:_Components.Text
     - layout_properties: {grid_position: 'BLPHQH,UZBWSP WUPMTM,ECIGCZ'}
       name: files_list
       properties: {item_template: Pages.Pictures.ItemTemplate2}

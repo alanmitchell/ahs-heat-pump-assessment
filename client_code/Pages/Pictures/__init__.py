@@ -59,17 +59,19 @@ class Pictures(PicturesTemplate):
 
   def additional_images_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
-    self.additional_photos_image.source = file
+    # self.additional_photos_image.source = file
     for fl in self.additional_images.files:
       self.additional_pics.append(fl)
       self.image_names += f'{fl.name}\n'
-    self.additional_images_files_show()
-    self.ItemTemplate2.items = self.additional_pics 
+    self.files_list.items = self.additional_pics 
+    self.additional_images_files.text = self.image_names
 
 
   def additional_images_files_show(self, **event_args):
     """This method is called when the component is shown on the screen."""
-    self.additional_images_files.text = self.image_names
+    pass
+  def floorplan_image_show(self,**event_args):
+    pass
 
 
 
