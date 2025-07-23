@@ -1,0 +1,17 @@
+components:
+- layout_properties: {grid_position: 'FYBUIN,MFWXOQ QPRPKM,URTAMQ'}
+  name: text_1
+  properties: {}
+  type: form:dep_lin1x4oec0ytd:_Components.Text
+- layout_properties: {grid_position: 'FYBUIN,RBYVBJ'}
+  name: image_1
+  properties: {height: 108}
+  type: Image
+- layout_properties: {grid_position: 'FYBUIN,MFWXOQ QPRPKM,DWZGWK'}
+  name: delete_button
+  properties: {align: left, appearance: text, bold: false, font_size: 12, icon: 'mi:close', italic: true, text: delete}
+  type: form:dep_lin1x4oec0ytd:_Components.Button
+container:
+  properties: {role: null}
+  type: ColumnPanel
+is_package: true
