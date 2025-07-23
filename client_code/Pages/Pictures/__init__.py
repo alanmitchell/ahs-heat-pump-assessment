@@ -64,6 +64,7 @@ class Pictures(PicturesTemplate):
       self.additional_pics.append(fl)
       self.image_names += f'{fl.name}\n'
     self.additional_images_files_show()
+    self.ItemTemplate2.items = self.additional_pics 
 
 
   def additional_images_files_show(self, **event_args):
