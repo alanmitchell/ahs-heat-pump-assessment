@@ -4,6 +4,10 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
+import zipfile 
+from io import BytesIO
+from anvil import BlobMedia
+
 @anvil.server.callable
 def get_users_public_fields():
   """Returns publicly-viewable User fields."""
@@ -76,18 +80,65 @@ def save_user_image(floorplan):
     current_user['Floorplan'] = floorplan
     return {"success": True, "message": "Image uploaded successfully"}
   except Exception as e:
-    return {"success": False, "message": f"Error saving image: {str(e)}"}
+    return {"success": False, "message": f"Error saving floorplan image: {str(e)}"}
 
 @anvil.server.callable
-def save_additional_images(additional_images: list):
+def save_additional_images(image_list: list):
+    """Save multiple images as a ZIP file in a single table cell"""
+
+    current_user = anvil.users.get_user()
+    if current_user is None:
+      return {"success": False, "message": "User not logged in"}
+
+    try:
+      # Create ZIP file in memory
+      zip_buffer = BytesIO()
+
+      with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+        for i, image_media in enumerate(image_list):
+          # Get the image data
+          image_data = image_media.get_bytes()
+
+          # Determine file extension from content type or use a default
+          content_type = getattr(image_media, 'content_type', 'image/jpeg')
+          if 'png' in content_type.lower():
+            ext = 'png'
+          elif 'gif' in content_type.lower():
+            ext = 'gif'
+          else:
+            ext = 'jpg'
+
+            # Add to ZIP with a sequential filename
+          filename = f"image_{i+1}.{ext}"
+          zip_file.writestr(filename, image_data)
+
+        # Create Media object from ZIP
+      zip_media = BlobMedia(
+        content_type="application/zip",
+        content=zip_buffer.getvalue(),
+        name="user_images.zip"
+      )
+
+      # Save to database
+      
+      current_user['Additional Images'] = zip_media
+
+      return {"success": True, "message": f"Successfully saved {len(image_list)} images"}
+
+    except Exception as e:
+      return {"success": False, "message": f"Error: {str(e)}"}
+
+
   
-  current_user = anvil.users.get_user()
-  if current_user is None:
-    return {"success": False, "message": "User not logged in"}
-  try:
-    email = current_user['email']
-    image_user_row = app_tables.Images.get(email=email)
-    if image_user_row is None:
-      image_user_row = app_tables.Images.add_row(
-        email = email)
-    
+  # current_user = anvil.users.get_user()
+  # if current_user is None:
+  #   return {"success": False, "message": "User not logged in"}
+  # try:
+  #   if current_user['Additional Images'] is None:
+  #     buffer =  BytesIO()
+  #     with ZipFile(buffer,'w') as zip:
+  #       for image in additional_images:
+  #        zip_file = zip.write(image)
+  #     buffer.close()
+  # except Exception as e:
+  #   return{"success": False, "message": f"Error saving additional images: {str(e)}"}
