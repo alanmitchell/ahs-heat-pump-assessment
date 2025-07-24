@@ -20,7 +20,8 @@ components:
   name: file_image
   properties: {height: 123.5}
   type: Image
-- event_bindings: {change: file_caption_change}
+- data_bindings: []
+  event_bindings: {change: file_caption_change}
   layout_properties: {grid_position: 'SGFTAL,HLKPAH'}
   name: file_caption
   properties: {placeholder: Add caption here}
