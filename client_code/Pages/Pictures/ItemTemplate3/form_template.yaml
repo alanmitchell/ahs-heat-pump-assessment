@@ -1,10 +1,18 @@
 components:
-- layout_properties: {grid_position: 'EXAXTQ,VNICET'}
+- layout_properties: {grid_position: 'EXAXTQ,VNICET UCCPJN,LYMEDQ'}
+  name: spacer_2
+  properties: {height: 36}
+  type: Spacer
+- layout_properties: {grid_position: 'EXAXTQ,VNICET DTKQRI,RKLPVL'}
   name: file_name
-  properties: {}
+  properties: {align: center}
   type: form:dep_lin1x4oec0ytd:_Components.Text
+- layout_properties: {grid_position: 'EXAXTQ,YEQQFJ GZEQRK,KXBOUO'}
+  name: spacer_1
+  properties: {height: 21}
+  type: Spacer
 - event_bindings: {click: delete_button_click}
-  layout_properties: {grid_position: 'EXAXTQ,YEQQFJ'}
+  layout_properties: {grid_position: 'EXAXTQ,YEQQFJ ZWYNND,TYXOFU'}
   name: delete_button
   properties: {appearance: text, font_size: 12, icon: 'mi:close', italic: true, text: delete}
   type: form:dep_lin1x4oec0ytd:_Components.Button

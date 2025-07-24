@@ -4,6 +4,14 @@ components_by_slot:
     name: heading_1
     properties: {text: Pictures}
     type: form:dep_lin1x4oec0ytd:_Components.Heading
+  - layout_properties: {}
+    name: current_floorplan_uploads_text
+    properties: {text: Your current uploads}
+    type: form:dep_lin1x4oec0ytd:_Components.Text
+  - layout_properties: {}
+    name: current_floorplan_upload_files
+    properties: {item_template: Pages.Pictures.ItemTemplate4}
+    type: RepeatingPanel
   - components:
     - layout_properties: {grid_position: 'ZHEPOR,JHBDXK'}
       name: text_1
@@ -38,7 +46,7 @@ components_by_slot:
       event_bindings: {change: additional_images_change}
       layout_properties: {grid_position: 'DVLTOY,DZFYJW'}
       name: additional_images
-      properties: {align: center, font_size: 20, multiple: true}
+      properties: {align: center, file_types: '.jpg, .png, . jpeg', font_size: 20, multiple: true}
       type: form:dep_lin1x4oec0ytd:_Components.FileLoader
     - data_bindings: []
       layout_properties: {grid_position: 'BLPHQH,UZBWSP WUPMTM,ECIGCZ'}
