@@ -10,5 +10,10 @@ class ItemTemplate3(ItemTemplate3Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
     # Any code you write here will run before the form opens.
+    self.file_image.source=self.item
+    self.file_name.text = self.item.name
+
+  def delete_button_click(self, **event_args):
+    self.parent.raise_event('x-delete-floorplan-item', item_to_delete=self.item)
+    

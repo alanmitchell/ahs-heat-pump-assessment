@@ -67,6 +67,14 @@ def current_user_is_staff():
     return False
 
 
+
+
+
+
+
+
+
+
 @anvil.server.callable
 def save_user_image(floorplan):
   """Save the uploaded image to the current user's row in the users table"""
@@ -83,7 +91,7 @@ def save_user_image(floorplan):
     return {"success": False, "message": f"Error saving floorplan image: {str(e)}"}
 
 @anvil.server.callable
-def save_additional_images(image_list: list):
+def save_multiple_images(image_list: list, table_column):
     """Save multiple images as a ZIP file in a single table cell"""
 
     current_user = anvil.users.get_user()
@@ -121,24 +129,12 @@ def save_additional_images(image_list: list):
 
       # Save to database
       
-      current_user['Additional Images'] = zip_media
+      current_user[table_column] = zip_media
 
-      return {"success": True, "message": f"Successfully saved {len(image_list)} images"}
+      return {"success": True, "message": f"Successfully saved {len(image_list)} image(s) to {table_column}"}
 
     except Exception as e:
       return {"success": False, "message": f"Error: {str(e)}"}
 
 
   
-  # current_user = anvil.users.get_user()
-  # if current_user is None:
-  #   return {"success": False, "message": "User not logged in"}
-  # try:
-  #   if current_user['Additional Images'] is None:
-  #     buffer =  BytesIO()
-  #     with ZipFile(buffer,'w') as zip:
-  #       for image in additional_images:
-  #        zip_file = zip.write(image)
-  #     buffer.close()
-  # except Exception as e:
-  #   return{"success": False, "message": f"Error saving additional images: {str(e)}"}

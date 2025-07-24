@@ -15,6 +15,4 @@ class ItemTemplate2(ItemTemplate2Template):
     self.file_name.text = self.item.name
 
   def delete_button_click(self, **event_args):
-    # self.item.delete()
-    self.items.remove(self.item)
-    open_form('Pages.Pictures')
+    self.parent.raise_event('x-delete-file-item', item_to_delete=self.item)

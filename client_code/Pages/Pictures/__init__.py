@@ -12,23 +12,25 @@ class Pictures(PicturesTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.layout.pictures_link.selected = True
-    self.floorplan_image.visible = False
     self.additional_pics = []
+    self.floorplan_pics = []
     self.image_names = ''
+    self.files_list.add_event_handler('x-delete-file-item', self.handle_delete_item)
+    self.floorplan_files.add_event_handler('x-delete-floorplan-item', self.handle_delete_item_floorplan)
 
   def submit_click(self, **event_args):
     # Get the uploaded file from the FileLoader
-    uploaded_file = self.floorplan.file
+    floorplan_pics = self.floorplan_pics
     additional_pics = self.additional_pics
 
-    if (uploaded_file is None) and (additional_pics == []):
+    if (floorplan_pics is None) and (additional_pics == []):
       alert("Please select an image to upload")
       return
 
     # Call the server function
-    if uploaded_file is not None:
+    if len(floorplan_pics) !=0:
       try:
-        result = anvil.server.call('save_user_image', uploaded_file)
+        result = anvil.server.call('save_multiple_images', floorplan_pics, 'Floorplan')
         if result['success']:
           alert(result['message'])
           # Optionally clear the file loader
@@ -36,25 +38,26 @@ class Pictures(PicturesTemplate):
         else:
           alert(f"Floorplan upload failed: {result['message']}")
       except Exception as e:
-        alert(f"Error uploading image: {str(e)}")
+        alert(f"Error uploading floorplan image(s): {str(e)}")
     
-    if additional_pics is not None:
+    if len(additional_pics) !=0:
       try:
-        result = anvil.server.call('save_additional_images', additional_pics)
+        result = anvil.server.call('save_multiple_images', additional_pics,'Additional Images')
         if result['success']:
           alert(result['message'])
         # Optionally clear the file loader
           self.additional_images.clear()
         else:
-          alert(f"Floorplan upload failed: {result['message']}")
+          alert(f"Additional images upload failed: {result['message']}")
       except Exception as e:
-        alert(f"Error uploading image: {str(e)}")
+        alert(f"Error uploading additional image(s): {str(e)}")
         
   def floorplan_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
-    self.floorplan_image.visible = True
-    self.floorplan_image.source = file
-    self.floorplan = file
+    for fl in self.floorplan.files:
+      self.floorplan_pics.append(fl)
+    self.floorplan_files.items = self.floorplan_pics
+
 
 
   def additional_images_change(self, file, **event_args):
@@ -62,16 +65,31 @@ class Pictures(PicturesTemplate):
     # self.additional_photos_image.source = file
     for fl in self.additional_images.files:
       self.additional_pics.append(fl)
-      self.image_names += f'{fl.name}\n'
-    self.files_list.items = self.additional_pics 
-    self.additional_images_files.text = self.image_names
+    self.files_list.items = self.additional_pics
+
+  def handle_delete_item(self, item_to_delete, **event_args):
+    """Handle delete event from repeating panel items"""
+    if item_to_delete in self.additional_pics:
+      self.additional_pics.remove(item_to_delete)
+      self.files_list.items = self.additional_pics
+ 
+  def handle_delete_item_floorplan(self, item_to_delete, **event_args):
+    """Handle delete event from repeating panel items"""
+    if item_to_delete in self.floorplan_pics:
+      self.floorplan_pics.remove(item_to_delete)
+      self.floorplan_files.items = self.floorplan_pics
+
+  def button_1_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    print('button clicked!!!')
 
 
-  def additional_images_files_show(self, **event_args):
-    """This method is called when the component is shown on the screen."""
-    pass
-  def floorplan_image_show(self,**event_args):
-    pass
+
+
+
+
+
+
 
 
 
