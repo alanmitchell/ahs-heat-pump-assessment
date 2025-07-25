@@ -5,6 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+
 # import zipfile
 # import io
 
@@ -17,7 +18,7 @@ class Pictures(PicturesTemplate):
     self.floorplan_pics = []
     self.files_list.add_event_handler('x-delete-file-item', self.handle_delete_item)
     self.floorplan_files.add_event_handler('x-delete-floorplan-item', self.handle_delete_item_floorplan)
-    self.image_thumb.set_event_handler('click', self.show_full_image)
+    
 
 
   def submit_click(self, **event_args):
@@ -116,6 +117,7 @@ class Pictures(PicturesTemplate):
     except Exception as e:
       return {"success": False, "message": f"Error: {str(e)}", "images": []}
 
+  
 
       
 
