@@ -14,10 +14,10 @@ class ItemTemplate3(ItemTemplate3Template):
     # Any code you write here will run before the form opens.
     self.file_image.source=self.item
     self.file_name.text = self.item.name
-    self.file_image.set_event_handler('x-click', self.show_full_image)
+
 
   def delete_button_click(self, **event_args):
-    self.parent.raise_event('x-delete-floorplan-item', item_to_delete=self.item)
+    self.parent.raise _event('x-delete-floorplan-item', item_to_delete=self.item)
 
   def file_caption_change(self, **event_args):
     """This method is called when the text in this component is edited."""
@@ -30,5 +30,5 @@ class ItemTemplate3(ItemTemplate3Template):
 
   def file_image_mouse_up(self, x, y, button, **event_args):
     """This method is called when a mouse button is released on this component"""
-    full_form = FullImageForm(self.file_image)
-    anvil.alert(full_form, title="Full-Size Photo")
+    full_form = FullImageForm(self.item)
+    anvil.alert(full_form, title="Full-Size Photo", large=True)

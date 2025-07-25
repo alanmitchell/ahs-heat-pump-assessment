@@ -10,7 +10,7 @@ from anvil.tables import app_tables
 class FullImageForm(FullImageFormTemplate):
     def __init__(self, img_media, **properties):
       self.init_components(**properties)
-      self.image_1.source = img_media
+      self.image_2.source = img_media
 
     def image_1_show(self, **event_args):
       """This method is called when the Image is shown on the screen"""
