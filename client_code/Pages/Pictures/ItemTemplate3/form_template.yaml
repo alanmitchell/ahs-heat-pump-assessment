@@ -21,7 +21,8 @@ components:
   properties:
     items: [Floorplan, Other (explain in comments)]
   type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
-- layout_properties: {grid_position: 'EXAXTQ,HFOFFE'}
+- event_bindings: {mouse_up: file_image_mouse_up}
+  layout_properties: {grid_position: 'EXAXTQ,HFOFFE'}
   name: file_image
   properties: {height: 123.5}
   type: Image

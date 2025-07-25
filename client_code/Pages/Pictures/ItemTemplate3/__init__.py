@@ -25,5 +25,10 @@ class ItemTemplate3(ItemTemplate3Template):
 
   def show_full_image(self, **event_args):
     # Show the full image in a lightbox/dialog
-    full_form = FullImageForm(self._original_media)
+    full_form = FullImageForm(self.file_image)
+    anvil.alert(full_form, title="Full-Size Photo")
+
+  def file_image_mouse_up(self, x, y, button, **event_args):
+    """This method is called when a mouse button is released on this component"""
+    full_form = FullImageForm(self.file_image)
     anvil.alert(full_form, title="Full-Size Photo")
