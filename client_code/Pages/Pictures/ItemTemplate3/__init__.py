@@ -17,7 +17,7 @@ class ItemTemplate3(ItemTemplate3Template):
 
 
   def delete_button_click(self, **event_args):
-    self.parent.raise _event('x-delete-floorplan-item', item_to_delete=self.item)
+    self.parent.raise_event('x-delete-floorplan-item', item_to_delete=self.item)
 
   def file_caption_change(self, **event_args):
     """This method is called when the text in this component is edited."""

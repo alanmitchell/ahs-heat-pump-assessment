@@ -78,44 +78,57 @@ class Pictures(PicturesTemplate):
       self.floorplan_pics.remove(item_to_delete)
       self.floorplan_files.items = self.floorplan_pics
 
-  def read_current_files(self, colunm):
-    """Extract images from the ZIP file"""
+  def image_resize(self,image):
+    width, height = image.get_dimentions(image)
+    if width > 1500:
+      new_height = height * (1500/width)
+      resized_image  = anvil.media.resize_media(image, width=1500, height=new_height)
+      return resized_image
+    if height > 1500:
+      new_width = width * (1500/height)
+      resized_image = anvil.media.resize_media(image, width=new_width, height = 1500)
+      return resized_image
+    else:
+      return image
 
-    current_user = anvil.users.get_user()
-    if current_user is None:
-      return {"success": False, "images": []}
+  # def read_current_files(self, colunm):
+  #   """Extract images from the ZIP file"""
 
-    try:
-      if current_user is None or current_user[colunm] is None:
-        return {"success": True, "images": []}
+  #   current_user = anvil.users.get_user()
+  #   if current_user is None:
+  #     return {"success": False, "images": []}
 
-      zip_media = current_user[colunm]
-      zip_data = zip_media.get_bytes()
+  #   try:
+  #     if current_user is None or current_user[colunm] is None:
+  #       return {"success": True, "images": []}
 
-      images = []
-      with zipfile.ZipFile(io.BytesIO(zip_data), 'r') as zip_file:
-        for filename in zip_file.namelist():
-          if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
-            image_data = zip_file.read(filename)
+  #     zip_media = current_user[colunm]
+  #     zip_data = zip_media.get_bytes()
 
-          # Determine content type
-            if filename.lower().endswith('.png'):
-              content_type = 'image/png'
-            else:
-              content_type = 'image/jpeg'
+  #     images = []
+  #     with zipfile.ZipFile(io.BytesIO(zip_data), 'r') as zip_file:
+  #       for filename in zip_file.namelist():
+  #         if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+  #           image_data = zip_file.read(filename)
+
+  #         # Determine content type
+  #           if filename.lower().endswith('.png'):
+  #             content_type = 'image/png'
+  #           else:
+  #             content_type = 'image/jpeg'
   
-            # Create Media object
-            image_media = BlobMedia(
-              content_type=content_type,
-              content=image_data,
-              name=filename
-            )
-            images.append(image_media)
+  #           # Create Media object
+  #           image_media = BlobMedia(
+  #             content_type=content_type,
+  #             content=image_data,
+  #             name=filename
+  #           )
+  #           images.append(image_media)
 
-      return {"success": True, "images": images}
+  #     return {"success": True, "images": images}
 
-    except Exception as e:
-      return {"success": False, "message": f"Error: {str(e)}", "images": []}
+  #   except Exception as e:
+  #     return {"success": False, "message": f"Error: {str(e)}", "images": []}
 
   
 
