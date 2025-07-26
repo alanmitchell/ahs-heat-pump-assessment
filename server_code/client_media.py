@@ -37,6 +37,8 @@ def store_media(user_id, media_info):
   is a dictionary with 'media_object', 'category', 'caption', and 'row_id' keys. 'row_id' is the 
   ID for an existing piece of media. If 'row_id' is not found, that indicates a new piece of media is
   being stored, and a new record in the Media table is created.
+  The function returns the row ID of the Media record, which is particularly useful it a new record
+  was added.
   """
   media_row_id = media_info['row_id']
   row = app_tables.media.get_by_id(media_row_id)
@@ -51,4 +53,7 @@ def store_media(user_id, media_info):
       field_dict = media_info.copy()
       del field_dict['row_id']
       field_dict['client'] = user
-      app_tables.media.add_row(**field_dict)
+      new_row = app_tables.media.add_row(**field_dict)
+      media_row_id = new_row.get_id()
+
+  return media_row_id
