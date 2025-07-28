@@ -4,6 +4,10 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
+# TO DO:
+#    * Check permissions for saving and viewing media, similar to checks done in the 
+#      delete_media() function.
+
 @anvil.server.callable
 def get_all_media_for_user(user_id):
   """Returns all the pictures/documents associated with the client having
@@ -32,6 +36,7 @@ def get_media(row_id):
   else:
     return None
 
+@anvil.server.callable
 def store_media(user_id, media_info):
   """Stores a changed or new piece of media for a client identified by 'user_id'. 'media_info'
   is a dictionary with 'media_object', 'category', 'caption', and 'row_id' keys. 'row_id' is the 
@@ -57,3 +62,25 @@ def store_media(user_id, media_info):
       media_row_id = new_row.get_id()
 
   return media_row_id
+
+@anvil.server.callable
+def delete_media(media_id):
+  """Deletes a media row in the Media data table. The media to be deleted is indicated by
+  the row ID of 'media_id'. A normal user is only allowed to delete media associated with
+  them. A staff user can delete any media. The function returns True if a media item was
+  deleted, False otherwise.
+  """
+  cur_user = anvil.users.get_user()
+  if cur_user is None:
+    # no one logged in
+    return False
+  media_row = app_tables.media.get_by_id(media_id)
+  if media_row is None:
+    # media doesn't exist
+    return False
+  if cur_user['is_staff'] or cur_user == media_row['client']:
+    # permitted to delete
+    media_row.delete()
+    return True
+  else:
+    return False
