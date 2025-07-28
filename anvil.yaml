@@ -103,6 +103,9 @@ dependencies:
   dep_id: dep_lin1x4oec0ytd
   resolution_hints: {app_id: 4UK6WHQ6UX7AKELK, name: Material 3 Theme, package_name: m3}
   version: {version_tag: v1.2.5}
+- dep_id: dep_koacaym58dbz73
+  resolution_hints: {app_id: VMLFOQUZJKMNOEJG, name: Clone of Drag and Drop Files, package_name: DragandDropFiles}
+  version: {branch: master}
 metadata: {description: Assesses the performance of a heat pump retrofit., logo_img: 'asset:HEAT-SMART-logo-1-e1604519572587.webp', title: Alaska Heat Smart Heat Pump Assessment}
 name: AHS Heat Pump Assessment
 native_deps: null

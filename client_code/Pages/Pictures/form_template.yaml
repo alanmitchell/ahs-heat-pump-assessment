@@ -2,7 +2,7 @@ components_by_slot:
   content:
   - layout_properties: {}
     name: heading_1
-    properties: {text: Pictures}
+    properties: {text: Media}
     type: form:dep_lin1x4oec0ytd:_Components.Heading
   - components:
     - layout_properties: {grid_position: 'ZHEPOR,JHBDXK'}
