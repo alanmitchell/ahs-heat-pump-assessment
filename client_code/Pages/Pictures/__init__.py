@@ -86,6 +86,7 @@ class Pictures(PicturesTemplate):
     self.floorplan_files.items = [
       u for u in self.media_files
       if query in u['media_object'].name.lower()]
+    self.floorplan_files.
     
 
  
