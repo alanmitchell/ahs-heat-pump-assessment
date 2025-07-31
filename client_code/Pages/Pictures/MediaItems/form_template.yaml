@@ -5,18 +5,13 @@ components:
   type: Spacer
 - layout_properties: {grid_position: 'EXAXTQ,VNICET DTKQRI,RKLPVL'}
   name: file_name
-  properties: {align: center}
+  properties: {align: left}
   type: form:dep_lin1x4oec0ytd:_Components.Text
 - event_bindings: {click: open_file_click}
   layout_properties: {grid_position: 'EXAXTQ,VNICET XLHWLJ,GYYCZL'}
   name: open_file
-  properties: {text: Open Media, url: 'self.item[''media_object'']'}
+  properties: {text: Download Media, url: ''}
   type: form:dep_lin1x4oec0ytd:_Components.Link
-- event_bindings: {click: file_download_click}
-  layout_properties: {grid_position: 'EXAXTQ,VNICET IKCVBI,YCBQCO'}
-  name: file_download
-  properties: {align: center}
-  type: form:dep_lin1x4oec0ytd:_Components.Button
 - layout_properties: {grid_position: 'EXAXTQ,YEQQFJ GZEQRK,KXBOUO'}
   name: spacer_1
   properties: {height: 21}
@@ -24,7 +19,15 @@ components:
 - event_bindings: {click: delete_button_click}
   layout_properties: {grid_position: 'EXAXTQ,YEQQFJ ZWYNND,TYXOFU'}
   name: delete_button
-  properties: {appearance: text, font_size: 12, icon: 'mi:close', italic: true, text: delete}
+  properties:
+    align: center
+    appearance: text
+    font_size: 12
+    icon: mi:close
+    italic: true
+    spacing:
+      margin: [null, 0, null, 4]
+    text: delete
   type: form:dep_lin1x4oec0ytd:_Components.Button
 - event_bindings: {change: file_catagory_change}
   layout_properties: {grid_position: 'EXAXTQ,ZFEBJA'}
@@ -37,7 +40,7 @@ components:
 - event_bindings: {mouse_up: file_image_mouse_up}
   layout_properties: {grid_position: 'EXAXTQ,HFOFFE'}
   name: file_image
-  properties: {height: 123.5}
+  properties: {height: 139}
   type: Image
 - data_bindings: []
   event_bindings: {change: file_caption_change}
@@ -45,5 +48,7 @@ components:
   name: file_caption
   properties: {placeholder: Add caption here}
   type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
-container: {type: ColumnPanel}
+container:
+  properties: {col_widths: '{"VNICET":15,"YEQQFJ":10,"ZFEBJA":15,"HFOFFE":20}'}
+  type: ColumnPanel
 is_package: true

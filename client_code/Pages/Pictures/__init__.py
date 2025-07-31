@@ -79,6 +79,13 @@ class Pictures(PicturesTemplate):
   def heading_1_show(self, **event_args):
     """This method is called when the component is shown on the screen."""
     pass
+
+  def search_box_change(self, **event_args):
+    """This method is called when the text in this component is edited."""
+    query = self.search_box.text.strip().lower()
+    self.floorplan_files.items = [
+      u for u in self.media_files
+      if query in u['media_object'].name.lower()]
     
 
  

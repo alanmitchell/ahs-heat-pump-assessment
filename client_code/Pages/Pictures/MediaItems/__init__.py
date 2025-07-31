@@ -52,8 +52,7 @@ class MediaItems(MediaItemsTemplate):
 
   def open_file_click(self, **event_args):
     """This method is called clicked"""
-    self.open_file([url])
-
+    self.open_file.url = self.item['media_object']
 
  
 
