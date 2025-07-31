@@ -3,7 +3,11 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
-
+from datetime import datetime
+# from pil import Image
+import io
+from anvil import BlobMedia
+# import anvil.image
 # TO DO:
 #    * Check permissions for saving and viewing media, similar to checks done in the 
 #      delete_media() function.
@@ -48,7 +52,7 @@ def store_media(user_id, media_info):
   media_row_id = media_info['row_id']
   row = app_tables.media.get_by_id(media_row_id)
   if row:
-    for key, value in media_info:
+    for key, value in media_info.items():
       if key != 'row_id':
         row[key] = value
   else:
@@ -58,7 +62,7 @@ def store_media(user_id, media_info):
       field_dict = media_info.copy()
       del field_dict['row_id']
       field_dict['client'] = user
-      new_row = app_tables.media.add_row(**field_dict)
+      new_row = app_tables.media.add_row(date_time_added=datetime.now(), **field_dict)
       media_row_id = new_row.get_id()
 
   return media_row_id
@@ -84,3 +88,6 @@ def delete_media(media_id):
     return True
   else:
     return False
+
+
+

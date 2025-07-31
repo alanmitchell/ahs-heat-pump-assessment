@@ -5,130 +5,83 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+from ... import State
+import anvil.image
 
-# import zipfile
-# import io
+
 
 class Pictures(PicturesTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.layout.pictures_link.selected = True
-    self.additional_pics = []
-    self.floorplan_pics = []
-    self.files_list.add_event_handler('x-delete-file-item', self.handle_delete_item)
+    self.user_id = State.target_user_id
+    self.media_files = self.get_media()
+    
+    self.floorplan_files.items = self.media_files
     self.floorplan_files.add_event_handler('x-delete-floorplan-item', self.handle_delete_item_floorplan)
+    self.floorplan_files.add_event_handler('x-change-media-summary', self.media_summary_show)
     
-
-
-  def submit_click(self, **event_args):
-    # Get the uploaded file from the FileLoader
-    floorplan_pics = self.floorplan_pics
-    additional_pics = self.additional_pics
-
-    if (floorplan_pics == []) and (additional_pics == []):
-      alert("Please select an image to upload")
-      return
-
-    if len(floorplan_pics) != []:
-      try:
-        result = anvil.server.call('save_multiple_images', floorplan_pics, 'Floorplan')
-        if result['success']:
-          alert(result['message'])
-          floorplan_pics = [] #clears out files
-          self.floorplan_files.items = floorplan_pics
-        else:
-          alert(f"Floorplan upload failed: {result['message']}")
-      except Exception as e:
-        alert(f"Error uploading floorplan image(s): {str(e)}")
-    
-    if len(additional_pics) != []:
-      try:
-        result = anvil.server.call('save_multiple_images', additional_pics,'Additional Images')
-        if result['success']:
-          alert(result['message'])
-          additional_pics = [] #clears out files
-          self.files_list.items = additional_pics
-        else:
-          alert(f"Additional images upload failed: {result['message']}")
-      except Exception as e:
-        alert(f"Error uploading additional image(s): {str(e)}")
         
   def floorplan_change(self, file, **event_args):
     """This method is called when a new file is loaded into this FileLoader"""
+    # self.media_files = self.get_media()
+    if anvil.users.get_user() is None:
+      alert('Please sign in.')
+      return
     for fl in self.floorplan.files:
-      self.floorplan_pics.append(fl)
-    self.floorplan_files.items = self.floorplan_pics
+      print(fl.content_type)
+      if 'image' in fl.content_type:
+        fl = self.image_resize(fl) # lose all metadata besides name
+      dict = {'row_id':None, 'media_object':fl, 'category':'', 'caption':''}
+      dict['row_id'] = anvil.server.call('store_media', self.user_id, dict)
+      print('uploaded')
+      self.media_files.insert(0,dict)
+    self.media_summary_show()
+    self.floorplan_files.items = self.media_files
 
-  def additional_images_change(self, file, **event_args):
-    """This method is called when a new file is loaded into this FileLoader"""
-    for fl in self.additional_images.files:
-      self.additional_pics.append(fl)
-    self.files_list.items = self.additional_pics
-
-  def handle_delete_item(self, item_to_delete, **event_args):
-    """Handle delete event from repeating panel items"""
-    if item_to_delete in self.additional_pics:
-      self.additional_pics.remove(item_to_delete)
-      self.files_list.items = self.additional_pics
- 
+  def get_media(self):
+    initial_media_files = anvil.server.call('get_all_media_for_user', self.user_id)
+    newlist = sorted(initial_media_files, key=lambda d: d['date_time_added'], reverse=True)
+    return newlist
+  
   def handle_delete_item_floorplan(self, item_to_delete, **event_args):
     """Handle delete event from repeating panel items"""
-    if item_to_delete in self.floorplan_pics:
-      self.floorplan_pics.remove(item_to_delete)
-      self.floorplan_files.items = self.floorplan_pics
+    # self.media_files = self.get_media()
+    self.media_summary_show()
+    self.floorplan_files.items = self.media_files
 
-  def read_current_files(self, colunm):
-    """Extract images from the ZIP file"""
+  def image_resize(self,file):
+    image = anvil.image.generate_thumbnail(file,1500)
+  # image = anvil.image.generate_thumbnail(image_media,1500)
+    image_bytes = image.get_bytes()
+    return BlobMedia(
+    content_type=file.content_type,
+    content=image_bytes, 
+    name=file.name)
 
-    current_user = anvil.users.get_user()
-    if current_user is None:
-      return {"success": False, "images": []}
+  def media_summary_show(self, **event_args):
+    """This method is called when the component is shown on the screen."""
+    self.media_files = self.get_media()
+    cat_counts = {}
+    text = 'Media Summary:\n'
+    for media in self.media_files:
+      if media['category'] in cat_counts.keys():
+        cat_counts[media['category']] += 1
+      else:
+        cat_counts[media['category']] = 1
+    for key, value in cat_counts.items():
+      if key == '':
+        key = 'Unassigned'
+      text += f'{key}: {value}\n'
+    self.media_summary.text = text
 
-    try:
-      if current_user is None or current_user[colunm] is None:
-        return {"success": True, "images": []}
+  def heading_1_show(self, **event_args):
+    """This method is called when the component is shown on the screen."""
+    pass
+    
 
-      zip_media = current_user[colunm]
-      zip_data = zip_media.get_bytes()
-
-      images = []
-      with zipfile.ZipFile(io.BytesIO(zip_data), 'r') as zip_file:
-        for filename in zip_file.namelist():
-          if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
-            image_data = zip_file.read(filename)
-
-          # Determine content type
-            if filename.lower().endswith('.png'):
-              content_type = 'image/png'
-            else:
-              content_type = 'image/jpeg'
-  
-            # Create Media object
-            image_media = BlobMedia(
-              content_type=content_type,
-              content=image_data,
-              name=filename
-            )
-            images.append(image_media)
-
-      return {"success": True, "images": images}
-
-    except Exception as e:
-      return {"success": False, "message": f"Error: {str(e)}", "images": []}
-
-  
-
-      
-
-
-
-
-
-
-
-
-
+ 
 
 
 

@@ -4,10 +4,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 
-import zipfile 
-from io import BytesIO
-from anvil import BlobMedia
-
 @anvil.server.callable
 def get_users_public_fields():
   """Returns publicly-viewable User fields."""
@@ -74,67 +70,3 @@ def current_user_is_staff():
 
 
 
-
-@anvil.server.callable
-def save_user_image(floorplan):
-  """Save the uploaded image to the current user's row in the users table"""
-
-  current_user = anvil.users.get_user()
-  if current_user is None:
-    return {"success": False, "message": "User not logged in"}
-
-  try:
-    # Find the user's row in your data table
-    current_user['Floorplan'] = floorplan
-    return {"success": True, "message": "Image uploaded successfully"}
-  except Exception as e:
-    return {"success": False, "message": f"Error saving floorplan image: {str(e)}"}
-
-@anvil.server.callable
-def save_multiple_images(image_list: list, table_column):
-    """Save multiple images as a ZIP file in a single table cell"""
-
-    current_user = anvil.users.get_user()
-    if current_user is None:
-      return {"success": False, "message": "User not logged in"}
-
-    try:
-      # Create ZIP file in memory
-      zip_buffer = BytesIO()
-
-      with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-        for i, image_media in enumerate(image_list):
-          # Get the image data
-          image_data = image_media.get_bytes()
-
-          # Determine file extension from content type or use a default
-          content_type = getattr(image_media, 'content_type', 'image/jpeg')
-          if 'png' in content_type.lower():
-            ext = 'png'
-          elif 'gif' in content_type.lower():
-            ext = 'gif'
-          else:
-            ext = 'jpg'
-
-            # Add to ZIP with a sequential filename
-          filename = f"image_{i+1}.{ext}"
-          zip_file.writestr(filename, image_data)
-
-        # Create Media object from ZIP
-      zip_media = BlobMedia(
-        content_type="application/zip",
-        content=zip_buffer.getvalue(),
-        name="user_images.zip"
-      )
-
-      # Save to database
-      
-      current_user[table_column] = zip_media
-
-      return {"success": True, "message": f"Successfully saved {len(image_list)} image(s) to {table_column}"}
-
-    except Exception as e:
-      return {"success": False, "message": f"Error: {str(e)}"}
-
-
-  
