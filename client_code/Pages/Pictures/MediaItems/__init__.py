@@ -21,7 +21,8 @@ class MediaItems(MediaItemsTemplate):
     if self.item['category']:
       self.file_catagory.selected_value = self.item['category']
     self.file_caption.text = self.item['caption']
-  
+    if 'image' not in self.item['media_object'].content_type:
+      self.file_image.source = 'No image availible'
   def delete_button_click(self, **event_args):
     anvil.server.call('delete_media',self.row_id)
     self.parent.raise_event('x-delete-floorplan-item', item_to_delete=self.item)
