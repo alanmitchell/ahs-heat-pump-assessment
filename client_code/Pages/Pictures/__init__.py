@@ -86,10 +86,18 @@ class Pictures(PicturesTemplate):
     self.floorplan_files.items = [
       u for u in self.media_files
       if query in u['media_object'].name.lower()]
-    self.floorplan_files.
+
+
+  def category_search_change(self, **event_args):
+    """This method is called when an item is selected"""
+    query = self.category_search.selected_value
+    self.floorplan_files.items = [
+      u for u in self.media_files
+      if query in u['category'] or (query == 'Unassigned' and u['category']=='') or query=='All']
+
     
 
- 
+  
 
 
 

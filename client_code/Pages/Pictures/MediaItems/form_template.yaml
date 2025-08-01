@@ -33,7 +33,7 @@ components:
   layout_properties: {grid_position: 'EXAXTQ,ZFEBJA'}
   name: file_catagory
   properties:
-    items: [Floorplan, House Exterior, House Interior, Boiler Room, Other (explain in comments)]
+    items: [Floor plan, House Exterior, House Interior, Boiler Room, Other (explain in comments)]
     label: Media Category
     placeholder: Unassigned
   type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu

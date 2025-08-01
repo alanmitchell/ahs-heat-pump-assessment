@@ -24,9 +24,12 @@ components_by_slot:
       name: search_box
       properties: {placeholder: Search by media name}
       type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-    - layout_properties: {grid_position: 'FUBTLP,SMNNTE'}
+    - event_bindings: {change: category_search_change}
+      layout_properties: {grid_position: 'FUBTLP,SMNNTE'}
       name: category_search
-      properties: {placeholder: Sort by media category}
+      properties:
+        items: [All, Floor plan, House Exterior, House Interior, Boiler Room, Other (explain in comments), Unassigned]
+        placeholder: Sort by media category
       type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
     - event_bindings: {show: media_summary_show}
       layout_properties: {grid_position: 'UVUKQV,VFYEYW'}
