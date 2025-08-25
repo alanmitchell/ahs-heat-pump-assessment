@@ -13,8 +13,6 @@ class Main(MainTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self._deselect_recursive(self.nav_panel)
-    if State.current_user is not None:
-      self.panel_staff.visible = State.current_user['is_staff']
 
   def _deselect_recursive(self, container):
     for comp in container.get_components():
@@ -26,10 +24,6 @@ class Main(MainTemplate):
   def select_client_link_click(self, **event_args):
     """This method is called when the component is clicked"""
     open_form('Pages.SelectClient')
-
-  def home_info_link_click(self, **event_args):
-    """This method is called when the component is clicked"""
-    open_form('Pages.HomeInfo')
 
   def but_logout_click(self, **event_args):
     """This method is called when the component is clicked."""
@@ -44,18 +38,6 @@ class Main(MainTemplate):
     """This method is called when the component is clicked"""
     open_form('Pages.Discussion')
 
-  def admin_link_click(self, **event_args):
-    """This method is called when the component is clicked"""
-    open_form('Pages.Admin')
-
   def past_use_link_click(self, **event_args):
     """This method is called when the component is clicked"""
     open_form('Pages.PastFuel')
-
-  def pictures_link_click(self, **event_args):
-    """This method is called when the component is clicked"""
-    open_form('Pages.Pictures')
-
-  def reports_link_click(self, **event_args):
-    """This method is called when the component is clicked"""
-    open_form('Pages.Reports')
