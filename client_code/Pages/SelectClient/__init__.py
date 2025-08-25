@@ -20,7 +20,7 @@ class SelectClient(SelectClientTemplate):
 
     # find the target client and display email and name
     # default to first client in case target client is not there
-    target_client = self.all_clients[0] if len(self.all_clients) else None
+    target_client = self.all_clients[0] if self.all_clients is not None and len(self.all_clients) else None
     # this is the client we'd like to find
     target_id = get_user()['last_client_id']
     for client in self.all_clients:
