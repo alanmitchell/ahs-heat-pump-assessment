@@ -4,9 +4,14 @@ db_schema:
     client: none
     columns:
     - admin_ui: {width: 200}
-      name: client
-      target: users
-      type: link_single
+      name: full_name
+      type: string
+    - admin_ui: {width: 200}
+      name: check_digit_id
+      type: string
+    - admin_ui: {width: 200}
+      name: email
+      type: string
     - admin_ui: {width: 200}
       name: address
       type: string
@@ -21,12 +26,30 @@ db_schema:
       type: string
     server: full
     title: ClientData
+  media:
+    client: none
+    columns:
+    - admin_ui: {width: 200}
+      name: client
+      target: clientdata
+      type: link_single
+    - admin_ui: {width: 200}
+      name: media_object
+      type: media
+    - admin_ui: {width: 200}
+      name: category
+      type: string
+    - admin_ui: {width: 200}
+      name: caption
+      type: string
+    server: full
+    title: Media
   options:
     client: none
     columns:
     - admin_ui: {width: 200}
       name: client
-      target: users
+      target: clientdata
       type: link_single
     - admin_ui: {width: 200}
       name: option_number
@@ -39,24 +62,6 @@ db_schema:
       type: string
     server: full
     title: Options
-  pictures:
-    client: none
-    columns:
-    - admin_ui: {order: 0, width: 200}
-      name: client
-      target: users
-      type: link_single
-    - admin_ui: {order: 1, width: 200}
-      name: image
-      type: media
-    - admin_ui: {order: 2, width: 200}
-      name: category
-      type: string
-    - admin_ui: {order: 3, width: 200}
-      name: caption
-      type: string
-    server: full
-    title: Pictures
   users:
     client: none
     columns:
@@ -85,15 +90,12 @@ db_schema:
       name: signed_up
       type: datetime
     - admin_ui: {width: 200}
-      name: is_staff
-      type: bool
-    - admin_ui: {width: 200}
       name: email_confirmation_key
       type: string
     - admin_ui: {width: 200}
       name: last_client_id
       type: string
-    - admin_ui: {order: 11, width: 200}
+    - admin_ui: {width: 200}
       name: full_name
       type: string
     server: full

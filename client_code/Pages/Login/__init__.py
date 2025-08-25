@@ -43,7 +43,7 @@ class Login(LoginTemplate):
 
   def button_save_name_click(self, **event_args):
     """This method is called when the component is clicked."""
-    anvil.server.call('update_user_full_name', self.text_box_name.text)
+    anvil.server.call('update_user_info', {'full_name': self.text_box_name.text})
     navigate_to_next_form()
 
 def navigate_to_next_form():
