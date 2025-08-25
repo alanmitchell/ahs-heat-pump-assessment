@@ -6,7 +6,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import m3.components as m3
-from ... import State
 
 class Main(MainTemplate):
   def __init__(self, **properties):

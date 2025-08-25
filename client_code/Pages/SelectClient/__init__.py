@@ -5,7 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from ... import State
+from anvil.users import get_user
 from ...Utility import chg_none
 
 class SelectClient(SelectClientTemplate):
@@ -22,7 +22,7 @@ class SelectClient(SelectClientTemplate):
     # default to first client in case target client is not there
     target_client = self.all_clients[0] if len(self.all_clients) else None
     # this is the client we'd like to find
-    target_id = State.target_client_id
+    target_id = get_user()['last_client_id']
     for client in self.all_clients:
       if client['row_id'] == target_id:
         target_client = client
@@ -40,7 +40,4 @@ class SelectClient(SelectClientTemplate):
 
   def row_selected(self, item, **event_args):
     self.rich_text_selected_client.content = f"Currently Selected Client: **{item['email']}, {item['full_name']}**"
-    State.target_client_id = item['row_id']
-    # for this user, remember this ID so when they come back they don't have to reselect
-    # a client
     anvil.server.call('update_user_info', {'last_client_id': item['row_id']})

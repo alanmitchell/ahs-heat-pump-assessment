@@ -5,7 +5,6 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
-from ... import State
 
 class Login(LoginTemplate):
   def __init__(self, **properties):
@@ -13,9 +12,7 @@ class Login(LoginTemplate):
     self.init_components(**properties)
 
   def but_login_click(self, **event_args):
-    # update State information for the User that just logged in
     cur_user = anvil.users.login_with_form()
-    State.target_user_id = cur_user['last_client_id']
 
     # run server processing that is needed at log in.
     anvil.server.call('user_processing_at_login')
@@ -34,7 +31,7 @@ class Login(LoginTemplate):
     navigate_to_next_form()
 
 def navigate_to_next_form():
-  if State.target_client_id:
+  if anvil.users.get_user()['last_client_id']:
     # there already is a target client to go to the Model Inputs page
     open_form('Pages.ModelInputs')
   else:
