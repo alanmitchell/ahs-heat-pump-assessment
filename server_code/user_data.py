@@ -13,7 +13,7 @@ def get_users_public_fields():
   ]
 
 @anvil.server.callable
-def user_processing_at_login(user_id):
+def user_processing_at_login():
   """Does any server-side processing that is needed after a user logs in."""
   cur_user = anvil.users.get_user()
 
