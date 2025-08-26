@@ -5,6 +5,8 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
+from anvil import alert
+from ...SignupDialog import SignupDialog
 
 class Login(LoginTemplate):
   def __init__(self, **properties):
@@ -30,10 +32,24 @@ class Login(LoginTemplate):
     anvil.server.call('update_user_info', {'full_name': self.text_box_name.text})
     navigate_to_next_form()
 
-  def button_1_click(self, **event_args):
-    """This method is called when the component is clicked."""
-    anvil.users.signup_with_email('info@analysisnorth.com', 'test123')
-
+  def but_signup_click(self, **event_args):
+    # Open your custom signup dialog as a modal popup
+    result = alert(
+      content=SignupDialog(),
+      title="Create an account",
+      large=False,
+      buttons=None,          # dialog has its own buttons
+      dismissible=True
+    )
+    # If they completed sign-up, remind about email confirmation
+    if result and result.get("status") == "success":
+      Notification(
+        "Account created. Check your inbox and confirm your email, then log in.",
+        style="info", timeout=6
+      ).show()
+      # Optionally, re-open the login dialog right away:
+      # anvil.users.login_with_form(show_signup_option=False, allow_cancel=False)
+      
 def navigate_to_next_form():
   if anvil.users.get_user()['last_client_id']:
     # there already is a target client to go to the Model Inputs page

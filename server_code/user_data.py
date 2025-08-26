@@ -26,3 +26,21 @@ def update_user_info(field_dict):
   if cur_user:
     for field_name, val in field_dict.items():
       cur_user[field_name] = val
+
+ALLOWED_DOMAINS = {"akheatsmart.org", "analysisnorth.com"}
+@anvil.server.callable
+def restricted_signup(email: str, password: str):
+  # Basic sanity check
+  if not email or "@" not in email:
+    raise Exception("Please provide a valid email address.")
+
+  domain = email.split("@")[-1].lower()
+  if domain not in ALLOWED_DOMAINS:
+    allowed = ", ".join(sorted(ALLOWED_DOMAINS))
+    raise Exception(f"Sign-up is restricted to: {allowed}")
+
+    # Create the user; Users service will send a confirmation email
+    # if you have 'Require email confirmation' enabled.
+  anvil.users.signup_with_email(email, password)
+  return True
+

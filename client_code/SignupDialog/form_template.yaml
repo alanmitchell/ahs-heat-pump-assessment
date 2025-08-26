@@ -1,0 +1,25 @@
+components:
+- layout_properties: {grid_position: 'JWABCC,ZKHHSM'}
+  name: email_box
+  properties: {label: Enter Email}
+  type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+- layout_properties: {grid_position: 'UMZTCU,MPKXUJ'}
+  name: pw_box
+  properties: {label: Password}
+  type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+- layout_properties: {grid_position: 'RFGMFL,TIYBDT'}
+  name: pw2_box
+  properties: {label: Confirm Password}
+  type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+- event_bindings: {click: signup_btn_click}
+  layout_properties: {grid_position: 'TMJFUZ,PFBVMP'}
+  name: signup_btn
+  properties: {role: null, text: Signup}
+  type: form:dep_lin1x4oec0ytd:_Components.Button
+- event_bindings: {click: cancel_btn_click}
+  layout_properties: {grid_position: 'DNFVBG,OWRKIA'}
+  name: cancel_btn
+  properties: {appearance: tonal, text: Cancel}
+  type: form:dep_lin1x4oec0ytd:_Components.Button
+container: {type: ColumnPanel}
+is_package: true

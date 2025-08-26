@@ -31,9 +31,9 @@ components_by_slot:
     name: flow_panel_name
     properties: {role: very-narrow-container, visible: false}
     type: FlowPanel
-  - event_bindings: {click: button_1_click}
+  - event_bindings: {click: but_signup_click}
     layout_properties: {}
-    name: button_1
+    name: but_signup
     properties: {align: center, appearance: text, italic: true, text: Signup for Account}
     type: form:dep_lin1x4oec0ytd:_Components.Button
 is_package: true
