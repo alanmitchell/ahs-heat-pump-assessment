@@ -12,7 +12,7 @@ class Login(LoginTemplate):
     self.init_components(**properties)
 
   def but_login_click(self, **event_args):
-    cur_user = anvil.users.login_with_form()
+    cur_user = anvil.users.login_with_form(show_signup_option=False)
 
     # run server processing that is needed at log in.
     anvil.server.call('user_processing_at_login')
@@ -29,6 +29,10 @@ class Login(LoginTemplate):
     """This method is called when the component is clicked."""
     anvil.server.call('update_user_info', {'full_name': self.text_box_name.text})
     navigate_to_next_form()
+
+  def button_1_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    anvil.users.signup_with_email('info@analysisnorth.com', 'test123')
 
 def navigate_to_next_form():
   if anvil.users.get_user()['last_client_id']:

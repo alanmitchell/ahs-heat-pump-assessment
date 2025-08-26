@@ -31,5 +31,10 @@ components_by_slot:
     name: flow_panel_name
     properties: {role: very-narrow-container, visible: false}
     type: FlowPanel
+  - event_bindings: {click: button_1_click}
+    layout_properties: {}
+    name: button_1
+    properties: {align: center, text: Create Account}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
 is_package: true
 layout: {type: 'form:Layouts.Main'}
