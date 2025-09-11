@@ -1,3 +1,4 @@
+import anvil.secrets
 """Functions for working with ClientData
 """
 import anvil.users
