@@ -4,5 +4,10 @@ components_by_slot:
     name: heading_1
     properties: {text: Past Fuel and Electricity Use}
     type: form:dep_lin1x4oec0ytd:_Components.Heading
+  - event_bindings: {click: but_open_historical_ss_click}
+    layout_properties: {}
+    name: but_open_historical_ss
+    properties: {text: Open Historical Use Spreadsheet}
+    type: form:dep_lin1x4oec0ytd:_Components.Button
 is_package: true
 layout: {type: 'form:Layouts.Main'}
