@@ -1,6 +1,6 @@
 """Functions for working with ClientData
 """
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import anvil.users
 import anvil.tables as tables
@@ -24,7 +24,7 @@ def get_clients() -> List[Dict[str, Any]]:
     return rows
 
 @anvil.server.callable
-def get_client(row_id: str) -> Dict[str, Any]:
+def get_client(row_id: str) -> Optional[Dict[str, Any]]:
   """Returns a dictionary of field values for the Client identified by 'row_id'.
   Returns None if there is no matching client.
   """
@@ -37,3 +37,20 @@ def get_client(row_id: str) -> Dict[str, Any]:
     
     else:
       return None
+
+@anvil.server.callable
+def update_client(row_id: str, fields: Dict[str, Any]) -> bool:
+  """Updates the fields of a Client data row. 'row_id' identifies the Client row
+  to update. 'fields' is a dictionary of the field values that need to be updated.
+  """
+  if get_user():
+    # retrieve the client row
+    client = app_tables.clientdata.get_by_id(row_id)
+    if client:
+      for field_name, val in fields.items():
+        client[field_name] = val
+        return True
+    else:
+      return False
+  else:
+    return False

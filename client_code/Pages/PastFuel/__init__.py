@@ -21,10 +21,17 @@ class PastFuel(PastFuelTemplate):
     # get the client we are currently working on
     client_id = get_user()["last_client_id"]
     if client_id:
-      client_info = anvil.server.call('get_client', client_id)
-      client_name = client_info['full_name'] if client_info['full_name'] else "Unknown"
-      new_file_id = anvil.server.call('make_client_historical_use_ss', f"{client_name} Historical Use {time.time():.0f}")
-      url = f"https://docs.google.com/spreadsheets/d/{new_file_id}/edit"
+      client = anvil.server.call('get_client', client_id)
+      historical_file_id = client['historical_use_file_id']  # file id of historical use spreadsheet
+      if historical_file_id is None:
+        # No spreadsheet created yet, so make one
+        client_name = client['full_name'] if client['full_name'] else "Unknown"
+        d = anvil.js.window.Date()
+        timestamp_str = f"{d.getFullYear()}-{d.getMonth()+1:02d}-{d.getDate():02d} {d.getHours():02d}:{d.getMinutes():02d}"
+        historical_file_id = anvil.server.call('make_client_historical_use_ss', f"{client_name} Historical Use {timestamp_str}")
+        # save the file ID in the DataTable
+        anvil.server.call('update_client', client['row_id'], {'historical_use_file_id': historical_file_id})
+      url = f"https://docs.google.com/spreadsheets/d/{historical_file_id}/edit"
       anvil.js.window.open(url, "_blank")
       
     else:
