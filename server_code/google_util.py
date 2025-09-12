@@ -3,7 +3,7 @@
 import time, json
 
 from anvil.users import get_user
-from anvil import app_tables
+from anvil.tables import app_tables
 import anvil.secrets
 
 from google.oauth2 import service_account
