@@ -11,13 +11,22 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 def _drive():
-  """Build Drive client from secret (no filesystem writes needed)
+  """Build Drive client from secret
   """
   sa_info = json.loads(anvil.secrets.get_secret('GOOGLE_SA_JSON'))
   creds = service_account.Credentials.from_service_account_info(
     sa_info, scopes=['https://www.googleapis.com/auth/drive']
   )
   return build('drive', 'v3', credentials=creds)
+
+def _sheets():
+  """Build Sheets client from secret
+  """
+  sa_info = json.loads(anvil.secrets.get_secret('GOOGLE_SA_JSON'))
+  creds = service_account.Credentials.from_service_account_info(
+    sa_info, scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"]
+  )
+  return build("sheets", "v4", credentials=creds)
 
 def _retry(func, *args, **kwargs):
   """Retry 429/5xx with simple exponential backoff
@@ -62,3 +71,18 @@ def make_client_historical_use_ss(ss_name: str) -> str:
 
   else:
     return None
+
+@anvil.server.callable
+def get_sheet_values(spreadsheet_id: str, sheet_name: str) -> str:
+  """Return the contents of a sheet tab as CSV text. 'spreadsheet_id' is the Google file ID
+  of the Google spreadsheet. 'sheet_name' is the name of the sheet to retrieve.
+  """
+  svc = _sheets()
+  request = svc.spreadsheets().values().get(
+    spreadsheetId=spreadsheet_id,
+    range=sheet_name  # e.g. "Sheet1"
+  )
+  result = _retry(request.execute)
+  values = result.get("values", [])
+
+  return values
