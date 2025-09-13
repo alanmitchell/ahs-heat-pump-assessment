@@ -36,3 +36,7 @@ class PastFuel(PastFuelTemplate):
       
     else:
       alert("There is no Selected Client!")
+
+  def but_import_historical_use_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    self.text_historical_use.
