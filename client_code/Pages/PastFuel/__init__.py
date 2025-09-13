@@ -39,4 +39,17 @@ class PastFuel(PastFuelTemplate):
 
   def but_import_historical_use_click(self, **event_args):
     """This method is called when the component is clicked."""
-    self.text_historical_use.text = anvil.server.call()
+    
+    def set_default():
+      self.text_historical_use.text = "No Historical Use Spreadsheet has been created!"  # default if no data
+    
+    client_id = get_user()["last_client_id"]
+    if client_id:
+      client = anvil.server.call('get_client', client_id)
+      historical_file_id = client['historical_use_file_id']  # file id of historical use spreadsheet
+      if historical_file_id is not None:
+        self.text_historical_use.text = anvil.server.call('get_sheet_values', historical_file_id, "Output")
+      else:
+        set_default()
+    else:
+      set_default()
