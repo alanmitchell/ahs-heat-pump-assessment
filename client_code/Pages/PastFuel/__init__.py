@@ -39,4 +39,4 @@ class PastFuel(PastFuelTemplate):
 
   def but_import_historical_use_click(self, **event_args):
     """This method is called when the component is clicked."""
-    self.text_historical_use.
+    self.text_historical_use.text = anvil.server.call()
