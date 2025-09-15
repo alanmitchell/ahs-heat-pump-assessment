@@ -12,6 +12,7 @@ class Login(LoginTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.layout.rich_text_client_name.content = ''
 
   def but_login_click(self, **event_args):
     cur_user = anvil.users.login_with_form(show_signup_option=False)
@@ -53,10 +54,6 @@ class Login(LoginTemplate):
   def navigate_to_next_form(self):
     last_client_id = anvil.users.get_user()['last_client_id']
     if last_client_id:
-      client_name = anvil.server.call('get_client', last_client_id)['full_name']
-      self.raise_event('x-update-client-name', client_name=client_name)
-      print(client_name)
-      # there already is a target client to go to the Model Inputs page
       open_form('Pages.ModelInputs')
     else:
       # No target client yet, so go select one.

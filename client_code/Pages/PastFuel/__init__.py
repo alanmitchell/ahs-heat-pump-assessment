@@ -10,11 +10,17 @@ from anvil.tables import app_tables
 from anvil.users import get_user
 import anvil.js
 
+from ...Utility import active_client_name
+
 class PastFuel(PastFuelTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.layout.past_use_link.selected = True
+    self.set_event_handler('show', self.form_show)
+
+  def form_show(self, **event_args):
+    self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'
 
   def but_open_historical_ss_click(self, **event_args):
     """This method is called when the component is clicked."""

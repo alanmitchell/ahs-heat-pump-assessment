@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 from anvil.users import get_user
-from ...Utility import chg_none
+from ...Utility import chg_none, active_client_name
 
 class SelectClient(SelectClientTemplate):
   def __init__(self, **properties):
@@ -29,7 +29,12 @@ class SelectClient(SelectClientTemplate):
         break
     if target_client:     # may be None
       self.rich_text_selected_client.content = f"Currently Selected Client: **{target_client['email']}, {target_client['full_name']}**"
+      self.layout.rich_text_client_name.content = f"**Client:** {target_client['full_name']}"
+    self.set_event_handler('show', self.form_show)
 
+  def form_show(self, **event_args):
+    self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'
+  
   def text_box_search_change(self, **event_args):
     """This method is called when the text in this component is edited."""
     query = self.text_box_search.text.strip().lower()
@@ -40,4 +45,5 @@ class SelectClient(SelectClientTemplate):
 
   def row_selected(self, item, **event_args):
     self.rich_text_selected_client.content = f"Currently Selected Client: **{item['email']}, {item['full_name']}**"
+    self.layout.rich_text_client_name.content = f"**Client:** {item['full_name']}"
     anvil.server.call('update_user_info', {'last_client_id': item['row_id']})

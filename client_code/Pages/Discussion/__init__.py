@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from ...Utility import chg_none
+from ...Utility import chg_none, active_client_name
 
 class Discussion(DiscussionTemplate):
   def __init__(self, **properties):
@@ -21,6 +21,11 @@ class Discussion(DiscussionTemplate):
       self.text_area_discussion.text = chg_none(self.client['discussion'], '')
     else:
       self.client = None
+
+    self.set_event_handler('show', self.form_show)
+
+  def form_show(self, **event_args):
+    self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'
 
   def text_area_discussion_lost_focus(self, **event_args):
     """Discussion text changed."""

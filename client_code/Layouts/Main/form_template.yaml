@@ -2,9 +2,9 @@ components_by_slot:
   content: []
   navigation:
   - layout_properties: {}
-    name: text_client_name
+    name: rich_text_client_name
     properties: {}
-    type: form:dep_lin1x4oec0ytd:_Components.Text
+    type: RichText
   - components:
     - event_bindings: {click: select_client_link_click}
       layout_properties: {grid_position: 'SPPLWF,BMTUSF'}
