@@ -28,7 +28,7 @@ class SelectClient(SelectClientTemplate):
         target_client = client
         break
     if target_client:     # may be None
-      self.rich_text_selected_client.content = f"Currently Selected Client: **{target_client['email']}, {target_client['full_name']}**"
+      self.rich_text_selected_client.content = f"**Currently Selected Client:** {target_client['email']}, {target_client['full_name']}"
       self.layout.rich_text_client_name.content = f"**Client:** {target_client['full_name']}"
     self.set_event_handler('show', self.form_show)
 
@@ -44,6 +44,6 @@ class SelectClient(SelectClientTemplate):
     ]
 
   def row_selected(self, item, **event_args):
-    self.rich_text_selected_client.content = f"Currently Selected Client: **{item['email']}, {item['full_name']}**"
+    self.rich_text_selected_client.content = f"**Currently Selected Client:** {item['email']}, {item['full_name']}"
     self.layout.rich_text_client_name.content = f"**Client:** {item['full_name']}"
     anvil.server.call('update_user_info', {'last_client_id': item['row_id']})
