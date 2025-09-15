@@ -27,6 +27,9 @@ db_schema:
     - admin_ui: {order: 5, width: 200}
       name: historical_use_file_id
       type: string
+    - admin_ui: {order: 6, width: 200}
+      name: discussion
+      type: string
     server: full
     title: ClientData
   media:
