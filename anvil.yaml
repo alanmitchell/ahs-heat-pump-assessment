@@ -30,6 +30,9 @@ db_schema:
     - admin_ui: {order: 6, width: 200}
       name: discussion
       type: string
+    - admin_ui: {order: 7, width: 200}
+      name: assessor_notes
+      type: string
     server: full
     title: ClientData
   media:

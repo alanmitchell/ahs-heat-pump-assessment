@@ -41,3 +41,7 @@ class Main(MainTemplate):
   def past_use_link_click(self, **event_args):
     """This method is called when the component is clicked"""
     open_form('Pages.PastFuel')
+
+  def notes_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    open_form('Pages.Notes')

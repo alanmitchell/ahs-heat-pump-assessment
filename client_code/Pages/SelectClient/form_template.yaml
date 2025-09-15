@@ -4,10 +4,6 @@ components_by_slot:
     name: heading_1
     properties: {bold: true, text: Select Client}
     type: form:dep_lin1x4oec0ytd:_Components.Heading
-  - layout_properties: {}
-    name: rich_text_selected_client
-    properties: {font_size: 16}
-    type: RichText
   - components:
     - event_bindings: {change: text_box_search_change}
       layout_properties: {}

@@ -1,10 +1,16 @@
 components_by_slot:
-  content: []
-  navigation:
+  app_bar_links: []
+  content:
   - layout_properties: {}
     name: rich_text_client_name
-    properties: {}
+    properties:
+      content: |
+        .
+      font_size: 16
+      spacing_above: none
+      spacing_below: none
     type: RichText
+  navigation:
   - components:
     - event_bindings: {click: select_client_link_click}
       layout_properties: {grid_position: 'SPPLWF,BMTUSF'}
@@ -26,6 +32,11 @@ components_by_slot:
       name: discussion_link
       properties: {icon: 'mi:format_paragraph', text: Discussion / Recommendations}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+    - event_bindings: {click: notes_link_click}
+      layout_properties: {grid_position: 'YVZXIV,ERKCRP'}
+      name: notes_link
+      properties: {icon: 'mi:edit_note', text: Assessor Notes}
+      type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
     - event_bindings: {click: but_logout_click}
       layout_properties: {grid_position: 'IEJLPB,PSGNXN'}
       name: but_logout
@@ -39,6 +50,6 @@ is_package: true
 layout: {type: 'form:dep_lin1x4oec0ytd:Layouts.NavigationDrawerLayout'}
 slots:
   content:
-    index: 0
+    index: 1
     set_layout_properties: {}
     target: {name: content, type: slot}

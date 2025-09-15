@@ -1,0 +1,21 @@
+components_by_slot:
+  content:
+  - layout_properties: {}
+    name: heading_1
+    properties: {text: 'Assessor Notes '}
+    type: form:dep_lin1x4oec0ytd:_Components.Heading
+  - layout_properties: {}
+    name: text_1
+    properties:
+      text: |
+        Not included in Client Report
+    type: form:dep_lin1x4oec0ytd:_Components.Text
+  - data_bindings: []
+    event_bindings: {lost_focus: text_area_notes_lost_focus}
+    layout_properties: {}
+    name: text_area_notes
+    properties:
+      margin: [null, null, null, null]
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
+is_package: true
+layout: {type: 'form:Layouts.Main'}
