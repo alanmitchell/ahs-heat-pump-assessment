@@ -12,6 +12,7 @@ class Main(MainTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self._deselect_recursive(self.nav_panel)
+    self.set_event_handler('x-update-client_name', self._on_update_client_name)
 
   def _deselect_recursive(self, container):
     for comp in container.get_components():
@@ -40,3 +41,7 @@ class Main(MainTemplate):
   def past_use_link_click(self, **event_args):
     """This method is called when the component is clicked"""
     open_form('Pages.PastFuel')
+
+  def _on_update_client_name(self, client_name="", **event_args):
+    print('In event handler')
+    self.nav_panel.text_client_name.text = client_name

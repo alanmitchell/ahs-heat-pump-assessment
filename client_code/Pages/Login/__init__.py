@@ -25,12 +25,12 @@ class Login(LoginTemplate):
     if full_name is None or len(full_name)==0:
       self.flow_panel_name.visible = True
     else:
-      navigate_to_next_form()
+      self.navigate_to_next_form()
 
   def button_save_name_click(self, **event_args):
     """This method is called when the component is clicked."""
     anvil.server.call('update_user_info', {'full_name': self.text_box_name.text})
-    navigate_to_next_form()
+    self.navigate_to_next_form()
 
   def but_signup_click(self, **event_args):
     # Open your custom signup dialog as a modal popup
@@ -50,10 +50,14 @@ class Login(LoginTemplate):
       # Optionally, re-open the login dialog right away:
       # anvil.users.login_with_form(show_signup_option=False, allow_cancel=False)
       
-def navigate_to_next_form():
-  if anvil.users.get_user()['last_client_id']:
-    # there already is a target client to go to the Model Inputs page
-    open_form('Pages.ModelInputs')
-  else:
-    # No target client yet, so go select one.
-    open_form('Pages.SelectClient')
+  def navigate_to_next_form(self):
+    last_client_id = anvil.users.get_user()['last_client_id']
+    if last_client_id:
+      client_name = anvil.server.call('get_client', last_client_id)['full_name']
+      self.raise_event('x-update-client-name', client_name=client_name)
+      print(client_name)
+      # there already is a target client to go to the Model Inputs page
+      open_form('Pages.ModelInputs')
+    else:
+      # No target client yet, so go select one.
+      open_form('Pages.SelectClient')
