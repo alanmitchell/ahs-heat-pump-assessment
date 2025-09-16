@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 from anvil.users import get_user
-from ...Utility import chg_none, active_client_name
+from ...Utility import chg_none, chg_none_blank, active_client_name
 
 class SelectClient(SelectClientTemplate):
   def __init__(self, **properties):
@@ -16,6 +16,12 @@ class SelectClient(SelectClientTemplate):
     self.repeating_panel_select_client.set_event_handler("x-row-selected", self.row_selected)
 
     self.all_clients = anvil.server.call('get_clients')
+    # substitute Assessor Name instead of full User DataTable row
+    for client in self.all_clients:
+      client['assessor'] = client['assessor']['full_name'] if client['assessor'] else 'No Assessor'
+      client['assessment_id'] = chg_none_blank(client['assessment_id'], 'No ID')
+      client['email'] = chg_none_blank(client['email'], 'No Email')
+      client['full_name'] = chg_none_blank(client['full_name'], 'No Name')
     self.repeating_panel_select_client.items = self.all_clients
 
     # find the target client and display email and name
@@ -39,7 +45,7 @@ class SelectClient(SelectClientTemplate):
     query = self.text_box_search.text.strip().lower()
     self.repeating_panel_select_client.items = [
       u for u in self.all_clients
-      if query in chg_none(u['email']).lower() or query in chg_none(u['full_name']).lower()
+      if query in u['email'].lower() or query in u['full_name'].lower() or query in u['assessment_id'].lower() or query in u['assessor'].lower()
     ]
 
   def row_selected(self, item, **event_args):

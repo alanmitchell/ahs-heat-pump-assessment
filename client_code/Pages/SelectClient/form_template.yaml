@@ -8,7 +8,7 @@ components_by_slot:
     - event_bindings: {change: text_box_search_change}
       layout_properties: {}
       name: text_box_search
-      properties: {label: Search Email or Name, label_italic: true}
+      properties: {label: Search for Client, label_italic: true}
       type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
     - components:
       - name: repeating_panel_select_client
@@ -18,9 +18,11 @@ components_by_slot:
       name: data_grid_select_client
       properties:
         columns:
-        - {data_key: email, expand: false, id: LTEUXK, title: Email, width: 284.5}
-        - {data_key: name, expand: false, id: GODFHF, title: Name, width: 196}
-        - {data_key: '', expand: false, id: DXFBKB, title: Select, width: 116.5}
+        - {data_key: email, expand: false, id: LTEUXK, title: Client Email, width: '220'}
+        - {data_key: name, expand: false, id: GODFHF, title: Client Name, width: '150'}
+        - {data_key: assessment_id, id: YYZWLJ, title: Assessment ID, width: '150'}
+        - {data_key: assessor, id: NTGZEX, title: Assessor, width: '150'}
+        - {data_key: '', expand: false, id: DXFBKB, title: Select, width: 114.5}
         rows_per_page: 10
       type: DataGrid
     layout_properties: {}
