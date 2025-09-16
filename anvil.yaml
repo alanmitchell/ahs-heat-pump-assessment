@@ -18,8 +18,8 @@ db_schema:
     - admin_ui: {width: 200}
       name: city
       type: string
-    - admin_ui: {width: 200}
-      name: ahs_id
+    - admin_ui: {order: 3, width: 200}
+      name: assessment_id
       type: string
     - admin_ui: {width: 200}
       name: assessor
