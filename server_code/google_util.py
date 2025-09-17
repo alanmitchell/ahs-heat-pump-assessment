@@ -15,7 +15,7 @@ def _drive():
   """
   sa_info = json.loads(anvil.secrets.get_secret('GOOGLE_SA_JSON'))
   creds = service_account.Credentials.from_service_account_info(
-    sa_info, scopes=['https://www.googleapis.com/auth/drive']
+    sa_info, scopes=['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/documents']
   )
   return build('drive', 'v3', credentials=creds)
 
@@ -68,6 +68,32 @@ def make_client_historical_use_ss(ss_name: str) -> str:
     folder_id = app_tables.settings.search(key="client-document-folder-id")[0]["value"]
     new_file_id = copy_template_into_folder(template_id, folder_id, ss_name)
     return new_file_id
+
+  else:
+    return None
+
+@anvil.server.callable
+def make_client_google_doc(doc_name: str) -> str:
+  """Creates a new Google Document for a client and returns the Google
+  file ID of that Sheet.
+  """
+  if get_user():
+    # only logged-in users can access.
+    folder_id = app_tables.settings.search(key="client-document-folder-id")[0]["value"]
+    drive = _drive()
+    meta = {
+      "name": doc_name,
+      "mimeType": "application/vnd.google-apps.document",
+      "parents": [folder_id],
+    }
+    create_req = drive.files().create(
+      body=meta,
+      fields="id",
+      supportsAllDrives=True
+    )
+
+    new_file = _retry(create_req.execute)
+    return new_file['id']
 
   else:
     return None

@@ -10,7 +10,7 @@ from anvil.tables import app_tables
 from anvil.users import get_user
 import anvil.js
 
-from ...Utility import active_client_name
+from ...Utility import active_client_name, chg_none_blank
 
 class PastFuel(PastFuelTemplate):
   def __init__(self, **properties):
@@ -23,7 +23,8 @@ class PastFuel(PastFuelTemplate):
     self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'
 
   def but_open_historical_ss_click(self, **event_args):
-    """This method is called when the component is clicked."""
+    """Open's historical use spreadsheet or creates & opens if one
+    does not exist."""
     # get the client we are currently working on
     client_id = get_user()["last_client_id"]
     if client_id:
@@ -31,10 +32,11 @@ class PastFuel(PastFuelTemplate):
       historical_file_id = client['historical_use_file_id']  # file id of historical use spreadsheet
       if historical_file_id is None:
         # No spreadsheet created yet, so make one
-        client_name = client['full_name'] if client['full_name'] else "Unknown"
+        client_name = chg_none_blank(client['full_name'], "Unknown")
+        assess_id = chg_none_blank(client['assessment_id'], 'Unknown')
         d = anvil.js.window.Date()
         timestamp_str = f"{d.getFullYear()}-{d.getMonth()+1:02d}-{d.getDate():02d} {d.getHours():02d}:{d.getMinutes():02d}"
-        historical_file_id = anvil.server.call('make_client_historical_use_ss', f"{client_name} Historical Use {timestamp_str}")
+        historical_file_id = anvil.server.call('make_client_historical_use_ss', f"{client_name} {assess_id} Historical Use {timestamp_str}")
         # save the file ID in the DataTable
         anvil.server.call('update_client', client['row_id'], {'historical_use_file_id': historical_file_id})
       url = f"https://docs.google.com/spreadsheets/d/{historical_file_id}/edit"
@@ -59,3 +61,24 @@ class PastFuel(PastFuelTemplate):
         set_default()
     else:
       set_default()
+
+  def button_open_google_doc_click(self, **event_args):
+    """Open's client's Google Document or creates & opens if one
+    does not exist."""
+    # get the client we are currently working on
+    client_id = get_user()["last_client_id"]
+    if client_id:
+      client = anvil.server.call('get_client', client_id)
+      google_doc_file_id = client['google_doc_file_id']  # file id of historical use spreadsheet
+      if google_doc_file_id is None:
+        # No spreadsheet created yet, so make one
+        client_name = chg_none_blank(client['full_name'], "Unknown")
+        assess_id = chg_none_blank(client['assessment_id'], 'Unknown')
+        google_doc_file_id = anvil.server.call('make_client_google_doc', f"{client_name} {assess_id} Pictures/Misc")
+        # save the file ID in the DataTable
+        anvil.server.call('update_client', client['row_id'], {'google_doc_file_id': google_doc_file_id})
+      url = f"https://docs.google.com/document/d/{google_doc_file_id}/edit"
+      anvil.js.window.open(url, "_blank")
+
+    else:
+      alert("There is no Selected Client!")
