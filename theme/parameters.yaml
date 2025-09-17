@@ -48,5 +48,8 @@ color_scheme:
   - {color: 'rgba(239,241,241, 0.12)', name: Inverse On Surface Overlay 2}
   preset_groups: []
 roles:
-- {name: narrow-container}
-- {name: very-narrow-container}
+- {name: content-card}
+- {name: container-800}
+- {name: container-600}
+- {name: container-400}
+- {name: container-500}

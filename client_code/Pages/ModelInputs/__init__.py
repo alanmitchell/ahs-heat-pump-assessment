@@ -14,7 +14,5 @@ class ModelInputs(ModelInputsTemplate):
     self.layout.model_inputs_link.selected = True
     self.set_event_handler('show', self.form_show)
 
-    self.card_content_container.role = "content-body"
-
   def form_show(self, **event_args):
     self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'

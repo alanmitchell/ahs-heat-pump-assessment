@@ -1,10 +1,25 @@
-.anvil-role-narrow-container {
-  width: 800px;
+.anvil-role-container-800 {
+  max-width: 800px;
+  width: 100%;
+  margin: auto;
 }
-.anvil-role-very-narrow-container {
-  width: 400px;
-  margin: 0 auto;
+.anvil-role-container-600 {
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
 }
-.anvil-role-content-body {
-  padding: 50px; 
+.anvil-role-container-500 {
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+}
+.anvil-role-container-400 {
+  max-width: 400px;
+  width: 100%
+  margin: auto;
+}
+.anvil-role-content-card {
+  width: 100%;
+  max-width: 840px;
+  margin: 16px auto;
 }

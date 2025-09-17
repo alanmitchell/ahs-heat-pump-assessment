@@ -27,7 +27,7 @@ components_by_slot:
       type: DataGrid
     layout_properties: {}
     name: linear_panel_client_select
-    properties: {role: narrow-container}
+    properties: {role: container-800}
     type: LinearPanel
 is_package: true
 layout: {type: 'form:Layouts.Main'}
