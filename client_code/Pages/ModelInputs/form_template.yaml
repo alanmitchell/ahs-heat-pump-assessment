@@ -4,5 +4,14 @@ components_by_slot:
     name: heading_1
     properties: {text: Model Inputs}
     type: form:dep_lin1x4oec0ytd:_Components.Heading
+  - components:
+    - layout_properties: {slot: card-content-slot}
+      name: card_content_container_1
+      properties: {}
+      type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+    layout_properties: {}
+    name: card_1
+    properties: {}
+    type: form:dep_lin1x4oec0ytd:_Components.Card
 is_package: true
 layout: {type: 'form:Layouts.Main'}
