@@ -19,13 +19,15 @@ class ModelInputs(ModelInputsTemplate):
     self.calc_api_url = anvil.server.call('calculator_api_base_url')
 
     # load the modeling city dropdown.
-    print(self.calc_api_url+ 'lib/cities')
     resp = anvil.http.request(
       self.calc_api_url + 'lib/cities',
       method="GET",
       json=True
     )
-    print(resp)
+    # this will contain tuples of city, city_ID
+    city_list = [(rec['label'], rec['id']) for rec in resp]
+    city_list = sorted(city_list, key=lambda tup: tup[0])
+    self.dropdown_menu_model_city.items = city_list
 
   def form_show(self, **event_args):
     self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'

@@ -13,12 +13,4 @@ CALCULATOR_API_BASE_URL = "https://dolphin-app-jrrmh.ondigitalocean.app/"
 
 @anvil.server.callable
 def calculator_api_base_url():
-  import anvil.http
-  resp = anvil.http.request(
-    CALCULATOR_API_BASE_URL + 'lib/cities',
-    method="GET",
-    json=True
-  )
-  print(resp)
-
   return CALCULATOR_API_BASE_URL
