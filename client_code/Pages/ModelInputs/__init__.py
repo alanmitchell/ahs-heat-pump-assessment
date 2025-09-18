@@ -25,9 +25,13 @@ class ModelInputs(ModelInputsTemplate):
       json=True
     )
     # this will contain tuples of city, city_ID
-    city_list = [(rec['label'], rec['id']) for rec in resp]
-    city_list = sorted(city_list, key=lambda tup: tup[0])
-    self.dropdown_menu_model_city.items = city_list
+    #city_list = [{'text': rec['label'], 'value': rec['id']} for rec in resp]
+    #city_list = sorted(city_list, key=lambda rec: rec['text'])
+    city_list = [rec['label'] for rec in resp]
+    city_list.sort()
+    self.autocomplete_model_city.suggestions = city_list
+    self.autocomplete_model_city.suggest_if_empty = True
+    self.autocomplete_model_city.filter_mode = 'startswith'
 
   def form_show(self, **event_args):
     self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'
