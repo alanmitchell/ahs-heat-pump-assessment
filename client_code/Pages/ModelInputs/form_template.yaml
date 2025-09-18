@@ -58,6 +58,20 @@ components_by_slot:
               name: text_box_city
               properties: {}
               type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+            - layout_properties: {col_xs: 0, row: MZVJHU, width_xs: 4}
+              name: text_model_city
+              properties:
+                align: right
+                spacing:
+                  margin: ['20', null, null, null]
+                style: body
+                text: 'Modeling City:'
+              type: form:dep_lin1x4oec0ytd:_Components.Text
+            - layout_properties: {col_xs: 4, row: MZVJHU, width_xs: 8}
+              name: dropdown_menu_model_city
+              properties:
+                items: [Juneau, Metlakatla]
+              type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
             layout_properties: {slot: card-content-container-slot}
             name: grid_panel_1
             properties:
