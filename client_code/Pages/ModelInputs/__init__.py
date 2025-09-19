@@ -1,5 +1,6 @@
 from ._anvil_designer import ModelInputsTemplate
 from anvil import *
+import m3.components as m3
 import anvil.server
 import anvil.users
 import anvil.tables as tables
@@ -18,7 +19,7 @@ class ModelInputs(ModelInputsTemplate):
     # get base URL for Heatpump Calculator API
     self.calc_api_url = anvil.server.call('calculator_api_base_url')
 
-    # load the modeling city dropdown.
+    # load the modeling city Autocomplete Text box with suggestions.
     resp = anvil.http.request(
       self.calc_api_url + 'lib/cities',
       method="GET",
@@ -32,6 +33,9 @@ class ModelInputs(ModelInputsTemplate):
     self.autocomplete_model_city.suggestions = city_list
     self.autocomplete_model_city.suggest_if_empty = True
     self.autocomplete_model_city.filter_mode = 'startswith'
+
+    # load the Assessor dropdown
+    self.dropdown_menu_assessor.items = [(u['full_name'], u['id']) for u in anvil.server.call("get_users_public_fields")]
 
   def form_show(self, **event_args):
     self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'

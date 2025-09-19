@@ -8,85 +8,158 @@ components_by_slot:
         type: form:dep_lin1x4oec0ytd:_Components.Heading
       - components:
         - components:
-          - layout_properties: {slot: card-content-container-slot}
-            name: heading_1
-            properties: {style: headline, text: Client / Assessment Information}
-            type: form:dep_lin1x4oec0ytd:_Components.Heading
           - components:
-            - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 4}
-              name: text_2
+            - layout_properties: {slot: card-content-container-slot}
+              name: heading_1
+              properties: {style: headline, text: Client Information}
+              type: form:dep_lin1x4oec0ytd:_Components.Heading
+            - components:
+              - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 5}
+                name: text_name
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Client Full Name:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
+                name: text_box_full_name
+                properties:
+                  appearance: filled
+                  label: ''
+                  margin: ['4', null, '4', null]
+                  role: null
+                  tooltip: ''
+                  type: text
+                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+              - layout_properties: {col_xs: 0, row: MLZZLU, width_xs: 5}
+                name: text_address
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Client Address:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
+                name: text_box_address
+                properties: {label_font_size: 14}
+                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+              - layout_properties: {col_xs: 0, row: BPOHTM, width_xs: 5}
+                name: text_city
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Client City:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: BPOHTM, width_xs: 7}
+                name: text_box_city
+                properties: {}
+                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+              - layout_properties: {col_xs: 0, row: MZVJHU, width_xs: 5}
+                name: text_model_city
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Modeling City:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: MZVJHU, width_xs: 7}
+                name: autocomplete_model_city
+                properties: {display_font_size: 16, label: Type to search..., label_font_size: null, placeholder: ''}
+                type: form:dep_2eljrbaolsjaye:Autocomplete
+              layout_properties: {slot: card-content-container-slot}
+              name: grid_panel_1
               properties:
-                align: right
                 spacing:
-                  margin: ['20', null, null, null]
-                style: body
-                text: 'Client Full Name:'
-              type: form:dep_lin1x4oec0ytd:_Components.Text
-            - layout_properties: {col_xs: 4, row: YIQVFC, width_xs: 8}
-              name: text_box_full_name
+                  margin: ['5', null, null, null]
+                spacing_above: small
+                spacing_below: small
+              type: GridPanel
+            layout_properties: {slot: card-content-slot}
+            name: card_content_container_1
+            properties: {}
+            type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+          name: card_client
+          properties: {role: container-400, tooltip: ''}
+          type: form:dep_lin1x4oec0ytd:_Components.Card
+        - components:
+          - components:
+            - layout_properties: {slot: card-content-container-slot}
+              name: heading_1_copy
+              properties: {style: headline, text: Assessment Information}
+              type: form:dep_lin1x4oec0ytd:_Components.Heading
+            - components:
+              - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 5}
+                name: text_assess_id
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: Assessment ID
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
+                name: text_box_assessment_id
+                properties:
+                  appearance: filled
+                  label: ''
+                  margin: ['4', null, '4', null]
+                  role: null
+                  tooltip: ''
+                  type: text
+                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+              - layout_properties: {col_xs: 0, row: MLZZLU, width_xs: 5}
+                name: text_assessor
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Assessor:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
+                name: dropdown_menu_assessor
+                properties:
+                  items: []
+                type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
+              - layout_properties: {col_xs: 0, row: BPOHTM, width_xs: 5}
+                name: text_visit_date
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Visit Date:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - event_bindings: {}
+                layout_properties: {col_xs: 5, row: BPOHTM, width_xs: 7}
+                name: date_picker_visit_date
+                properties: {}
+                type: DatePicker
+              layout_properties: {slot: card-content-container-slot}
+              name: grid_panel_1_copy
               properties:
-                appearance: filled
-                label: ''
-                margin: ['4', null, '4', null]
-                role: null
-                tooltip: ''
-                type: text
-              type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-            - layout_properties: {col_xs: 0, row: MLZZLU, width_xs: 4}
-              name: text_2_copy
-              properties:
-                align: right
                 spacing:
-                  margin: ['20', null, null, null]
-                style: body
-                text: 'Client Address:'
-              type: form:dep_lin1x4oec0ytd:_Components.Text
-            - layout_properties: {col_xs: 4, row: MLZZLU, width_xs: 8}
-              name: text_box_address
-              properties: {label_font_size: 14}
-              type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-            - layout_properties: {col_xs: 0, row: BPOHTM, width_xs: 4}
-              name: text_city
-              properties:
-                align: right
-                spacing:
-                  margin: ['20', null, null, null]
-                style: body
-                text: 'Client City:'
-              type: form:dep_lin1x4oec0ytd:_Components.Text
-            - layout_properties: {col_xs: 4, row: BPOHTM, width_xs: 8}
-              name: text_box_city
-              properties: {}
-              type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-            - layout_properties: {col_xs: 0, row: MZVJHU, width_xs: 4}
-              name: text_model_city
-              properties:
-                align: right
-                spacing:
-                  margin: ['20', null, null, null]
-                style: body
-                text: 'Modeling City:'
-              type: form:dep_lin1x4oec0ytd:_Components.Text
-            - layout_properties: {col_xs: 4, row: MZVJHU, width_xs: 8}
-              name: autocomplete_model_city
-              properties: {display_font_size: 16, label: Type to search..., label_font_size: null, placeholder: ''}
-              type: form:dep_2eljrbaolsjaye:Autocomplete
-            layout_properties: {slot: card-content-container-slot}
-            name: grid_panel_1
-            properties:
-              spacing:
-                margin: ['5', null, null, null]
-              spacing_above: small
-              spacing_below: small
-            type: GridPanel
-          layout_properties: {slot: card-content-slot}
-          name: card_content_container_1
-          properties: {}
-          type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+                  margin: ['5', null, null, null]
+                spacing_above: small
+                spacing_below: small
+              type: GridPanel
+            layout_properties: {slot: card-content-slot}
+            name: card_content_container_1_copy
+            properties: {}
+            type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+          name: card_client_copy
+          properties: {role: container-400, tooltip: ''}
+          type: form:dep_lin1x4oec0ytd:_Components.Card
         layout_properties: {slot: card-content-container-slot}
-        name: card_client
-        properties: {role: container-500, tooltip: ''}
-        type: form:dep_lin1x4oec0ytd:_Components.Card
+        name: flow_panel_client_assess
+        properties: {}
+        type: FlowPanel
       layout_properties: {slot: card-content-slot}
       name: card_content_container
       properties: {}

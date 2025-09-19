@@ -1,5 +1,6 @@
 from ._anvil_designer import NotesTemplate
 from anvil import *
+import m3.components as m3
 import anvil.server
 from anvil.users import get_user
 import anvil.tables as tables
