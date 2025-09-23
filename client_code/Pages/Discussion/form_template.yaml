@@ -1,13 +1,23 @@
 components_by_slot:
   content:
-  - layout_properties: {}
-    name: heading_1
-    properties: {text: Discussion / Recommendations}
-    type: form:dep_lin1x4oec0ytd:_Components.Heading
-  - event_bindings: {lost_focus: text_area_discussion_lost_focus}
+  - components:
+    - components:
+      - layout_properties: {slot: card-content-container-slot}
+        name: heading_1
+        properties: {text: Discussion / Recommendations}
+        type: form:dep_lin1x4oec0ytd:_Components.Heading
+      - event_bindings: {lost_focus: text_area_discussion_lost_focus}
+        layout_properties: {slot: card-content-container-slot}
+        name: text_area_discussion
+        properties: {height: 471, label: Enter Discussion/Recommendations section of Client Report here}
+        type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
+      layout_properties: {slot: card-content-slot}
+      name: card_content_container_1
+      properties: {}
+      type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
     layout_properties: {}
-    name: text_area_discussion
-    properties: {height: 471, label: Enter Discussion/Recommendations section of Client Report here}
-    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
+    name: card_content
+    properties: {role: content-card}
+    type: form:dep_lin1x4oec0ytd:_Components.Card
 is_package: true
 layout: {type: 'form:Layouts.Main'}
