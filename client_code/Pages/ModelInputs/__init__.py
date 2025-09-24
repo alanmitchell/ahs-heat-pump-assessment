@@ -26,8 +26,6 @@ class ModelInputs(ModelInputsTemplate):
       json=True
     )
     # this will contain tuples of city, city_ID
-    #city_list = [{'text': rec['label'], 'value': rec['id']} for rec in resp]
-    #city_list = sorted(city_list, key=lambda rec: rec['text'])
     city_list = [rec['label'] for rec in resp]
     city_list.sort()
     self.autocomplete_model_city.suggestions = city_list
