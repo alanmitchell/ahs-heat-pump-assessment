@@ -42,6 +42,7 @@ class ModelInputs(ModelInputsTemplate):
 
   def autocomplete_model_city_change(self, **event_args):
     # if the change results in a valid city, populate the fuel price inputs
+    # and the Electric Utility choices
     if self.autocomplete_model_city.text in self.city_map.keys():
     # lookup info for the city.
       city_id = self.city_map[self.autocomplete_model_city.text]
@@ -50,11 +51,16 @@ class ModelInputs(ModelInputsTemplate):
         method="GET",
         json=True
       )
-      self.text_box_oil_price.text = city['Oil1Price'] or city['Oil2Price']
-      self.text_box_propane_price.text = city['PropanePrice']
+      oil_price = city['Oil1Price'] or city['Oil2Price']   # No. 1 oil has preference
+      self.text_box_oil_price.text = '%.2f' % oil_price if oil_price else None
+      self.text_box_propane_price.text = '%.2f' % city['PropanePrice'] if city['PropanePrice'] else None
       self.text_box_ng_price.text = '%.2f' % city['GasPrice'] if city['GasPrice'] else None
       self.text_box_birch_price.text = city['BirchPrice']
       self.text_box_spruce_price.text = city['SprucePrice']
+
+      # Populate Electric Utility dropdown
+      choices = [(util['label'], util['id']) for util in city['ElecUtilities']]
+      self.dropdown_menu_rate_sched.items = choices
 
       
     

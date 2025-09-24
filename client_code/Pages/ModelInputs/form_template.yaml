@@ -168,16 +168,16 @@ components_by_slot:
             properties: {style: headline, text: Utility / Fuel Prices}
             type: form:dep_lin1x4oec0ytd:_Components.Heading
           - components:
-            - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 5}
+            - layout_properties: {col_xs: 0, row: GNQSZO, width_xs: 12}
               name: text_rate_sched
               properties:
-                align: right
+                align: left
                 spacing:
-                  margin: ['20', null, null, null]
+                  margin: ['0', null, null, null]
                 style: body
                 text: 'Electric Rate Schedule:'
               type: form:dep_lin1x4oec0ytd:_Components.Text
-            - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
+            - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 12}
               name: dropdown_menu_rate_sched
               properties: {}
               type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
