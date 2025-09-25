@@ -355,6 +355,138 @@ components_by_slot:
           name: card_home_chacteristics
           properties: {role: container-400, tooltip: ''}
           type: form:dep_lin1x4oec0ytd:_Components.Card
+        - components:
+          - components:
+            - layout_properties: {slot: card-content-container-slot}
+              name: heading_space_heating
+              properties: {style: headline, text: Space Heating Systems}
+              type: form:dep_lin1x4oec0ytd:_Components.Heading
+            - components:
+              - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 5}
+                name: text_year_built_copy
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Fuel Type:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
+                name: text_box_year_built_copy
+                properties:
+                  appearance: filled
+                  label: ''
+                  margin: ['4', null, '4', null]
+                  role: null
+                  tooltip: ''
+                  type: number
+                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+              layout_properties: {slot: card-content-container-slot}
+              name: grid_panel_1_copy_3_copy
+              properties:
+                spacing:
+                  margin: ['5', null, null, null]
+                spacing_above: small
+                spacing_below: small
+              type: GridPanel
+            layout_properties: {slot: card-content-slot}
+            name: card_content_container_1_copy_3_copy
+            properties: {}
+            type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+          name: card_space_heating_systems
+          properties: {role: container-400, tooltip: ''}
+          type: form:dep_lin1x4oec0ytd:_Components.Card
+        - components:
+          - components:
+            - layout_properties: {slot: card-content-container-slot}
+              name: heading_space_heating_copy
+              properties: {style: headline, text: Water Heating System}
+              type: form:dep_lin1x4oec0ytd:_Components.Heading
+            - components:
+              - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 5}
+                name: text_year_built_copy_copy
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Fuel Type:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
+                name: text_box_year_built_copy_copy
+                properties:
+                  appearance: filled
+                  label: ''
+                  margin: ['4', null, '4', null]
+                  role: null
+                  tooltip: ''
+                  type: number
+                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+              layout_properties: {slot: card-content-container-slot}
+              name: grid_panel_1_copy_3_copy_copy
+              properties:
+                spacing:
+                  margin: ['5', null, null, null]
+                spacing_above: small
+                spacing_below: small
+              type: GridPanel
+            layout_properties: {slot: card-content-slot}
+            name: card_content_container_1_copy_3_copy_copy
+            properties: {}
+            type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+          name: card_water_heating
+          properties: {role: container-400, tooltip: ''}
+          type: form:dep_lin1x4oec0ytd:_Components.Card
+        - components:
+          - components:
+            - layout_properties: {slot: card-content-container-slot}
+              name: heading_space_heating_copy_copy
+              properties: {style: headline, text: Other Appliances}
+              type: form:dep_lin1x4oec0ytd:_Components.Heading
+            - components:
+              - layout_properties: {col_xs: 0, row: FHONRM, width_xs: 5}
+                name: text_cooking
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Cooking Fuel:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: FHONRM, width_xs: 7}
+                name: dropdown_menu_cooking_fuel
+                properties:
+                  items: [Electricity, Propane, Natural Gas]
+                type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
+              - layout_properties: {col_xs: 0, row: NMTPYO, width_xs: 5}
+                name: text_cooking_copy
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Clothes Drying Fuel:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: NMTPYO, width_xs: 7}
+                name: dropdown_menu_drying_fuel
+                properties:
+                  items: [Electricity, Propane, Natural Gas]
+                type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
+              layout_properties: {slot: card-content-container-slot}
+              name: grid_panel_1_copy_3_copy_copy_copy
+              properties:
+                spacing:
+                  margin: ['5', null, null, null]
+                spacing_above: small
+                spacing_below: small
+              type: GridPanel
+            layout_properties: {slot: card-content-slot}
+            name: card_content_container_1_copy_3_copy_copy_copy
+            properties: {}
+            type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+          name: card_other_appliances
+          properties: {role: container-400, tooltip: ''}
+          type: form:dep_lin1x4oec0ytd:_Components.Card
         layout_properties: {slot: card-content-container-slot}
         name: flow_panel_client_assess
         properties: {}
