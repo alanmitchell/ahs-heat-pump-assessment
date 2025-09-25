@@ -154,7 +154,7 @@ components_by_slot:
             name: card_content_container_1_copy
             properties: {}
             type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
-          name: card_client_copy
+          name: card_assessment
           properties: {role: container-400, tooltip: ''}
           type: form:dep_lin1x4oec0ytd:_Components.Card
         - components:
@@ -268,6 +268,91 @@ components_by_slot:
             properties: {}
             type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
           name: card_utility
+          properties: {role: container-400, tooltip: ''}
+          type: form:dep_lin1x4oec0ytd:_Components.Card
+        - components:
+          - components:
+            - layout_properties: {slot: card-content-container-slot}
+              name: heading_home
+              properties: {style: headline, text: Home Characteristics}
+              type: form:dep_lin1x4oec0ytd:_Components.Heading
+            - components:
+              - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 5}
+                name: text_year_built
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Year Built:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
+                name: text_box_year_built
+                properties:
+                  appearance: filled
+                  label: ''
+                  margin: ['4', null, '4', null]
+                  role: null
+                  tooltip: ''
+                  type: number
+                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+              - layout_properties: {col_xs: 0, row: MLZZLU, width_xs: 5}
+                name: text_floor_area
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Floor Area:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
+                name: text_box_floor_area
+                properties: {label: square feet, label_font_size: 14, type: number}
+                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+              - layout_properties: {col_xs: 0, row: BPOHTM, width_xs: 5}
+                name: text_garage_count
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Garage Count:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: BPOHTM, width_xs: 7}
+                name: dropdown_menu_garage_count
+                properties:
+                  items: ['0', '1', '2', '3', '4', '5']
+                type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
+              - layout_properties: {col_xs: 0, row: MZVJHU, width_xs: 5}
+                name: text_occupant_count
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['20', null, null, null]
+                  style: body
+                  text: 'Occupant Count:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - layout_properties: {col_xs: 5, row: MZVJHU, width_xs: 7}
+                name: text_box_occupant_count
+                properties: {type: number}
+                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+              - layout_properties: {col_xs: 0, row: VCRPII, width_xs: 12}
+                name: checkbox_primary_residence
+                properties: {align: center, checked: true, text: 'Primary Residence?'}
+                type: form:dep_lin1x4oec0ytd:_Components.Checkbox
+              layout_properties: {slot: card-content-container-slot}
+              name: grid_panel_1_copy_3
+              properties:
+                spacing:
+                  margin: ['5', null, null, null]
+                spacing_above: small
+                spacing_below: small
+              type: GridPanel
+            layout_properties: {slot: card-content-slot}
+            name: card_content_container_1_copy_3
+            properties: {}
+            type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+          name: card_home_chacteristics
           properties: {role: container-400, tooltip: ''}
           type: form:dep_lin1x4oec0ytd:_Components.Card
         layout_properties: {slot: card-content-container-slot}
