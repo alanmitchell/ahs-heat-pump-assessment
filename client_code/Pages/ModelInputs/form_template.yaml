@@ -361,34 +361,10 @@ components_by_slot:
               name: heading_space_heating
               properties: {style: headline, text: Space Heating Systems}
               type: form:dep_lin1x4oec0ytd:_Components.Heading
-            - components:
-              - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 5}
-                name: text_year_built_copy
-                properties:
-                  align: right
-                  spacing:
-                    margin: ['20', null, null, null]
-                  style: body
-                  text: 'Fuel Type:'
-                type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
-                name: text_box_year_built_copy
-                properties:
-                  appearance: filled
-                  label: ''
-                  margin: ['4', null, '4', null]
-                  role: null
-                  tooltip: ''
-                  type: number
-                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-              layout_properties: {slot: card-content-container-slot}
-              name: grid_panel_1_copy_3_copy
-              properties:
-                spacing:
-                  margin: ['5', null, null, null]
-                spacing_above: small
-                spacing_below: small
-              type: GridPanel
+            - layout_properties: {slot: card-content-container-slot}
+              name: heating_system_1
+              properties: {}
+              type: form:HeatingSystem
             layout_properties: {slot: card-content-slot}
             name: card_content_container_1_copy_3_copy
             properties: {}
