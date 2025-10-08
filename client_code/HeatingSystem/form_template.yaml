@@ -14,14 +14,44 @@ components:
     properties: {}
     type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
   - layout_properties: {col_xs: 0, row: GJJCVM, width_xs: 5}
-    name: text_fuel_copy
+    name: text_system_type
     properties:
       align: right
       spacing:
         margin: ['20', null, null, null]
       style: body
-      text: 'Another Input:'
+      text: 'System Type:'
     type: form:dep_lin1x4oec0ytd:_Components.Text
+  - layout_properties: {col_xs: 5, row: GJJCVM, width_xs: 7}
+    name: dropdown_menu_system_type
+    properties: {}
+    type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
+  - layout_properties: {col_xs: 0, row: EYDAAV, width_xs: 5}
+    name: text_efficiency
+    properties:
+      align: right
+      spacing:
+        margin: ['20', null, null, null]
+      style: body
+      text: 'Seasonal Efficiency, %:'
+    type: form:dep_lin1x4oec0ytd:_Components.Text
+  - layout_properties: {col_xs: 5, row: EYDAAV, width_xs: 7}
+    name: text_box_efficiency
+    properties: {label: Enter in Percent, type: number}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+  - layout_properties: {col_xs: 0, row: QCLMXM, width_xs: 5}
+    name: text_pct_load_served
+    properties:
+      align: right
+      spacing:
+        margin: ['20', null, null, null]
+      style: body
+      text: 'Percent of Heat Load Served:'
+    type: form:dep_lin1x4oec0ytd:_Components.Text
+  - layout_properties: {col_xs: 5, row: QCLMXM, width_xs: 7}
+    name: text_box_pct_load_served
+    properties: {label: Enter in Percent, type: number}
+    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
   layout_properties: {grid_position: 'CWVNZL,OCJOTE'}
   name: grid_panel_1
   properties:
