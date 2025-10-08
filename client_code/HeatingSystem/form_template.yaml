@@ -13,6 +13,15 @@ components:
     name: dropdown_menu_fuel
     properties: {}
     type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
+  - layout_properties: {col_xs: 0, row: GJJCVM, width_xs: 5}
+    name: text_fuel_copy
+    properties:
+      align: right
+      spacing:
+        margin: ['20', null, null, null]
+      style: body
+      text: 'Another Input:'
+    type: form:dep_lin1x4oec0ytd:_Components.Text
   layout_properties: {grid_position: 'CWVNZL,OCJOTE'}
   name: grid_panel_1
   properties:
