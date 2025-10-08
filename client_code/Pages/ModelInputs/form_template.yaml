@@ -362,9 +362,10 @@ components_by_slot:
               properties: {style: headline, text: Space Heating Systems}
               type: form:dep_lin1x4oec0ytd:_Components.Heading
             - layout_properties: {slot: card-content-container-slot}
-              name: heating_system_1
-              properties: {}
-              type: form:HeatingSystem
+              name: tabs_heating_system
+              properties:
+                tab_titles: [Primary, Secondary]
+              type: form:dep_2eljrbaolsjaye:Tabs
             layout_properties: {slot: card-content-slot}
             name: card_content_container_1_copy_3_copy
             properties: {}
