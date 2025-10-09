@@ -361,11 +361,20 @@ components_by_slot:
               name: heading_space_heating
               properties: {style: headline, text: Space Heating Systems}
               type: form:dep_lin1x4oec0ytd:_Components.Heading
-            - layout_properties: {slot: card-content-container-slot}
+            - event_bindings: {tab_click: tabs_heating_system_tab_click}
+              layout_properties: {slot: card-content-container-slot}
               name: tabs_heating_system
               properties:
                 tab_titles: [Primary, Secondary]
               type: form:dep_2eljrbaolsjaye:Tabs
+            - layout_properties: {slot: card-content-container-slot}
+              name: heating_system_primary
+              properties: {}
+              type: form:HeatingSystem
+            - layout_properties: {slot: card-content-container-slot}
+              name: heating_system_secondary
+              properties: {}
+              type: form:HeatingSystem
             layout_properties: {slot: card-content-slot}
             name: card_content_container_1_copy_3_copy
             properties: {}
@@ -456,6 +465,28 @@ components_by_slot:
             properties: {}
             type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
           name: card_other_appliances
+          properties: {role: container-400, tooltip: ''}
+          type: form:dep_lin1x4oec0ytd:_Components.Card
+        - layout_properties: {width: 241.5}
+          name: spacer_1
+          properties: {}
+          type: Spacer
+        - components:
+          - components:
+            - layout_properties: {slot: card-content-container-slot}
+              name: heading_hp_options
+              properties: {style: headline, text: Heat Pump Options}
+              type: form:dep_lin1x4oec0ytd:_Components.Heading
+            - layout_properties: {slot: card-content-container-slot}
+              name: tabs_1
+              properties:
+                tab_titles: [Option 1, Option 2, Option 3]
+              type: form:dep_2eljrbaolsjaye:Tabs
+            layout_properties: {slot: card-content-slot}
+            name: card_content_container_hp_options
+            properties: {}
+            type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+          name: card_hp_options
           properties: {role: container-400, tooltip: ''}
           type: form:dep_lin1x4oec0ytd:_Components.Card
         layout_properties: {slot: card-content-container-slot}

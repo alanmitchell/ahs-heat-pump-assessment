@@ -37,6 +37,12 @@ class ModelInputs(ModelInputsTemplate):
     # load the Assessor dropdown
     self.dropdown_menu_assessor.items = [(u['full_name'], u['id']) for u in anvil.server.call("get_users_public_fields")]
 
+    # initial visibility of heating system tabs
+    self.heating_system_primary.visible = True
+    self.heating_system_primary.text_box_pct_load_served.text = '100'
+    self.heating_system_secondary.visible = False
+    self.heating_system_secondary.text_box_pct_load_served.enabled = False
+
   def form_show(self, **event_args):
     self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'
 
@@ -61,6 +67,21 @@ class ModelInputs(ModelInputsTemplate):
       # Populate Electric Utility dropdown
       choices = [(util['label'], util['id']) for util in city['ElecUtilities']]
       self.dropdown_menu_rate_sched.items = choices
+
+  def tabs_heating_system_tab_click(self, tab_index, tab_title, **event_args):
+    """This method is called when a heating system tab is clicked"""
+    if tab_index == 0:
+      self.heating_system_primary.visible = True
+      self.heating_system_secondary.visible = False
+    else:
+      self.heating_system_primary.visible = False
+      try:
+        pct_primary = float(self.heating_system_primary.text_box_pct_load_served.text)
+        self.heating_system_secondary.text_box_pct_load_served.text = str(100 - pct_primary)
+      except:
+        self.heating_system_secondary.text_box_pct_load_served.text = '0'
+      self.heating_system_secondary.visible = True
+
 
       
     
