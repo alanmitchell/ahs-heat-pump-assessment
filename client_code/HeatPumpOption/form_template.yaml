@@ -1,65 +1,187 @@
 components:
 - components:
-  - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 5}
-    name: text_fuel
-    properties:
-      align: right
-      spacing:
-        margin: ['20', null, null, null]
-      style: body
-      text: 'Option Title:'
-    type: form:dep_lin1x4oec0ytd:_Components.Text
-  - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
-    name: text_box_title
+  - components:
+    - components:
+      - components:
+        - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 3}
+          name: text_fuel
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Option Title:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 3, row: YIQVFC, width_xs: 9}
+          name: text_box_title
+          properties: {}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+        - layout_properties: {col_xs: 0, row: GJJCVM, width_xs: 3}
+          name: text_description
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Description:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 3, row: GJJCVM, width_xs: 9}
+          name: text_area_description
+          properties: {height: 100}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
+        layout_properties: {slot: card-content-container-slot}
+        name: grid_panel_1
+        properties:
+          role: null
+          spacing:
+            margin: ['5', null, null, null]
+          spacing_above: small
+          spacing_below: small
+        type: GridPanel
+      layout_properties: {slot: card-content-slot}
+      name: card_content_container_2
+      properties: {}
+      type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+    layout_properties: {grid_position: 'PIQSXE,RNJLEH'}
+    name: card_title
     properties: {}
-    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-  - layout_properties: {col_xs: 0, row: GJJCVM, width_xs: 5}
-    name: text_description
-    properties:
-      align: right
-      spacing:
-        margin: ['20', null, null, null]
-      style: body
-      text: 'Description:'
-    type: form:dep_lin1x4oec0ytd:_Components.Text
-  - layout_properties: {col_xs: 5, row: GJJCVM, width_xs: 7}
-    name: text_area_description
-    properties: {height: 100}
-    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
-  - layout_properties: {col_xs: 0, row: EYDAAV, width_xs: 5}
-    name: text_load_exposed
-    properties:
-      align: right
-      spacing:
-        margin: ['20', null, null, null]
-      style: body
-      text: 'Percent Load Directly Exposed to HP:'
-    type: form:dep_lin1x4oec0ytd:_Components.Text
-  - layout_properties: {col_xs: 5, row: EYDAAV, width_xs: 4}
-    name: text_box_load_exposed
-    properties: {label: Enter in Percent, type: number}
-    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-  - layout_properties: {col_xs: 0, row: QCLMXM, width_xs: 5}
-    name: text_load_adjacent
-    properties:
-      align: right
-      spacing:
-        margin: ['20', null, null, null]
-      style: body
-      text: 'Percent Load Adjacent to HP:'
-    type: form:dep_lin1x4oec0ytd:_Components.Text
-  - layout_properties: {col_xs: 5, row: QCLMXM, width_xs: 4}
-    name: text_box_load_adjacent
-    properties: {label: Enter in Percent, type: number}
-    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-  layout_properties: {grid_position: 'WSCOSM,GDWZCC'}
-  name: grid_panel_1
-  properties:
-    role: null
-    spacing:
-      margin: ['5', null, null, null]
-    spacing_above: small
-    spacing_below: small
-  type: GridPanel
+    type: form:dep_lin1x4oec0ytd:_Components.Card
+  - components:
+    - components:
+      - components:
+        - layout_properties: {col_xs: 0, row: HHMWFM, width_xs: 12}
+          name: heading_unserved_copy
+          properties: {scale: small, text: Loads Accessible to Heat Pump}
+          type: form:dep_lin1x4oec0ytd:_Components.Heading
+        - layout_properties: {col_xs: 0, row: OANIXT, width_xs: 8}
+          name: text_load_exposed
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Percent Load Directly Exposed to HP:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: OANIXT, width_xs: 4}
+          name: text_box_load_exposed
+          properties: {label: Enter in Percent, type: number}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+        - layout_properties: {col_xs: 0, row: ZVOHWH, width_xs: 8}
+          name: text_load_adjacent
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Percent Load Adjacent to HP:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: ZVOHWH, width_xs: 4}
+          name: text_box_load_adjacent
+          properties: {label: Enter in Percent, type: number}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+        - layout_properties: {col_xs: 0, row: FQOKWN, width_xs: 12}
+          name: text_1
+          properties: {text: 'If Load Directly Exposed and Load Adjacent add to less than 100%, the remaining load is assumed to be not accessible to the heat pump.'}
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 0, row: FSDJOJ, width_xs: 12}
+          name: heading_unserved
+          properties: {scale: small, text: Source of Heat for Load not served by Heat Pump}
+          type: form:dep_lin1x4oec0ytd:_Components.Heading
+        - layout_properties: {col_xs: 0, row: SMTGPE, width_xs: 8}
+          name: text_unserved_electric
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Percent from new Electric Heat:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: SMTGPE, width_xs: 4}
+          name: text_box_unserved_electric
+          properties: {type: number}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+        - layout_properties: {col_xs: 0, row: LLFZPT, width_xs: 8}
+          name: text_unserved_primary
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Percent from Existing Primary System:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: LLFZPT, width_xs: 4}
+          name: text_box_unserved_primary
+          properties: {type: number}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+        - layout_properties: {col_xs: 0, row: QTDAEF, width_xs: 12}
+          name: text_2
+          properties: {text: 'If above add to less than 100%, the remaining load is assumed to be served by the Secondary Heating System.'}
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        layout_properties: {slot: card-content-container-slot}
+        name: grid_panel_unserved
+        properties: {}
+        type: GridPanel
+      layout_properties: {slot: card-content-slot}
+      name: card_content_container_1
+      properties: {}
+      type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+    layout_properties: {grid_position: 'ZQINIP,RSHZNT'}
+    name: card_unserved
+    properties: {}
+    type: form:dep_lin1x4oec0ytd:_Components.Card
+  layout_properties: {grid_position: 'NFPTAW,LYRDOH'}
+  name: column_panel_main
+  properties: {}
+  type: ColumnPanel
+- components:
+  - components:
+    - layout_properties: {slot: card-content-container-slot}
+      name: heading_1
+      properties: {scale: small, text: Heat Pump Specifications}
+      type: form:dep_lin1x4oec0ytd:_Components.Heading
+    - components:
+      - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 3}
+        name: text_fuel_copy
+        properties:
+          align: right
+          spacing:
+            margin: ['20', null, null, null]
+          style: body
+          text: 'Heat Pump Type:'
+        type: form:dep_lin1x4oec0ytd:_Components.Text
+      - layout_properties: {col_xs: 3, row: YIQVFC, width_xs: 9}
+        name: text_box_title_copy
+        properties: {}
+        type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+      - layout_properties: {col_xs: 0, row: GJJCVM, width_xs: 3}
+        name: text_description_copy
+        properties:
+          align: right
+          spacing:
+            margin: ['20', null, null, null]
+          style: body
+          text: 'HSPF2:'
+        type: form:dep_lin1x4oec0ytd:_Components.Text
+      - layout_properties: {col_xs: 3, row: GJJCVM, width_xs: 9}
+        name: text_area_description_copy
+        properties: {height: 100}
+        type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
+      layout_properties: {slot: card-content-container-slot}
+      name: grid_panel_1_copy
+      properties:
+        role: null
+        spacing:
+          margin: ['5', null, null, null]
+        spacing_above: small
+        spacing_below: small
+      type: GridPanel
+    layout_properties: {slot: card-content-slot}
+    name: card_content_container_2_copy
+    properties: {}
+    type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
+  layout_properties: {grid_position: 'MNVFKW,UTNQQL'}
+  name: card_hp_specs
+  properties: {}
+  type: form:dep_lin1x4oec0ytd:_Components.Card
 container: {type: ColumnPanel}
 is_package: true
