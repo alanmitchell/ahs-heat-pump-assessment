@@ -8,6 +8,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.http
 from ...Utility import chg_none, active_client_name
+from ...HeatPumpOption import HeatPumpOption
 
 class ModelInputs(ModelInputsTemplate):
   def __init__(self, **properties):
@@ -42,6 +43,14 @@ class ModelInputs(ModelInputsTemplate):
     self.heating_system_primary.text_box_pct_load_served.text = '100'
     self.heating_system_secondary.visible = False
     self.heating_system_secondary.text_box_pct_load_served.enabled = False
+
+    # Load heat pump options
+    self.heat_pump_options = []
+    for i in range(3):
+      option = HeatPumpOption()
+      option.visible = True if i == 0 else False
+      self.heat_pump_options.append(option)
+      self.card_content_container_hp_options.add_component(option)
 
   def form_show(self, **event_args):
     self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'
@@ -81,6 +90,12 @@ class ModelInputs(ModelInputsTemplate):
       except:
         self.heating_system_secondary.text_box_pct_load_served.text = '0'
       self.heating_system_secondary.visible = True
+
+  def tabs_hp_options_tab_click(self, tab_index, tab_title, **event_args):
+    """This method is called when a Heat Pump Options tab is clicked"""
+    for i in range(3):
+      self.heat_pump_options[i].visible = True if i == tab_index else False
+    
 
 
       

@@ -35,7 +35,7 @@ components:
       style: body
       text: 'Percent Load Directly Exposed to HP:'
     type: form:dep_lin1x4oec0ytd:_Components.Text
-  - layout_properties: {col_xs: 5, row: EYDAAV, width_xs: 7}
+  - layout_properties: {col_xs: 5, row: EYDAAV, width_xs: 4}
     name: text_box_load_exposed
     properties: {label: Enter in Percent, type: number}
     type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -48,13 +48,14 @@ components:
       style: body
       text: 'Percent Load Adjacent to HP:'
     type: form:dep_lin1x4oec0ytd:_Components.Text
-  - layout_properties: {col_xs: 5, row: QCLMXM, width_xs: 7}
+  - layout_properties: {col_xs: 5, row: QCLMXM, width_xs: 4}
     name: text_box_load_adjacent
     properties: {label: Enter in Percent, type: number}
     type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
   layout_properties: {grid_position: 'WSCOSM,GDWZCC'}
   name: grid_panel_1
   properties:
+    role: null
     spacing:
       margin: ['5', null, null, null]
     spacing_above: small
