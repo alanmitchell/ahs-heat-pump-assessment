@@ -6,7 +6,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from ..Utility import chg_none
+from ..Utility import text_to_float
 
 class HeatPumpOption(HeatPumpOptionTemplate):
   def __init__(self, **properties):
@@ -17,15 +17,11 @@ class HeatPumpOption(HeatPumpOptionTemplate):
 
   def recalc_cost_totals(self, **event_args):
     """This method is called when the text in this component is edited."""
-    try:
-      print(self.text_box_cost_hp_install.text)
-      print(self.text_box_cost_electrical.text)
-      print(chg_none(self.text_box_cost_electrical.text, 0))
-      print(float(chg_none(self.text_box_cost_hp_install.text, 0)))
-      sys_cost = chg_none(self.text_box_cost_hp_install.text, 0) + \
-          float(chg_none(self.text_box_cost_electrical.text, 0)) + \
-          float(chg_none(self.text_box_cost_permit.text, 0))
-      self.text_system_cost.text = f'${sys_cost:,.0f}'
-    except Exception as e:
-      print(e)
-      self.text_system_cost.text = ''
+    #try:
+    sys_cost = text_to_float(self.text_box_cost_hp_install.text) + \
+        text_to_float(self.text_box_cost_electrical.text) + \
+        text_to_float(self.text_box_cost_permit.text)
+    self.text_system_cost.text = f'${sys_cost:,.0f}'
+    #except Exception as e:
+    #  print(e)
+    #  self.text_system_cost.text = ''

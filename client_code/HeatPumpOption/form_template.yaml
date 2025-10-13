@@ -252,7 +252,8 @@ components:
             style: body
             text: 'Electrical Cost:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 8, row: DTQSVK, width_xs: 4}
+        - event_bindings: {change: recalc_cost_totals}
+          layout_properties: {col_xs: 8, row: DTQSVK, width_xs: 4}
           name: text_box_cost_electrical
           properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -265,7 +266,8 @@ components:
             style: body
             text: 'Building Permit Cost:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 8, row: IMGAOB, width_xs: 4}
+        - event_bindings: {change: recalc_cost_totals}
+          layout_properties: {col_xs: 8, row: IMGAOB, width_xs: 4}
           name: text_box_cost_permit
           properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -302,7 +304,8 @@ components:
             style: body
             text: 'Non-HP Costs (e.g. eletctric heat or water heat):'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 8, row: IYUPJV, width_xs: 4}
+        - event_bindings: {change: recalc_cost_totals}
+          layout_properties: {col_xs: 8, row: IYUPJV, width_xs: 4}
           name: text_box_cost_non_hp
           properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -315,7 +318,8 @@ components:
             style: body
             text: 'Heat Pump Incentives:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 8, row: PTJKIS, width_xs: 4}
+        - event_bindings: {change: recalc_cost_totals}
+          layout_properties: {col_xs: 8, row: PTJKIS, width_xs: 4}
           name: text_box_hp_incentives
           properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -328,7 +332,8 @@ components:
             style: body
             text: 'Tax Credits:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 8, row: UFDIWX, width_xs: 4}
+        - event_bindings: {change: recalc_cost_totals}
+          layout_properties: {col_xs: 8, row: UFDIWX, width_xs: 4}
           name: text_box_hp_tax_credit
           properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
