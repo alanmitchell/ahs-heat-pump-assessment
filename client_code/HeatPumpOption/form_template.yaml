@@ -77,7 +77,7 @@ components:
           type: form:dep_lin1x4oec0ytd:_Components.Text
         - layout_properties: {col_xs: 2, row: GJJCVM, width_xs: 3}
           name: text_box_hspf2
-          properties: {type: number}
+          properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
         - layout_properties: {col_xs: 5, row: GJJCVM, width_xs: 1}
           name: text_description_copy_copy
@@ -100,7 +100,7 @@ components:
           type: form:dep_lin1x4oec0ytd:_Components.Text
         - layout_properties: {col_xs: 9, row: GJJCVM, width_xs: 3}
           name: text_box_cop
-          properties: {label: from 1.0 - 5.0, text: '', type: number}
+          properties: {align: right, label: from 1.0 - 5.0, text: '', type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
         - layout_properties: {col_xs: 0, row: GAZNKZ, width_xs: 3}
           name: text_description_copy_copy_3
@@ -113,7 +113,7 @@ components:
           type: form:dep_lin1x4oec0ytd:_Components.Text
         - layout_properties: {col_xs: 3, row: GAZNKZ, width_xs: 3}
           name: text_box_max_capacity
-          properties: {type: number}
+          properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
         - layout_properties: {col_xs: 6, row: GAZNKZ, width_xs: 3}
           name: text_description_copy_copy_3_copy
@@ -159,7 +159,7 @@ components:
           type: form:dep_lin1x4oec0ytd:_Components.Text
         - layout_properties: {col_xs: 8, row: OANIXT, width_xs: 4}
           name: text_box_load_exposed
-          properties: {label: Enter in Percent, type: number}
+          properties: {align: right, label: Enter in Percent, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
         - layout_properties: {col_xs: 0, row: ZVOHWH, width_xs: 8}
           name: text_load_adjacent
@@ -172,7 +172,7 @@ components:
           type: form:dep_lin1x4oec0ytd:_Components.Text
         - layout_properties: {col_xs: 8, row: ZVOHWH, width_xs: 4}
           name: text_box_load_adjacent
-          properties: {label: Enter in Percent, type: number}
+          properties: {align: right, label: Enter in Percent, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
         - layout_properties: {col_xs: 0, row: FQOKWN, width_xs: 12}
           name: text_1
@@ -193,7 +193,7 @@ components:
           type: form:dep_lin1x4oec0ytd:_Components.Text
         - layout_properties: {col_xs: 8, row: SMTGPE, width_xs: 4}
           name: text_box_unserved_electric
-          properties: {type: number}
+          properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
         - layout_properties: {col_xs: 0, row: LLFZPT, width_xs: 8}
           name: text_unserved_primary
@@ -206,7 +206,7 @@ components:
           type: form:dep_lin1x4oec0ytd:_Components.Text
         - layout_properties: {col_xs: 8, row: LLFZPT, width_xs: 4}
           name: text_box_unserved_primary
-          properties: {type: number}
+          properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
         - layout_properties: {col_xs: 0, row: QTDAEF, width_xs: 12}
           name: text_2
@@ -248,10 +248,127 @@ components:
         properties: {scale: small, text: Retrofit Costs}
         type: form:dep_lin1x4oec0ytd:_Components.Heading
       - components:
-        - layout_properties: {col_xs: 4, row: ALVIWH, width_xs: 3}
-          name: text_box_cost_hp_install
-          properties: {type: number}
+        - layout_properties: {col_xs: 0, row: QHEHRZ, width_xs: 8}
+          name: text_cost_install
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Heat Pump Installed Cost:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: QHEHRZ, width_xs: 4}
+          name: text_box_cost_hp_install_copy_4
+          properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+        - layout_properties: {col_xs: 0, row: DTQSVK, width_xs: 8}
+          name: text_cost_electrical
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Electrical Cost:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: DTQSVK, width_xs: 4}
+          name: text_box_cost_hp_electrical
+          properties: {align: right, type: number}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+        - layout_properties: {col_xs: 0, row: IMGAOB, width_xs: 8}
+          name: text_cost_permit
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Building Permit Cost:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: IMGAOB, width_xs: 4}
+          name: text_box_cost_permit
+          properties: {align: right, type: number}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+        - layout_properties: {col_xs: 8, row: QATDLR, width_xs: 4}
+          name: divider_1
+          properties:
+            margin: ['0', null, null, null]
+          type: form:dep_lin1x4oec0ytd:_Components.Divider
+        - layout_properties: {col_xs: 0, row: JEFOEW, width_xs: 8}
+          name: text_cost_system
+          properties:
+            align: right
+            bold: true
+            spacing:
+              margin: ['0', null, null, null]
+            style: body
+            text: 'System Cost:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: JEFOEW, width_xs: 4}
+          name: text_system_cost
+          properties:
+            align: right
+            bold: true
+            spacing:
+              margin: [null, null, '15', null]
+              padding: [null, null, '0', null]
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 0, row: IYUPJV, width_xs: 8}
+          name: text_cost_non_hp
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Non-HP Costs (e.g. eletctric heat or water heat):'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: IYUPJV, width_xs: 4}
+          name: text_box_cost_non_hp
+          properties: {align: right, type: number}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+        - layout_properties: {col_xs: 0, row: PTJKIS, width_xs: 8}
+          name: text_hp_incentives
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Heat Pump Incentives:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: PTJKIS, width_xs: 4}
+          name: text_box_hp_incentives
+          properties: {align: right, type: number}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+        - layout_properties: {col_xs: 0, row: UFDIWX, width_xs: 8}
+          name: text_tax_credit
+          properties:
+            align: right
+            spacing:
+              margin: ['20', null, null, null]
+            style: body
+            text: 'Tax Credits:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: UFDIWX, width_xs: 4}
+          name: text_box_hp_tax_credit
+          properties: {align: right, type: number}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+        - layout_properties: {col_xs: 8, row: AORCQB, width_xs: 4}
+          name: divider_1_copy
+          properties:
+            margin: ['0', null, null, null]
+          type: form:dep_lin1x4oec0ytd:_Components.Divider
+        - layout_properties: {col_xs: 0, row: DYHXTN, width_xs: 8}
+          name: text_cost_system_copy
+          properties:
+            align: right
+            bold: true
+            spacing:
+              margin: ['0', null, null, null]
+            style: body
+            text: 'Total Cost:'
+          type: form:dep_lin1x4oec0ytd:_Components.Text
+        - layout_properties: {col_xs: 8, row: DYHXTN, width_xs: 4}
+          name: text_total_cost
+          properties: {align: right, bold: true}
+          type: form:dep_lin1x4oec0ytd:_Components.Text
         layout_properties: {slot: card-content-container-slot}
         name: grid_panel_costs
         properties:
