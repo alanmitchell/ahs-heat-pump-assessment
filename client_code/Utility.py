@@ -18,15 +18,12 @@ def chg_none_blank(val: str, replacement=""):
   else:
     return val
 
-def text_to_float(val):
-  """Converts the value coming from the .text property of a text_box
-  that is configured with type="number". Converts value to float.
+def text_to_float(tb_control):
+  """Returns the value of a text box that is configured with type="number". A text box
+  .text property either returns a Float or it returns an empty string
   """
-  if type(val) is float:
-    return val
-  else:
-    # empty text box returns an empty string
-    return 0.0
+  val = tb_control.text
+  return val if type(val) is float else 0.0
 
 def active_client_name():
   """Returns the name of the currently active client, if there is one. 

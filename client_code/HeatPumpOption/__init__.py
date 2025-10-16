@@ -18,10 +18,10 @@ class HeatPumpOption(HeatPumpOptionTemplate):
   def recalc_cost_totals(self, **event_args):
     """This method is called when the text in this component is edited."""
     #try:
-    sys_cost = text_to_float(self.text_box_cost_hp_install.text) + \
-        text_to_float(self.text_box_cost_electrical.text) + \
-        text_to_float(self.text_box_cost_permit.text)
+    sys_cost = text_to_float(self.text_box_cost_hp_install) + \
+      text_to_float(self.text_box_cost_electrical) + \
+      text_to_float(self.text_box_cost_permit)
     self.text_system_cost.text = f'${sys_cost:,.0f}'
-    #except Exception as e:
-    #  print(e)
-    #  self.text_system_cost.text = ''
+    total_cost = sys_cost + text_to_float(self.text_box_cost_non_hp) - \
+      text_to_float(self.text_box_hp_incentives) - text_to_float(self.text_box_hp_tax_credit)
+    self.text_total_cost.text = f'${total_cost:,.0f}'
