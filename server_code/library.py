@@ -22,6 +22,18 @@ FUELS_DRYING_COOKING) = [
 
 # Space Heating System Types, based on Fuel
 SPACE_HTG_SYS_TYPES = {
-  
+  4: [('Boiler', 1), ('Furnace', 2), ('Toyostove or Similar', 3), ('Non-Electric Space Heater', 4)],
+  3: [('Boiler', 1), ('Furnace', 2), ('Rinnai or Similar', 3), ('Non-Electric Space Heater', 4)],
+  1: [('Boiler', 1), ('Furnace', 2), ('Baseboard or Radiant Heater', 5), ('Air-Source Heat Pump', 6), ('Ground-Source Heat Pump', 7)],
+  6: [('Wood Stove', 8), ('Wood Boiler', 1)],
+  7: [('Wood Stove', 8), ('Wood Boiler', 1)],
+  8: [('Pellet Stove', 8), ('Pellet Boiler', 1)],
+  9: [('Boiler', 1), ('Furnace', 2), ('Rinnai or Similar', 3), ('Non-Electric Space Heater', 4)],
 }
 
+# Water Heating System Types
+DHW_SYS_TYPES = [
+  ('Tank Heater', 1),
+  ('Instant Tankless Heater', 2)
+  ('Heated by Primary Space Heater', 3)
+]
