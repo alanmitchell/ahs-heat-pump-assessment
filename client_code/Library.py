@@ -1,6 +1,5 @@
 """Supplies constants and lists to the application
 """
-import anvil.server
 
 # Lists of Fuels.  The IDs match the IDs in the Heat Pump Calculator API (that fuel list
 # comes from AkWarm).
@@ -14,7 +13,7 @@ FUELS_ALL = [
   ('Natural Gas', 2)
 ]
 # Clothes Drying & Cooking fuels
-FUELS_DRYING_COOKING) = [
+FUELS_DRYING_COOKING = [
   ('Propane', 3),
   ('Electricity', 1),
   ('Natural Gas', 2)
