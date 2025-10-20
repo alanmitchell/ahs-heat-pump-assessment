@@ -6,11 +6,11 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from .. import Library
+from ..Library import FUELS_ALL
 
 class HeatingSystem(HeatingSystemTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    self.dropdown_menu_fuel.items = Library.FUELS_ALL
+    self.dropdown_menu_fuel.items = FUELS_ALL
