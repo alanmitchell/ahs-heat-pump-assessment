@@ -37,3 +37,26 @@ DHW_SYS_TYPES = [
   ('Instant Tankless Heater', 2)
   ('Heated by Primary Space Heater', 3)
 ]
+
+HP_SOURCE = [
+  ('Outdoor Air', 1),
+  ('Water (e.g. Lake)', 2),
+  ('Ground', 3)
+]
+
+HP_HEAT_DISTRIBUTION = [
+  ('Air', 1),
+  ('Hydronic/Water', 2)
+]
+
+HP_CONFIG = [
+  ('Split', 1),
+  ('Combined', 2)
+]
+
+DHW_AFTER_HP = [
+  ('Same as Before', 1),
+  ('From Heat Pump', 2),
+  ('New Tank', 3),
+  ('New Instant Tankless', 4)
+]
