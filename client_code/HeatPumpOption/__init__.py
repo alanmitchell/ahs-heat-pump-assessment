@@ -7,13 +7,13 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 from ..Utility import text_to_float
+from .. import Library
 
 class HeatPumpOption(HeatPumpOptionTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
-    # Any code you write here will run before the form opens.
+    self.dropdown_menu_dhw_source.items = Library.DHW_AFTER_HP
 
   def recalc_cost_totals(self, **event_args):
     """This method is called when the text in this component is edited."""

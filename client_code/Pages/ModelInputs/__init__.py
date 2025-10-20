@@ -9,6 +9,7 @@ from anvil.tables import app_tables
 import anvil.http
 from ...Utility import chg_none, active_client_name
 from ...HeatPumpOption import HeatPumpOption
+from ... import Library
 
 class ModelInputs(ModelInputsTemplate):
   def __init__(self, **properties):
@@ -44,6 +45,10 @@ class ModelInputs(ModelInputsTemplate):
     self.heating_system_secondary.visible = False
     self.heating_system_secondary.text_box_pct_load_served.enabled = False
 
+    # Fuels for Cooking Clothes Drying
+    self.dropdown_menu_cooking_fuel.items = Library.FUELS_DRYING_COOKING
+    self.dropdown_menu_drying_fuel.items = Library.FUELS_DRYING_COOKING
+    
     # Load heat pump options
     self.heat_pump_options = []
     for i in range(3):
