@@ -32,9 +32,10 @@ SPACE_HTG_SYS_TYPES = {
 
 # Water Heating System Types
 DHW_SYS_TYPES = [
-  ('Tank Heater', 1),
-  ('Instant Tankless Heater', 2),
-  ('Heated by Primary Space Heater', 3)
+  ('From Space Heater', 1),
+  ('Tank Heater', 2),
+  ('Instant Tankless', 3),
+  ('Heat Pump Water Htr', 4)
 ]
 
 HP_SOURCE = [
@@ -54,9 +55,9 @@ HP_CONFIG = [
 ]
 
 DHW_AFTER_HP = [
-  ('Same as Before', 1),
-  ('From Space Heat Pump', 2),
-  ('New Tank', 3),
-  ('New Instant Tankless', 4),
-  ('New Heat Pump Water Htr', 5)
+  ('Same as Before', 9),
+  ('From Space Heat Pump', 1),
+  ('New Tank', 2),
+  ('New Instant Tankless', 3),
+  ('New Heat Pump Water Htr', 4)
 ]

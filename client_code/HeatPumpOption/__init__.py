@@ -30,9 +30,9 @@ class HeatPumpOption(HeatPumpOptionTemplate):
   def dropdown_menu_dhw_source_change(self, **event_args):
     """Determine whether more info is needed."""
     dhw_type = self.dropdown_menu_dhw_source.selected_value
-    if dhw_type in (3, 4, 5):
+    if dhw_type in (2, 3, 4):
       self.grid_panel_new_dhw.visible = True
-      if dhw_type == 5:
+      if dhw_type == 4:
         self.dropdown_menu_dhw_after_fuel.selected_value = 1
         self.dropdown_menu_dhw_after_fuel.enabled = False
       else:
