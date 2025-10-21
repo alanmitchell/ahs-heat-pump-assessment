@@ -55,7 +55,8 @@ HP_CONFIG = [
 
 DHW_AFTER_HP = [
   ('Same as Before', 1),
-  ('From Heat Pump', 2),
+  ('From Space Heat Pump', 2),
   ('New Tank', 3),
-  ('New Instant Tankless', 4)
+  ('New Instant Tankless', 4),
+  ('New Heat Pump Water Htr', 5)
 ]
