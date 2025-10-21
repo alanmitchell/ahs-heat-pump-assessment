@@ -206,7 +206,8 @@ components:
             style: body
             text: 'DHW Heat Source:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 6, row: PQISHH, width_xs: 6}
+        - event_bindings: {change: dropdown_menu_dhw_source_change}
+          layout_properties: {col_xs: 6, row: PQISHH, width_xs: 6}
           name: dropdown_menu_dhw_source
           properties: {}
           type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
