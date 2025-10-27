@@ -45,5 +45,5 @@ class HeatPumpOption(HeatPumpOptionTemplate):
       self.grid_panel_new_dhw.visible = False
 
   def dropdown_menu_hp_distribution_change(self, **event_args):
-    """Heat Pump Distr"""
+    """Heat Pump Distribtiion"""
     pass
