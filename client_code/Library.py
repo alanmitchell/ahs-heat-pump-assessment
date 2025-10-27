@@ -49,11 +49,6 @@ HP_HEAT_DISTRIBUTION = [
   ('Hydronic/Water', 2)
 ]
 
-HP_CONFIG = [
-  ('Split', 1),
-  ('Combined', 2)
-]
-
 DHW_AFTER_HP = [
   ('Same as Before', 9),
   ('From Space Heat Pump', 1),

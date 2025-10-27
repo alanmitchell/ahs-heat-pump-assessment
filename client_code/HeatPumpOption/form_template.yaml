@@ -62,7 +62,7 @@ components:
             style: body
             text: 'Heat Source::'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 4, row: YIQVFC, width_xs: 6}
+        - layout_properties: {col_xs: 4, row: YIQVFC, width_xs: 5}
           name: dropdown_menu_hp_source
           properties: {}
           type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
@@ -75,23 +75,39 @@ components:
             style: body
             text: 'Heat Distribution Type::'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 4, row: IPLMRL, width_xs: 6}
+        - event_bindings: {change: dropdown_menu_hp_distribution_change}
+          layout_properties: {col_xs: 4, row: IPLMRL, width_xs: 5}
           name: dropdown_menu_hp_distribution
           properties: {}
           type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
-        - layout_properties: {col_xs: 0, row: HHLHAG, width_xs: 4}
-          name: text_hp_config
+        - event_bindings: {change: checkbox_split_unit_copy_change}
+          layout_properties: {col_xs: 9, row: IPLMRL, width_xs: 3}
+          name: checkbox_ducted
+          properties:
+            spacing:
+              margin: ['20', null, null, null]
+            text: Ducted?
+          type: form:dep_lin1x4oec0ytd:_Components.Checkbox
+        - layout_properties: {col_xs: 0, row: WUKCPY, width_xs: 4}
+          name: checkbox_split_unit
+          properties:
+            spacing:
+              margin: ['20', null, null, null]
+            text: Split Unit?
+          type: form:dep_lin1x4oec0ytd:_Components.Checkbox
+        - layout_properties: {col_xs: 3, row: WUKCPY, width_xs: 5}
+          name: text_number_heads
           properties:
             align: right
             spacing:
               margin: ['20', null, null, null]
             style: body
-            text: 'Condenser / Evaporator Config:'
+            text: '# of Indoor Heads:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 4, row: HHLHAG, width_xs: 6}
-          name: dropdown_menu_hp_config
-          properties: {}
-          type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
+        - layout_properties: {col_xs: 9, row: WUKCPY, width_xs: 3}
+          name: text_box_number_heads
+          properties: {align: right, label: '', text: '', type: number}
+          type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
         - layout_properties: {col_xs: 0, row: MWACXH, width_xs: 5}
           name: text_box_hspf2
           properties: {align: right, label: HSPF 2 Rating, type: number}
@@ -109,7 +125,7 @@ components:
           name: text_box_cop
           properties: {align: right, label: 'Seasonal COP, 1.0 - 5.0', text: '', type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-        - layout_properties: {col_xs: 0, row: GAZNKZ, width_xs: 4}
+        - layout_properties: {col_xs: 0, row: GAZNKZ, width_xs: 5}
           name: text_description_copy_copy_3
           properties:
             align: right
@@ -118,11 +134,11 @@ components:
             style: body
             text: 'Maximum Capacity at 5 °F:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 4, row: GAZNKZ, width_xs: 4}
+        - layout_properties: {col_xs: 5, row: GAZNKZ, width_xs: 4}
           name: text_box_max_capacity
           properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-        - layout_properties: {col_xs: 8, row: GAZNKZ, width_xs: 3}
+        - layout_properties: {col_xs: 9, row: GAZNKZ, width_xs: 3}
           name: text_description_copy_copy_3_copy
           properties:
             align: left
