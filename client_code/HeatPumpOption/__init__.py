@@ -45,5 +45,14 @@ class HeatPumpOption(HeatPumpOptionTemplate):
       self.grid_panel_new_dhw.visible = False
 
   def dropdown_menu_hp_distribution_change(self, **event_args):
-    """Heat Pump Distribtiion"""
-    pass
+    """This method is called when an item is selected"""
+    self.checkbox_ducted.visible = (self.dropdown_menu_hp_distribution.selected_value == 1)
+
+  def checkbox_split_unit_change(self, **event_args):
+    """This method is called when the component is checked or unchecked"""
+    if self.checkbox_split_unit.checked:
+      self.text_number_heads.visible = True
+      self.text_box_number_heads.visible = True
+    else:
+      self.text_number_heads.visible = False
+      self.text_box_number_heads.visible = False
