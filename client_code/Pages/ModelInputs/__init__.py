@@ -45,6 +45,10 @@ class ModelInputs(ModelInputsTemplate):
     self.heating_system_secondary.visible = False
     self.heating_system_secondary.text_box_pct_load_served.enabled = False
 
+    # DHW System Type
+    self.dropdown_menu_dhw_sys_type.items = Library.DHW_SYS_TYPES
+    self.dropdown_menu_dhw_fuel.items = Library.FUELS_ALL
+
     # Fuels for Cooking Clothes Drying
     self.dropdown_menu_cooking_fuel.items = Library.FUELS_DRYING_COOKING
     self.dropdown_menu_drying_fuel.items = Library.FUELS_DRYING_COOKING
@@ -100,8 +104,19 @@ class ModelInputs(ModelInputsTemplate):
     """This method is called when a Heat Pump Options tab is clicked"""
     for i in range(3):
       self.heat_pump_options[i].visible = True if i == tab_index else False
-    
 
-
-      
-    
+  def dropdown_menu_dhw_sys_type_change(self, **event_args):
+    """DHW System Type changed"""
+    if self.dropdown_menu_dhw_sys_type.selected_value == 1:
+      self.dropdown_menu_dhw_fuel.visible = False
+      self.text_dhw_fuel.visible = False
+      self.text
+    elif self.dropdown_menu_dhw_sys_type.selected_value == 4:
+      self.dropdown_menu_dhw_fuel.visible = True
+      self.text_dhw_fuel.visible = True
+      self.dropdown_menu_dhw_fuel.selected_value = 1
+      self.dropdown_menu_dhw_fuel.enabled = False
+    else:
+      self.dropdown_menu_dhw_fuel.visible = True
+      self.text_dhw_fuel.visible = True
+      self.dropdown_menu_dhw_fuel.enabled = True
