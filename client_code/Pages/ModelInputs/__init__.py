@@ -107,16 +107,17 @@ class ModelInputs(ModelInputsTemplate):
 
   def dropdown_menu_dhw_sys_type_change(self, **event_args):
     """DHW System Type changed"""
+    def controls(visibility=True, fuel_enabled=True):
+      self.dropdown_menu_dhw_fuel.visible = visibility
+      self.text_dhw_fuel.visible = visibility
+      self.text_ef_dhw.visible = visibility
+      self.text_box_ef_dhw.visible = visibility
+      self.dropdown_menu_dhw_fuel.enabled = fuel_enabled
+
     if self.dropdown_menu_dhw_sys_type.selected_value == 1:
-      self.dropdown_menu_dhw_fuel.visible = False
-      self.text_dhw_fuel.visible = False
-      self.text
+      controls(False)
     elif self.dropdown_menu_dhw_sys_type.selected_value == 4:
-      self.dropdown_menu_dhw_fuel.visible = True
-      self.text_dhw_fuel.visible = True
       self.dropdown_menu_dhw_fuel.selected_value = 1
-      self.dropdown_menu_dhw_fuel.enabled = False
+      controls(True, False)
     else:
-      self.dropdown_menu_dhw_fuel.visible = True
-      self.text_dhw_fuel.visible = True
-      self.dropdown_menu_dhw_fuel.enabled = True
+      controls()

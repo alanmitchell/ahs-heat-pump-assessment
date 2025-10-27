@@ -12,6 +12,7 @@ from .. import Library
 class HeatPumpOption(HeatPumpOptionTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
+    self.dropdown_menu_hp_sourcet
     self.init_components(**properties)
     self.dropdown_menu_dhw_source.items = Library.DHW_AFTER_HP
     self.dropdown_menu_dhw_after_fuel.items = Library.FUELS_ALL
