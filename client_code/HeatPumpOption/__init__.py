@@ -16,7 +16,7 @@ class HeatPumpOption(HeatPumpOptionTemplate):
 
     self.dropdown_menu_hp_source.items = Library.HP_SOURCE
     self.dropdown_menu_hp_distribution.items = Library.HP_HEAT_DISTRIBUTION
-    self.dropdown_menu_hp_config.
+    self.dropdown_menu_hp_config.items = Library.HP_CONFIG
     self.dropdown_menu_dhw_source.items = Library.DHW_AFTER_HP
     self.dropdown_menu_dhw_after_fuel.items = Library.FUELS_ALL
 
