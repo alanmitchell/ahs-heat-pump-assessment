@@ -45,3 +45,7 @@ class Main(MainTemplate):
   def notes_link_click(self, **event_args):
     """This method is called when the component is clicked"""
     open_form('Pages.Notes')
+
+  def general_inputs_link_click(self, **event_args):
+    """This method is called when the component is clicked"""
+    open_form('Pages.GeneralInputs')

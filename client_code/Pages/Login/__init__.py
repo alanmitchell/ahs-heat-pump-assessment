@@ -55,7 +55,7 @@ class Login(LoginTemplate):
   def navigate_to_next_form(self):
     last_client_id = anvil.users.get_user()['last_client_id']
     if last_client_id:
-      open_form('Pages.ModelInputs')
+      open_form('Pages.GeneralInputs')
     else:
       # No target client yet, so go select one.
       open_form('Pages.SelectClient')

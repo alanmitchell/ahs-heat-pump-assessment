@@ -17,10 +17,15 @@ components_by_slot:
       name: select_client_link
       properties: {icon: 'mi:people', text: Select Client}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
+    - event_bindings: {click: general_inputs_link_click}
+      layout_properties: {grid_position: 'TLVMFA,PLQMZQ'}
+      name: general_inputs_link
+      properties: {icon: 'mi:info', text: General Client / Assessment Inputs}
+      type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
     - event_bindings: {click: model_inputs_link_click}
       layout_properties: {grid_position: 'SPEIOU,PEHUJL'}
       name: model_inputs_link
-      properties: {icon: 'mi:input', text: Model Inputs}
+      properties: {icon: 'mi:input', text: Model Inputs / Results}
       type: form:dep_lin1x4oec0ytd:_Components.NavigationLink
     - event_bindings: {click: past_use_link_click}
       layout_properties: {grid_position: 'KFAITC,GBFNFU'}

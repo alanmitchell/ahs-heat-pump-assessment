@@ -10,60 +10,11 @@ components_by_slot:
         - components:
           - components:
             - layout_properties: {slot: card-content-container-slot}
-              name: heading_1
-              properties: {style: headline, text: Client Information}
+              name: heading_1_copy_2
+              properties: {style: headline, text: Utility / Fuel Prices}
               type: form:dep_lin1x4oec0ytd:_Components.Heading
             - components:
-              - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 5}
-                name: text_name
-                properties:
-                  align: right
-                  spacing:
-                    margin: ['20', null, null, null]
-                  style: body
-                  text: 'Client Full Name:'
-                type: form:dep_lin1x4oec0ytd:_Components.Text
-              - data_bindings: []
-                event_bindings: {lost_focus: save_general_inputs}
-                layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
-                name: text_box_full_name
-                properties:
-                  appearance: filled
-                  label: ''
-                  margin: ['4', null, '4', null]
-                  role: null
-                  tooltip: ''
-                  type: text
-                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-              - layout_properties: {col_xs: 0, row: MLZZLU, width_xs: 5}
-                name: text_address
-                properties:
-                  align: right
-                  spacing:
-                    margin: ['20', null, null, null]
-                  style: body
-                  text: 'Client Address:'
-                type: form:dep_lin1x4oec0ytd:_Components.Text
-              - event_bindings: {lost_focus: save_general_inputs}
-                layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
-                name: text_box_address
-                properties: {label_font_size: 14}
-                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-              - layout_properties: {col_xs: 0, row: BPOHTM, width_xs: 5}
-                name: text_city
-                properties:
-                  align: right
-                  spacing:
-                    margin: ['20', null, null, null]
-                  style: body
-                  text: 'Client City:'
-                type: form:dep_lin1x4oec0ytd:_Components.Text
-              - event_bindings: {lost_focus: save_general_inputs}
-                layout_properties: {col_xs: 5, row: BPOHTM, width_xs: 7}
-                name: text_box_city
-                properties: {}
-                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-              - layout_properties: {col_xs: 0, row: MZVJHU, width_xs: 5}
+              - layout_properties: {col_xs: 0, row: HHCBRR, width_xs: 5}
                 name: text_model_city
                 properties:
                   align: right
@@ -73,103 +24,10 @@ components_by_slot:
                   text: 'Modeling City:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
               - event_bindings: {change: autocomplete_model_city_change, suggestion_clicked: autocomplete_model_city_change}
-                layout_properties: {col_xs: 5, row: MZVJHU, width_xs: 7}
+                layout_properties: {col_xs: 5, row: HHCBRR, width_xs: 7}
                 name: autocomplete_model_city
                 properties: {display_font_size: 16, label: Type to search..., label_font_size: null, placeholder: ''}
                 type: form:dep_2eljrbaolsjaye:Autocomplete
-              layout_properties: {slot: card-content-container-slot}
-              name: grid_panel_1
-              properties:
-                spacing:
-                  margin: ['5', null, null, null]
-                spacing_above: small
-                spacing_below: small
-              type: GridPanel
-            layout_properties: {slot: card-content-slot}
-            name: card_content_container_1
-            properties: {}
-            type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
-          name: card_client
-          properties: {role: container-400, tooltip: ''}
-          type: form:dep_lin1x4oec0ytd:_Components.Card
-        - components:
-          - components:
-            - layout_properties: {slot: card-content-container-slot}
-              name: heading_1_copy
-              properties: {style: headline, text: Assessment Information}
-              type: form:dep_lin1x4oec0ytd:_Components.Heading
-            - components:
-              - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 5}
-                name: text_assess_id
-                properties:
-                  align: right
-                  spacing:
-                    margin: ['20', null, null, null]
-                  style: body
-                  text: Assessment ID
-                type: form:dep_lin1x4oec0ytd:_Components.Text
-              - event_bindings: {lost_focus: save_general_inputs}
-                layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
-                name: text_box_assessment_id
-                properties:
-                  appearance: filled
-                  label: ''
-                  margin: ['4', null, '4', null]
-                  role: null
-                  tooltip: ''
-                  type: text
-                type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-              - layout_properties: {col_xs: 0, row: MLZZLU, width_xs: 5}
-                name: text_assessor
-                properties:
-                  align: right
-                  spacing:
-                    margin: ['20', null, null, null]
-                  style: body
-                  text: 'Assessor:'
-                type: form:dep_lin1x4oec0ytd:_Components.Text
-              - event_bindings: {change: save_general_inputs}
-                layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
-                name: dropdown_menu_assessor
-                properties:
-                  items: []
-                type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
-              - layout_properties: {col_xs: 0, row: BPOHTM, width_xs: 5}
-                name: text_visit_date
-                properties:
-                  align: right
-                  spacing:
-                    margin: ['20', null, null, null]
-                  style: body
-                  text: 'Visit Date:'
-                type: form:dep_lin1x4oec0ytd:_Components.Text
-              - event_bindings: {change: save_general_inputs}
-                layout_properties: {col_xs: 5, row: BPOHTM, width_xs: 7}
-                name: date_picker_visit_date
-                properties: {}
-                type: DatePicker
-              layout_properties: {slot: card-content-container-slot}
-              name: grid_panel_1_copy
-              properties:
-                spacing:
-                  margin: ['5', null, null, null]
-                spacing_above: small
-                spacing_below: small
-              type: GridPanel
-            layout_properties: {slot: card-content-slot}
-            name: card_content_container_1_copy
-            properties: {}
-            type: form:dep_lin1x4oec0ytd:_Components.Card.CardContentContainer
-          name: card_assessment
-          properties: {role: container-400, tooltip: ''}
-          type: form:dep_lin1x4oec0ytd:_Components.Card
-        - components:
-          - components:
-            - layout_properties: {slot: card-content-container-slot}
-              name: heading_1_copy_2
-              properties: {style: headline, text: Utility / Fuel Prices}
-              type: form:dep_lin1x4oec0ytd:_Components.Heading
-            - components:
               - layout_properties: {col_xs: 0, row: GNQSZO, width_xs: 12}
                 name: text_rate_sched
                 properties:
