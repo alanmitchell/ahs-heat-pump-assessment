@@ -72,7 +72,7 @@ components_by_slot:
                   style: body
                   text: 'Modeling City:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - event_bindings: {change: autocomplete_model_city_change, pressed_enter: autocomplete_model_city_pressed_enter, suggestion_clicked: autocomplete_model_city_change}
+              - event_bindings: {change: autocomplete_model_city_change, suggestion_clicked: autocomplete_model_city_change}
                 layout_properties: {col_xs: 5, row: MZVJHU, width_xs: 7}
                 name: autocomplete_model_city
                 properties: {display_font_size: 16, label: Type to search..., label_font_size: null, placeholder: ''}
