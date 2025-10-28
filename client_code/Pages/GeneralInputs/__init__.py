@@ -27,6 +27,19 @@ class GeneralInputs(GeneralInputsTemplate):
       (u["full_name"], u["id"]) for u in anvil.server.call("get_users_public_fields")
     ]
 
+    # track last saved set of inputs
+    self.last_saved = {}
+
   def form_show(self, **event_args):
     self.layout.rich_text_client_name.content = f"**Client:** {active_client_name()}"
+
+  def dropdown_menu_assessor_change(self, **event_args):
+    """This method is called when an item is selected"""
+    self.item['assessor_id'] = self.dropdown_menu_assessor.selected_value
+
+  def timer_check_save_tick(self, **event_args):
+    """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
+    if self.item != self.last_saved:
+      print(self.item)
+      self.last_saved = self.item.copy()
 
