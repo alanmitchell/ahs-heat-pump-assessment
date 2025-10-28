@@ -24,15 +24,20 @@ def get_clients() -> List[Dict[str, Any]]:
     return rows
 
 @anvil.server.callable
-def get_client(row_id: str) -> Optional[Dict[str, Any]]:
+def get_client(row_id: str, field_subset: tuple[str]=None) -> Optional[Dict[str, Any]]:
   """Returns a dictionary of field values for the Client identified by 'row_id'.
-  Returns None if there is no matching client.
+  Returns None if there is no matching client. 'field_subset' can contain a tuple
+  of desired fields, and only those will be returned.
   """
   if get_user():
     client = app_tables.clientdata.get_by_id(row_id)
     if client:
       fields = {'row_id': row_id}
-      fields.update(dict(client))
+      if field_subset:
+        for field_name in field_subset:
+          fields[field_name] = client[field_name]
+      else:
+        fields.update(dict(client))
       return fields
     
     else:

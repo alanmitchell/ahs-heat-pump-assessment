@@ -19,16 +19,25 @@ class GeneralInputs(GeneralInputsTemplate):
     self.layout.general_inputs_link.selected = True
     self.set_event_handler("show", self.form_show)
 
-    # get the client we are currently working on
-    self.client_id = get_user()["last_client_id"]
-
     # load the Assessor dropdown
     self.dropdown_menu_assessor.items = [
       (u["full_name"], u["id"]) for u in anvil.server.call("get_users_public_fields")
     ]
-
-    # track last saved set of inputs
-    self.last_saved = {}
+    
+    # get the client we are currently working on
+    self.client_id = get_user()["last_client_id"]
+    if self.client_id:
+      fields = ('full_name', 'address', 'city', 'assessment_id', 'assessor', 'assess_visit_date')
+      client = anvil.server.call('get_client', self.client_id, fields)
+      client.pop('row_id')  # already have this as self.client_id
+      assessor = client.pop('assessor')
+      client['assessor_id'] =assessor.get_id()
+      self.item = client
+      self.dropdown_menu_assessor.selected_value = self.item['assessor_id']
+      print(self.item)
+      self.last_saved = self.item.copy()    # tracks last inputs saved
+    else:
+      self.last_saved = {}
 
   def form_show(self, **event_args):
     self.layout.rich_text_client_name.content = f"**Client:** {active_client_name()}"
