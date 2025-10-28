@@ -7,6 +7,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.http
+from anvil.users import get_user
 from ...Utility import chg_none, active_client_name
 from ...HeatPumpOption import HeatPumpOption
 from ... import Library
@@ -18,6 +19,9 @@ class ModelInputs(ModelInputsTemplate):
     self.layout.model_inputs_link.selected = True
     self.set_event_handler('show', self.form_show)
 
+    # get the client we are currently working on
+    self.client_id = get_user()["last_client_id"]
+    
     # get base URL for Heatpump Calculator API
     self.calc_api_url = anvil.server.call('calculator_api_base_url')
 
