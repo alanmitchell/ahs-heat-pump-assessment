@@ -23,7 +23,8 @@ components_by_slot:
                   style: body
                   text: 'Client Full Name:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
+              - event_bindings: {lost_focus: save_general_inputs}
+                layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
                 name: text_box_full_name
                 properties:
                   appearance: filled
@@ -42,7 +43,8 @@ components_by_slot:
                   style: body
                   text: 'Client Address:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
+              - event_bindings: {lost_focus: save_general_inputs}
+                layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
                 name: text_box_address
                 properties: {label_font_size: 14}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -55,7 +57,8 @@ components_by_slot:
                   style: body
                   text: 'Client City:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: BPOHTM, width_xs: 7}
+              - event_bindings: {lost_focus: save_general_inputs}
+                layout_properties: {col_xs: 5, row: BPOHTM, width_xs: 7}
                 name: text_box_city
                 properties: {}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -68,7 +71,7 @@ components_by_slot:
                   style: body
                   text: 'Modeling City:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - event_bindings: {change: autocomplete_model_city_change, suggestion_clicked: autocomplete_model_city_change}
+              - event_bindings: {change: autocomplete_model_city_change, pressed_enter: autocomplete_model_city_pressed_enter, suggestion_clicked: autocomplete_model_city_change}
                 layout_properties: {col_xs: 5, row: MZVJHU, width_xs: 7}
                 name: autocomplete_model_city
                 properties: {display_font_size: 16, label: Type to search..., label_font_size: null, placeholder: ''}
@@ -104,7 +107,8 @@ components_by_slot:
                   style: body
                   text: Assessment ID
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
+              - event_bindings: {lost_focus: save_general_inputs}
+                layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
                 name: text_box_assessment_id
                 properties:
                   appearance: filled
@@ -123,7 +127,8 @@ components_by_slot:
                   style: body
                   text: 'Assessor:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
+              - event_bindings: {change: save_general_inputs}
+                layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
                 name: dropdown_menu_assessor
                 properties:
                   items: []
@@ -137,7 +142,7 @@ components_by_slot:
                   style: body
                   text: 'Visit Date:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - event_bindings: {}
+              - event_bindings: {change: save_general_inputs}
                 layout_properties: {col_xs: 5, row: BPOHTM, width_xs: 7}
                 name: date_picker_visit_date
                 properties: {}

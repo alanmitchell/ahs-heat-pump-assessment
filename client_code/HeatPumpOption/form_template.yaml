@@ -80,7 +80,7 @@ components:
           name: dropdown_menu_hp_distribution
           properties: {}
           type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
-        - event_bindings: {change: checkbox_split_unit_copy_change}
+        - event_bindings: {}
           layout_properties: {col_xs: 9, row: IPLMRL, width_xs: 3}
           name: checkbox_ducted
           properties:

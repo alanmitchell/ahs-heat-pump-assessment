@@ -61,6 +61,15 @@ class ModelInputs(ModelInputsTemplate):
       self.heat_pump_options.append(option)
       self.card_content_container_hp_options.add_component(option)
 
+    # The dictionary that holds general inputs and model inputs from this form.
+    # The inputs are split into two dictionaries: one holds general values that get a 
+    # dedicated field in the Client table, and the other holds detailing modeling inputs.
+    self.general_inputs = {}
+    self.model_inputs = {}
+    # Track the timestamp of the last time inputs were saved
+    self.last_save_general = 0.0
+    self.last_save_model = 0.0
+  
   def form_show(self, **event_args):
     self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'
 
@@ -68,7 +77,9 @@ class ModelInputs(ModelInputsTemplate):
     # if the change results in a valid city, populate the fuel price inputs
     # and the Electric Utility choices
     if self.autocomplete_model_city.text in self.city_map.keys():
-    # lookup info for the city.
+      # save the input
+      self.save_model_inputs()
+      # lookup info for the city.
       city_id = self.city_map[self.autocomplete_model_city.text]
       city = anvil.http.request(
         self.calc_api_url + f'lib/cities/{city_id}',
@@ -121,3 +132,32 @@ class ModelInputs(ModelInputsTemplate):
       controls(True, False)
     else:
       controls()
+
+  def save_general_inputs(self, **event_args):
+    """Extracts general inputs from the Form and puts them into a dictionary. Sends that dictionary
+    to the server to be stored in the ClientData table, one field per input. Stores no more frequently
+    than every 5 seoncds.
+    """
+
+    # use a shortcut variable
+    inp = self.general_inputs
+    inp['full_name'] = self.text_box_full_name.text
+    inp['address'] = self.text_box_address.text
+    inp['city'] = self.text_box_city.text       # put modeling city in other dictionarry
+    inp['assessment_id'] = self.text_box_assessment_id.text
+    inp['assessor_id'] = self.dropdown_menu_assessor.selected_value
+    inp['assess_visit_date'] = self.date_picker_visit_date.date
+    print(inp)
+    
+  def save_model_inputs(self, **event_args):
+    """Extracts model inputs from the Form and puts them in a dictionary. Sends that dictionary
+    to the server to be stored in the ClientData table; the entire dictionary is stored in one
+    field.
+    """
+
+    # Use a shortcut variable
+    inp = self.model_inputs
+    inp['model_city_id'] = self.city_map[self.autocomplete_model_city.text]
+    print(inp)
+
+    
