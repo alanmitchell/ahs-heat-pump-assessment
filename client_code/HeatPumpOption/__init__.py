@@ -56,3 +56,11 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     else:
       self.text_number_heads.visible = False
       self.text_box_number_heads.visible = False
+
+  def refresh(self):
+    """Updates data bindings, including dropdowns that aren't explicitly bound.
+    """
+    self.refresh_data_bindings()
+    self.dropdown_menu_hp_source.selected_value = self.item['hp_source']
+    self.dropdown_menu_hp_source.selected_value = self.item['']
+    self.dropdown_menu_dhw_source.selected_value = self.item['dhw_source']

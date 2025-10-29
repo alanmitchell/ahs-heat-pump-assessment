@@ -12,7 +12,9 @@ components:
             style: body
             text: 'Option Title:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 3, row: YIQVFC, width_xs: 9}
+        - data_bindings:
+          - {code: 'self.item[''title'']', property: text, writeback: true}
+          layout_properties: {col_xs: 3, row: YIQVFC, width_xs: 9}
           name: text_box_title
           properties: {}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -25,7 +27,9 @@ components:
             style: body
             text: 'Description:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 3, row: GJJCVM, width_xs: 9}
+        - data_bindings:
+          - {code: 'self.item[''description'']', property: text, writeback: true}
+          layout_properties: {col_xs: 3, row: GJJCVM, width_xs: 9}
           name: text_area_description
           properties: {height: 100}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextArea
@@ -80,7 +84,9 @@ components:
           name: dropdown_menu_hp_distribution
           properties: {}
           type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
-        - event_bindings: {}
+        - data_bindings:
+          - {code: 'self.item[''ducted'']', property: checked, writeback: true}
+          event_bindings: {}
           layout_properties: {col_xs: 9, row: IPLMRL, width_xs: 3}
           name: checkbox_ducted
           properties:
@@ -89,7 +95,9 @@ components:
             text: Ducted?
             visible: false
           type: form:dep_lin1x4oec0ytd:_Components.Checkbox
-        - event_bindings: {change: checkbox_split_unit_change}
+        - data_bindings:
+          - {code: 'self.item[''split_unit'']', property: checked, writeback: true}
+          event_bindings: {change: checkbox_split_unit_change}
           layout_properties: {col_xs: 0, row: WUKCPY, width_xs: 4}
           name: checkbox_split_unit
           properties:
@@ -107,11 +115,15 @@ components:
             text: '# of Indoor Heads:'
             visible: false
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 9, row: WUKCPY, width_xs: 3}
+        - data_bindings:
+          - {code: 'self.item[''number_heads'']', property: text, writeback: true}
+          layout_properties: {col_xs: 9, row: WUKCPY, width_xs: 3}
           name: text_box_number_heads
           properties: {align: right, label: '', text: 1, type: number, visible: false}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-        - layout_properties: {col_xs: 0, row: MWACXH, width_xs: 5}
+        - data_bindings:
+          - {code: 'self.item[''hspf2'']', property: text, writeback: true}
+          layout_properties: {col_xs: 0, row: MWACXH, width_xs: 5}
           name: text_box_hspf2
           properties: {align: right, label: HSPF 2 Rating, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -124,7 +136,9 @@ components:
             style: body
             text: Or
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 7, row: MWACXH, width_xs: 5}
+        - data_bindings:
+          - {code: 'self.item[''cop'']', property: text, writeback: true}
+          layout_properties: {col_xs: 7, row: MWACXH, width_xs: 5}
           name: text_box_cop
           properties: {align: right, label: 'Seasonal COP, 1.0 - 5.0', text: '', type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -137,7 +151,9 @@ components:
             style: body
             text: 'Maximum Capacity at 5 °F:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 5, row: GAZNKZ, width_xs: 4}
+        - data_bindings:
+          - {code: 'self.item[''max_capacity'']', property: text, writeback: true}
+          layout_properties: {col_xs: 5, row: GAZNKZ, width_xs: 4}
           name: text_box_max_capacity
           properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -183,7 +199,9 @@ components:
             style: body
             text: 'Percent Load Directly Exposed to HP:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 8, row: OANIXT, width_xs: 4}
+        - data_bindings:
+          - {code: 'self.item[''load_exposed'']', property: text, writeback: true}
+          layout_properties: {col_xs: 8, row: OANIXT, width_xs: 4}
           name: text_box_load_exposed
           properties: {align: right, label: Enter in Percent, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -196,7 +214,9 @@ components:
             style: body
             text: 'Percent Load Adjacent to HP:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 8, row: ZVOHWH, width_xs: 4}
+        - data_bindings:
+          - {code: 'self.item[''load_adjacent'']', property: text, writeback: true}
+          layout_properties: {col_xs: 8, row: ZVOHWH, width_xs: 4}
           name: text_box_load_adjacent
           properties: {align: right, label: Enter in Percent, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -217,7 +237,9 @@ components:
             style: body
             text: 'Percent from new Electric Heat:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 8, row: SMTGPE, width_xs: 4}
+        - data_bindings:
+          - {code: 'self.item[''unserved_electric'']', property: text, writeback: true}
+          layout_properties: {col_xs: 8, row: SMTGPE, width_xs: 4}
           name: text_box_unserved_electric
           properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -230,7 +252,9 @@ components:
             style: body
             text: 'Percent from Existing Primary System:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 8, row: LLFZPT, width_xs: 4}
+        - data_bindings:
+          - {code: 'self.item[''unserved_primary'']', property: text, writeback: true}
+          layout_properties: {col_xs: 8, row: LLFZPT, width_xs: 4}
           name: text_box_unserved_primary
           properties: {align: right, type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -279,7 +303,9 @@ components:
               style: body
               text: 'Energy Factor of New DHW System:'
             type: form:dep_lin1x4oec0ytd:_Components.Text
-          - layout_properties: {col_xs: 6, row: HZUNXP, width_xs: 6}
+          - data_bindings:
+            - {code: 'self.item[''ef_new_dhw'']', property: text, writeback: true}
+            layout_properties: {col_xs: 6, row: HZUNXP, width_xs: 6}
             name: text_box_ef_new_dhw
             properties: {align: right, label: 0 - 4.0, type: number}
             type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -315,7 +341,9 @@ components:
             style: body
             text: 'Heat Pump Installed Cost:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - event_bindings: {change: recalc_cost_totals}
+        - data_bindings:
+          - {code: 'self.item[''cost_hp_install'']', property: text, writeback: true}
+          event_bindings: {change: recalc_cost_totals}
           layout_properties: {col_xs: 8, row: QHEHRZ, width_xs: 4}
           name: text_box_cost_hp_install
           properties: {align: right, type: number}
@@ -329,7 +357,9 @@ components:
             style: body
             text: 'Electrical Cost:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - event_bindings: {change: recalc_cost_totals}
+        - data_bindings:
+          - {code: 'self.item[''cost_electrical'']', property: text, writeback: true}
+          event_bindings: {change: recalc_cost_totals}
           layout_properties: {col_xs: 8, row: DTQSVK, width_xs: 4}
           name: text_box_cost_electrical
           properties: {align: right, type: number}
@@ -343,7 +373,9 @@ components:
             style: body
             text: 'Building Permit Cost:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - event_bindings: {change: recalc_cost_totals}
+        - data_bindings:
+          - {code: 'self.item[''cost_permit'']', property: text, writeback: true}
+          event_bindings: {change: recalc_cost_totals}
           layout_properties: {col_xs: 8, row: IMGAOB, width_xs: 4}
           name: text_box_cost_permit
           properties: {align: right, type: number}
@@ -381,7 +413,9 @@ components:
             style: body
             text: 'Non-HP Costs (e.g. eletctric heat or water heat):'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - event_bindings: {change: recalc_cost_totals}
+        - data_bindings:
+          - {code: 'self.item[''cost_non_hp'']', property: text, writeback: true}
+          event_bindings: {change: recalc_cost_totals}
           layout_properties: {col_xs: 8, row: IYUPJV, width_xs: 4}
           name: text_box_cost_non_hp
           properties: {align: right, type: number}
@@ -395,7 +429,9 @@ components:
             style: body
             text: 'Heat Pump Incentives:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - event_bindings: {change: recalc_cost_totals}
+        - data_bindings:
+          - {code: 'self.item[''hp_incentives'']', property: text, writeback: true}
+          event_bindings: {change: recalc_cost_totals}
           layout_properties: {col_xs: 8, row: PTJKIS, width_xs: 4}
           name: text_box_hp_incentives
           properties: {align: right, type: number}
@@ -409,7 +445,9 @@ components:
             style: body
             text: 'Tax Credits:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - event_bindings: {change: recalc_cost_totals}
+        - data_bindings:
+          - {code: 'self.item[''hp_tax_credit'']', property: text, writeback: true}
+          event_bindings: {change: recalc_cost_totals}
           layout_properties: {col_xs: 8, row: UFDIWX, width_xs: 4}
           name: text_box_hp_tax_credit
           properties: {align: right, type: number}
