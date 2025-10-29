@@ -128,5 +128,4 @@ class ModelInputs(ModelInputsTemplate):
   
   def timer_check_save_tick(self, **event_args):
     """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
-    print('Primary', self.heating_system_primary.item)
-    print('Secondary', self.heating_system_secondary.item)
+    print('Option 0', self.heat_pump_options[0].item)

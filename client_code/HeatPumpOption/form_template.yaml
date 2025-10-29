@@ -66,7 +66,8 @@ components:
             style: body
             text: 'Heat Source::'
           type: form:dep_lin1x4oec0ytd:_Components.Text
-        - layout_properties: {col_xs: 4, row: YIQVFC, width_xs: 5}
+        - event_bindings: {change: dropdown_menu_hp_source_change}
+          layout_properties: {col_xs: 4, row: YIQVFC, width_xs: 5}
           name: dropdown_menu_hp_source
           properties: {}
           type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
@@ -290,7 +291,8 @@ components:
               style: body
               text: 'Fuel Type of New DHW System:'
             type: form:dep_lin1x4oec0ytd:_Components.Text
-          - layout_properties: {col_xs: 6, row: YORAMT, width_xs: 6}
+          - event_bindings: {change: dropdown_menu_dhw_after_fuel_change}
+            layout_properties: {col_xs: 6, row: YORAMT, width_xs: 6}
             name: dropdown_menu_dhw_after_fuel
             properties: {visible: true}
             type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu

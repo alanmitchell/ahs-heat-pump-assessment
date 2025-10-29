@@ -33,6 +33,7 @@ class HeatPumpOption(HeatPumpOptionTemplate):
   def dropdown_menu_dhw_source_change(self, **event_args):
     """Determine whether more info is needed."""
     dhw_type = self.dropdown_menu_dhw_source.selected_value
+    self.item['dhw_source'] = dhw_type
     if dhw_type in (2, 3, 4):
       self.grid_panel_new_dhw.visible = True
       if dhw_type == 4:
@@ -46,7 +47,9 @@ class HeatPumpOption(HeatPumpOptionTemplate):
 
   def dropdown_menu_hp_distribution_change(self, **event_args):
     """This method is called when an item is selected"""
-    self.checkbox_ducted.visible = (self.dropdown_menu_hp_distribution.selected_value == 1)
+    distrib = self.dropdown_menu_hp_distribution.selected_value
+    self.item['hp_distribution'] = distrib
+    self.checkbox_ducted.visible = (distrib == 1)
 
   def checkbox_split_unit_change(self, **event_args):
     """This method is called when the component is checked or unchecked"""
@@ -61,6 +64,15 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     """Updates data bindings, including dropdowns that aren't explicitly bound.
     """
     self.refresh_data_bindings()
-    self.dropdown_menu_hp_source.selected_value = self.item['hp_source']
-    self.dropdown_menu_hp_source.selected_value = self.item['']
-    self.dropdown_menu_dhw_source.selected_value = self.item['dhw_source']
+    self.dropdown_menu_hp_source.selected_value = self.item.get('hp_source', None)
+    self.dropdown_menu_hp_distribution.selected_value = self.item.get('hp_distribution', None)
+    self.dropdown_menu_dhw_source.selected_value = self.item.get('dhw_source', None)
+    self.dropdown_menu_dhw_after_fuel.selected_value = self.item.get('dhw_after_fuel', None)
+
+  def dropdown_menu_hp_source_change(self, **event_args):
+    """HP Source type changed"""
+    self.item['hp_source'] = self.dropdown_menu_hp_source.selected_value
+
+  def dropdown_menu_dhw_after_fuel_change(self, **event_args):
+    """DHW Fuel after Heat Pump changed"""
+    self.item['dhw_after_fuel'] = self.dropdown_menu_dhw_after_fuel.selected_value
