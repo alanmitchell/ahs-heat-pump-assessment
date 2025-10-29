@@ -102,7 +102,7 @@ components_by_slot:
                   spacing:
                     margin: ['20', null, null, null]
                   style: body
-                  text: Assessment ID
+                  text: 'Assessment ID:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
               - data_bindings:
                 - {code: 'self.item[''assessment_id'']', property: text, writeback: true}

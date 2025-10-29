@@ -1,6 +1,9 @@
 """Supplies constants and lists to the application
 """
 
+# Version information
+VERSION_MODEL_INPUTS = "1.0"      # the structure of the model inputs
+
 # Lists of Fuels.  The IDs match the IDs in the Heat Pump Calculator API (that fuel list
 # comes from AkWarm).
 FUELS_ALL = [

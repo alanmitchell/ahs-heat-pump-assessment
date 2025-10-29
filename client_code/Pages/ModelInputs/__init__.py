@@ -65,6 +65,18 @@ class ModelInputs(ModelInputsTemplate):
       option.visible = True if i == 0 else False
       self.heat_pump_options.append(option)
       self.card_content_container_hp_options.add_component(option)
+
+    # get the client we are currently working on
+    self.client_id = get_user()["last_client_id"]
+    if self.client_id:
+      fields = ('model_inputs',)
+      client = anvil.server.call('get_client', self.client_id, fields)
+      self.item = client['model_inputs']
+      ## ------ FILL OUT HEATING SYSTEM & HP OPTION COMPONENTS ------
+      ## ------------------------------------------------------------
+      self.last_saved = self.item.copy()    # tracks last inputs saved
+    else:
+      self.last_saved = {}
   
   def form_show(self, **event_args):
     self.layout.rich_text_client_name.content = f'**Client:** {active_client_name()}'
@@ -127,5 +139,10 @@ class ModelInputs(ModelInputsTemplate):
     self.heating_system_secondary.refresh()
   
   def timer_check_save_tick(self, **event_args):
-    """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
-    print('Option 0', self.heat_pump_options[0].item)
+    """Saves values to database if they have not been saved recently"""
+    if self.item != self.last_saved:
+      self.save_values()
+      self.last_saved = self.item.copy()
+
+  def save_values(self, **event_args):
+    anvil.server.call('update_client', self.client_id, self.item)

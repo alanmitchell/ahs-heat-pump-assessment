@@ -3,7 +3,7 @@ components_by_slot:
   - event_bindings: {tick: timer_check_save_tick}
     layout_properties: {}
     name: timer_check_save
-    properties: {interval: 3}
+    properties: {interval: 2}
     type: Timer
   - components:
     - components:
