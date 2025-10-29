@@ -19,3 +19,11 @@ class HeatingSystem(HeatingSystemTemplate):
     """Populate System Types based on Fuel"""
     fuel_id = self.dropdown_menu_fuel.selected_value
     self.dropdown_menu_system_type.items = Library.SPACE_HTG_SYS_TYPES[fuel_id]
+    self.item['fuel'] = fuel_id
+
+  def dropdown_menu_system_type_change(self, **event_args):
+    """This method is called when an item is selected"""
+    self.item['system_type'] = self.dropdown_menu_system_type.selected_value
+
+  def pct_load_change(self, **event_args):
+    self.raise_event("x-pct-load-change", value=self.text_box_pct_load_served.text, sender=self, **event_args)

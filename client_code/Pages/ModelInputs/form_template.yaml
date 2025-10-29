@@ -1,5 +1,10 @@
 components_by_slot:
   content:
+  - event_bindings: {tick: timer_check_save_tick}
+    layout_properties: {}
+    name: timer_check_save
+    properties: {interval: 3}
+    type: Timer
   - components:
     - components:
       - layout_properties: {slot: card-content-container-slot}

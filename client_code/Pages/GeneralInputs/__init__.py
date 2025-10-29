@@ -35,7 +35,6 @@ class GeneralInputs(GeneralInputsTemplate):
       client['assessor_id'] =assessor.get_id()
       self.item = client
       self.dropdown_menu_assessor.selected_value = self.item['assessor_id']
-      print(self.item)
       self.last_saved = self.item.copy()    # tracks last inputs saved
     else:
       self.last_saved = {}
