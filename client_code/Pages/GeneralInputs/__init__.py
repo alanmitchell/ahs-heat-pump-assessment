@@ -18,6 +18,7 @@ class GeneralInputs(GeneralInputsTemplate):
     self.init_components(**properties)
     self.layout.general_inputs_link.selected = True
     self.set_event_handler("show", self.form_show)
+    self.set_event_handler("hide", self.save_values)
 
     # load the Assessor dropdown
     self.dropdown_menu_assessor.items = [
@@ -51,7 +52,7 @@ class GeneralInputs(GeneralInputsTemplate):
     if a change has beeen made since the last save."""
     if self.item != self.last_saved:
       self.save_values()
-      prinnt()
+      print('Timed Save')
       self.last_saved = self.item.copy()
 
   def save_values(self, **event_args):
