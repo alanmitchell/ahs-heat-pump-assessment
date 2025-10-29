@@ -15,6 +15,13 @@ class HeatingSystem(HeatingSystemTemplate):
 
     self.dropdown_menu_fuel.items = Library.FUELS_ALL
 
+  def refresh(self):
+    """Moves values fromm item property to the controls.
+    """
+    self.refresh_data_bindings()
+    self.dropdown_menu_fuel.selected_value = self.item.get('fuel', None)
+    self.dropdown_menu_system_type.selected_value = self.item.get('system_type', None)
+  
   def dropdown_menu_fuel_change(self, **event_args):
     """Populate System Types based on Fuel"""
     fuel_id = self.dropdown_menu_fuel.selected_value

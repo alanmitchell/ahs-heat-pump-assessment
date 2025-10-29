@@ -46,9 +46,9 @@ class ModelInputs(ModelInputsTemplate):
     self.heating_system_secondary.visible = False
     self.heating_system_secondary.text_box_pct_load_served.enabled = False
     self.heating_system_primary.item['pct_load_served'] = 100
-    self.heating_system_primary.refresh_data_bindings()
+    self.heating_system_primary.refresh()
     self.heating_system_secondary.item['pct_load_served'] = 0
-    self.heating_system_secondary.refresh_data_bindings()
+    self.heating_system_secondary.refresh()
 
     # DHW System Type
     self.dropdown_menu_dhw_sys_type.items = Library.DHW_SYS_TYPES
@@ -124,7 +124,7 @@ class ModelInputs(ModelInputsTemplate):
 
   def primary_load_change(self, value, **event_args):
     self.heating_system_secondary.item['pct_load_served'] = 100.0 - value
-    self.heating_system_secondary.refresh_data_bindings()
+    self.heating_system_secondary.refresh()
   
   def timer_check_save_tick(self, **event_args):
     """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
