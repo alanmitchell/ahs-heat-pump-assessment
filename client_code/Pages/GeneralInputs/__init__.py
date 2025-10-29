@@ -52,7 +52,6 @@ class GeneralInputs(GeneralInputsTemplate):
     if a change has beeen made since the last save."""
     if self.item != self.last_saved:
       self.save_values()
-      print('Timed Save')
       self.last_saved = self.item.copy()
 
   def save_values(self, **event_args):
