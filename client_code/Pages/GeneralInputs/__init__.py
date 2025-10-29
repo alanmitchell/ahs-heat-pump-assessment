@@ -47,8 +47,12 @@ class GeneralInputs(GeneralInputsTemplate):
     self.item['assessor_id'] = self.dropdown_menu_assessor.selected_value
 
   def timer_check_save_tick(self, **event_args):
-    """This method is called Every [interval] seconds. Does not trigger if [interval] is 0."""
+    """This method is called Every [interval] seconds. It saves the Form values
+    if a change has beeen made since the last save."""
     if self.item != self.last_saved:
-      print(self.item)
+      self.save_values()
+      prinnt()
       self.last_saved = self.item.copy()
 
+  def save_values(self, **event_args):
+    anvil.server.call('update_client', self.client_id, self.item)

@@ -53,8 +53,14 @@ def update_client(row_id: str, fields: Dict[str, Any]) -> bool:
     client = app_tables.clientdata.get_by_id(row_id)
     if client:
       for field_name, val in fields.items():
-        client[field_name] = val
-        return True
+        if field_name == 'assessor_id':
+          # special case: the actual field, 'assessor' is a DataTable row
+          assessor = app_tables.Users.get_by_id(val)
+          if assessor:
+            client['assessor'] = assessor
+        else:
+          client[field_name] = val
+      return True
     else:
       return False
   else:

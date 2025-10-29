@@ -177,4 +177,6 @@ components_by_slot:
     properties: {align: center, role: content-card}
     type: form:dep_lin1x4oec0ytd:_Components.Card
 is_package: true
-layout: {type: 'form:Layouts.Main'}
+layout:
+  form_event_bindings: {}
+  type: form:Layouts.Main
