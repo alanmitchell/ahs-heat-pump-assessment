@@ -46,10 +46,6 @@ class ModelInputs(ModelInputsTemplate):
     self.heating_system_primary.visible = True
     self.heating_system_secondary.visible = False
     self.heating_system_secondary.text_box_pct_load_served.enabled = False
-    self.heating_system_primary.item['pct_load_served'] = 100
-    self.heating_system_primary.refresh()
-    self.heating_system_secondary.item['pct_load_served'] = 0
-    self.heating_system_secondary.refresh()
 
     # DHW System Type
     self.dropdown_menu_dhw_sys_type.items = Library.DHW_SYS_TYPES
@@ -82,24 +78,26 @@ class ModelInputs(ModelInputsTemplate):
       model_city_id = inp.get('model_city', None)
       if model_city_id is not None:
         self.autocomplete_model_city.text = rev_city_map[model_city_id]
+        self.autocomplete_model_city_change()   # force event to fire
       self.dropdown_menu_rate_sched.selected_value = inp.get('rate_sched', None)
       self.dropdown_menu_garage_count.selected_value = str(inp.get('garage_count', 0))
       self.dropdown_menu_dhw_sys_type.selected_value = inp.get('dhw_sys_type', None)
+      self.dropdown_menu_dhw_sys_type_change()
       self.dropdown_menu_dhw_fuel.selected_value = inp.get('dhw_fuel', None)
       self.dropdown_menu_cooking_fuel.selected_value = inp.get('cooking_fuel', None)
       self.dropdown_menu_drying_fuel.selected_value = inp.get('drying_fuel', None)
 
       # heating systems
-      self.heating_system_primary.item = inp.get('heating_system_primary', {})
+      self.heating_system_primary.item = inp.get('heating_system_primary', {'pct_load_served': 100}).copy()
       self.heating_system_primary.refresh()
-      self.heating_system_secondary.item = inp.get('heating_system_secondary', {})
+      self.heating_system_secondary.item = inp.get('heating_system_secondary', {'pct_load_served': 0}).copy()
       self.heating_system_secondary.refresh()
       
       # heat pump options
       options = inp.get('heat_pump_options', [{}] * len(self.heat_pump_options))
       i = 0
       for option in options:
-        self.heat_pump_options[i].item = option
+        self.heat_pump_options[i].item = option.copy()
         self.heat_pump_options[i].refresh()
         i += 1
         
@@ -186,8 +184,8 @@ class ModelInputs(ModelInputsTemplate):
   def transfer_values_from_custom_comps(self):
     """Transfers values from custom compoentns to the main item dictionary
     of this form."""
-    self.item['heating_system_primary'] = self.heating_system_primary.item
-    self.item['heating_system_secondary'] = self.heating_system_secondary.item
+    self.item['heating_system_primary'] = self.heating_system_primary.item.copy()
+    self.item['heating_system_secondary'] = self.heating_system_secondary.item.copy()
 
     options = [option.item.copy() for option in self.heat_pump_options]
     self.item['heat_pump_options'] = options
@@ -201,7 +199,8 @@ class ModelInputs(ModelInputsTemplate):
     self.transfer_values_from_custom_comps()
     if self.item != self.last_saved:
       self.save_values()
-      self.last_saved = self.item.copy()
 
   def save_values(self):
+    print('Save Model Inputs')
     anvil.server.call('update_client', self.client_id, {'model_inputs': self.item})
+    self.last_saved = self.item.copy()

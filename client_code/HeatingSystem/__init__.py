@@ -18,17 +18,17 @@ class HeatingSystem(HeatingSystemTemplate):
   def refresh(self):
     """Moves values fromm item property to the controls.
     """
-    self.refresh_data_bindings()
     self.dropdown_menu_fuel.selected_value = self.item.get('fuel', None)
-    self.dropdown_menu_fuel_change()   # need to force change event to fire
+    self.dropdown_menu_fuel_change()   # need to fire Change event
     self.dropdown_menu_system_type.selected_value = self.item.get('system_type', None)
-  
+    self.refresh_data_bindings()
+
   def dropdown_menu_fuel_change(self, **event_args):
     """Populate System Types based on Fuel"""
     fuel_id = self.dropdown_menu_fuel.selected_value
+    self.item['fuel'] = fuel_id
     if fuel_id is not None:
       self.dropdown_menu_system_type.items = Library.SPACE_HTG_SYS_TYPES[fuel_id]
-    self.item['fuel'] = fuel_id
 
   def dropdown_menu_system_type_change(self, **event_args):
     """This method is called when an item is selected"""
