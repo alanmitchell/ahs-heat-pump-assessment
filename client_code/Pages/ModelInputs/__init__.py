@@ -18,6 +18,7 @@ class ModelInputs(ModelInputsTemplate):
     self.init_components(**properties)
     self.layout.model_inputs_link.selected = True
     self.set_event_handler('show', self.form_show)
+    self.set_event_handler('hide', self.form_close)
 
     # get the client we are currently working on
     self.client_id = get_user()["last_client_id"]
@@ -87,7 +88,21 @@ class ModelInputs(ModelInputsTemplate):
       self.dropdown_menu_dhw_fuel.selected_value = inp.get('dhw_fuel', None)
       self.dropdown_menu_cooking_fuel.selected_value = inp.get('cooking_fuel', None)
       self.dropdown_menu_drying_fuel.selected_value = inp.get('drying_fuel', None)
+
+      # heating systems
+      self.heating_system_primary.item = inp.get('heating_system_primary', {})
+      self.heating_system_primary.refresh()
+      self.heating_system_secondary.item = inp.get('heating_system_secondary', {})
+      self.heating_system_secondary.refresh()
       
+      # heat pump options
+      options = inp.get('heat_pump_options', [{}] * len(self.heat_pump_options))
+      i = 0
+      for option in options:
+        self.heat_pump_options[i].item = option
+        self.heat_pump_options[i].refresh()
+        i += 1
+        
     else:
       self.last_saved = {}
   
@@ -139,10 +154,11 @@ class ModelInputs(ModelInputsTemplate):
       self.text_ef_dhw.visible = visibility
       self.text_box_ef_dhw.visible = visibility
       self.dropdown_menu_dhw_fuel.enabled = fuel_enabled
-
-    if self.dropdown_menu_dhw_sys_type.selected_value == 1:
+    sys_type = self.dropdown_menu_dhw_sys_type.selected_value
+    self.item['dhw_sys_type'] = sys_type
+    if sys_type == 1:
       controls(False)
-    elif self.dropdown_menu_dhw_sys_type.selected_value == 4:
+    elif sys_type == 4:
       self.dropdown_menu_dhw_fuel.selected_value = 1
       controls(True, False)
     else:
@@ -151,16 +167,41 @@ class ModelInputs(ModelInputsTemplate):
   def primary_load_change(self, value, **event_args):
     self.heating_system_secondary.item['pct_load_served'] = 100.0 - value
     self.heating_system_secondary.refresh()
+
+  def dropdown_menu_garage_count_change(self, **event_args):
+    self.item['garage_count'] = int(self.dropdown_menu_garage_count.selected_value)
+
+  def dropdown_menu_rate_sched_change(self, **event_args):
+    self.item['rate_sched'] = self.dropdown_menu_rate_sched.selected_value
+
+  def dropdown_menu_dhw_fuel_change(self, **event_args):
+    self.item['dhw_fuel'] = self.dropdown_menu_dhw_fuel.selected_value
+
+  def dropdown_menu_cooking_fuel_change(self, **event_args):
+    self.item['cooking_fuel'] = self.dropdown_menu_cooking_fuel.selected_value
+
+  def dropdown_menu_drying_fuel_change(self, **event_args):
+    self.item['drying_fuel'] = self.dropdown_menu_drying_fuel.selected_value
+
+  def transfer_values_from_custom_comps(self):
+    """Transfers values from custom compoentns to the main item dictionary
+    of this form."""
+    self.item['heating_system_primary'] = self.heating_system_primary.item
+    self.item['heating_system_secondary'] = self.heating_system_secondary.item
+
+    options = [option.item.copy() for option in self.heat_pump_options]
+    self.item['heat_pump_options'] = options
+
+  def form_close(self, **event_args):
+    self.transfer_values_from_custom_comps()
+    self.save_values()
   
   def timer_check_save_tick(self, **event_args):
-    """Saves values to database if they have not been saved recently"""
+    """Saves values to database if they have not been saved recently."""
+    self.transfer_values_from_custom_comps()
     if self.item != self.last_saved:
       self.save_values()
       self.last_saved = self.item.copy()
 
-  def save_values(self, **event_args):
+  def save_values(self):
     anvil.server.call('update_client', self.client_id, {'model_inputs': self.item})
-
-  def dropdown_menu_garage_count_change(self, **event_args):
-    """This method is called when an item is selected"""
-    self.item['garage_count'] = int(self.dropdown_menu_garage_count.selected_value)

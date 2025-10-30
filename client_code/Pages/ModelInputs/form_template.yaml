@@ -3,7 +3,7 @@ components_by_slot:
   - event_bindings: {tick: timer_check_save_tick}
     layout_properties: {}
     name: timer_check_save
-    properties: {interval: 2}
+    properties: {interval: 10}
     type: Timer
   - components:
     - components:
@@ -42,7 +42,8 @@ components_by_slot:
                   style: body
                   text: 'Electric Rate Schedule:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 12}
+              - event_bindings: {change: dropdown_menu_rate_sched_change}
+                layout_properties: {col_xs: 0, row: YIQVFC, width_xs: 12}
                 name: dropdown_menu_rate_sched
                 properties: {}
                 type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
@@ -55,7 +56,9 @@ components_by_slot:
                   style: body
                   text: 'Oil Price:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
+              - data_bindings:
+                - {code: 'self.item[''oil_price'']', property: text, writeback: true}
+                layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
                 name: text_box_oil_price
                 properties: {label: $ / gallon, label_font_size: 14, type: number}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -68,7 +71,9 @@ components_by_slot:
                   style: body
                   text: 'Propane Price:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: BPOHTM, width_xs: 7}
+              - data_bindings:
+                - {code: 'self.item[''propane_price'']', property: text, writeback: true}
+                layout_properties: {col_xs: 5, row: BPOHTM, width_xs: 7}
                 name: text_box_propane_price
                 properties: {label: $ / gallon, type: number}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -81,7 +86,9 @@ components_by_slot:
                   style: body
                   text: 'Natural Gas Price:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: AILHNA, width_xs: 7}
+              - data_bindings:
+                - {code: 'self.item[''ng_price'']', property: text, writeback: true}
+                layout_properties: {col_xs: 5, row: AILHNA, width_xs: 7}
                 name: text_box_ng_price
                 properties: {label: $ / ccf, type: number}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -94,7 +101,9 @@ components_by_slot:
                   style: body
                   text: 'Birch Price:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: VULJMR, width_xs: 7}
+              - data_bindings:
+                - {code: 'self.item[''birch_price'']', property: text, writeback: true}
+                layout_properties: {col_xs: 5, row: VULJMR, width_xs: 7}
                 name: text_box_birch_price
                 properties: {label: $ / cord, type: number}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -107,7 +116,9 @@ components_by_slot:
                   style: body
                   text: 'Spruce Price:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: WHLWPI, width_xs: 7}
+              - data_bindings:
+                - {code: 'self.item[''spruce_price'']', property: text, writeback: true}
+                layout_properties: {col_xs: 5, row: WHLWPI, width_xs: 7}
                 name: text_box_spruce_price
                 properties: {label: $ / cord, type: number}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -120,7 +131,9 @@ components_by_slot:
                   style: body
                   text: 'Wood Pellet Price:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: RBBKAR, width_xs: 7}
+              - data_bindings:
+                - {code: 'self.item[''pellet_price'']', property: text, writeback: true}
+                layout_properties: {col_xs: 5, row: RBBKAR, width_xs: 7}
                 name: text_box_pellet_price
                 properties: {label: $ / pound, type: number}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -155,7 +168,9 @@ components_by_slot:
                   style: body
                   text: 'Year Built:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
+              - data_bindings:
+                - {code: 'self.item[''year_built'']', property: text, writeback: true}
+                layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
                 name: text_box_year_built
                 properties:
                   appearance: filled
@@ -174,7 +189,9 @@ components_by_slot:
                   style: body
                   text: 'Floor Area:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
+              - data_bindings:
+                - {code: 'self.item[''floor_area'']', property: text, writeback: true}
+                layout_properties: {col_xs: 5, row: MLZZLU, width_xs: 7}
                 name: text_box_floor_area
                 properties: {label: square feet, label_font_size: 14, type: number}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -202,11 +219,15 @@ components_by_slot:
                   style: body
                   text: 'Occupant Count:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: MZVJHU, width_xs: 7}
+              - data_bindings:
+                - {code: 'self.item[''occupant_count'']', property: text, writeback: true}
+                layout_properties: {col_xs: 5, row: MZVJHU, width_xs: 7}
                 name: text_box_occupant_count
                 properties: {type: number}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-              - layout_properties: {col_xs: 0, row: VCRPII, width_xs: 12}
+              - data_bindings:
+                - {code: 'self.item[''primary_residence'']', property: checked, writeback: true}
+                layout_properties: {col_xs: 0, row: VCRPII, width_xs: 12}
                 name: checkbox_primary_residence
                 properties: {align: center, checked: true, text: 'Primary Residence?'}
                 type: form:dep_lin1x4oec0ytd:_Components.Checkbox
@@ -282,7 +303,8 @@ components_by_slot:
                   style: body
                   text: 'Fuel Type:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
+              - event_bindings: {change: dropdown_menu_dhw_fuel_change}
+                layout_properties: {col_xs: 5, row: YIQVFC, width_xs: 7}
                 name: dropdown_menu_dhw_fuel
                 properties: {}
                 type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
@@ -295,7 +317,9 @@ components_by_slot:
                   style: body
                   text: 'Energy Factor:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: POYSPR, width_xs: 7}
+              - data_bindings:
+                - {code: 'self.item[''ef_dhw'']', property: text, writeback: true}
+                layout_properties: {col_xs: 5, row: POYSPR, width_xs: 7}
                 name: text_box_ef_dhw
                 properties: {align: right, label: 0 - 4.0, type: number}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
@@ -330,7 +354,8 @@ components_by_slot:
                   style: body
                   text: 'Cooking Fuel:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: FHONRM, width_xs: 7}
+              - event_bindings: {change: dropdown_menu_cooking_fuel_change}
+                layout_properties: {col_xs: 5, row: FHONRM, width_xs: 7}
                 name: dropdown_menu_cooking_fuel
                 properties:
                   items: []
@@ -344,7 +369,8 @@ components_by_slot:
                   style: body
                   text: 'Clothes Drying Fuel:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
-              - layout_properties: {col_xs: 5, row: NMTPYO, width_xs: 7}
+              - event_bindings: {change: dropdown_menu_drying_fuel_change}
+                layout_properties: {col_xs: 5, row: NMTPYO, width_xs: 7}
                 name: dropdown_menu_drying_fuel
                 properties:
                   items: []
