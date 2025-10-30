@@ -71,10 +71,23 @@ class ModelInputs(ModelInputsTemplate):
     if self.client_id:
       fields = ('model_inputs',)
       client = anvil.server.call('get_client', self.client_id, fields)
-      self.item = client['model_inputs']
-      ## ------ FILL OUT HEATING SYSTEM & HP OPTION COMPONENTS ------
-      ## ------------------------------------------------------------
+      self.item = client['model_inputs'] if client['model_inputs'] else {}
       self.last_saved = self.item.copy()    # tracks last inputs saved
+
+      # Fill out components that are not explicitly bound.
+      inp = self.item     # shortcut
+      # modeling city. It's an ID in input dictionary, not a text string
+      rev_city_map = {v: k for k, v in self.city_map.items()}
+      model_city_id = inp.get('model_city', None)
+      if model_city_id is not None:
+        self.autocomplete_model_city.text = rev_city_map[model_city_id]
+      self.dropdown_menu_rate_sched.selected_value = inp.get('rate_sched', None)
+      self.dropdown_menu_garage_count.selected_value = str(inp.get('garage_count', 0))
+      self.dropdown_menu_dhw_sys_type.selected_value = inp.get('dhw_sys_type', None)
+      self.dropdown_menu_dhw_fuel.selected_value = inp.get('dhw_fuel', None)
+      self.dropdown_menu_cooking_fuel.selected_value = inp.get('cooking_fuel', None)
+      self.dropdown_menu_drying_fuel.selected_value = inp.get('drying_fuel', None)
+      
     else:
       self.last_saved = {}
   
@@ -87,6 +100,7 @@ class ModelInputs(ModelInputsTemplate):
     if self.autocomplete_model_city.text in self.city_map.keys():
       # lookup info for the city.
       city_id = self.city_map[self.autocomplete_model_city.text]
+      self.item['model_city'] = city_id
       city = anvil.http.request(
         self.calc_api_url + f'lib/cities/{city_id}',
         method="GET",
@@ -145,4 +159,8 @@ class ModelInputs(ModelInputsTemplate):
       self.last_saved = self.item.copy()
 
   def save_values(self, **event_args):
-    anvil.server.call('update_client', self.client_id, self.item)
+    anvil.server.call('update_client', self.client_id, {'model_inputs': self.item})
+
+  def dropdown_menu_garage_count_change(self, **event_args):
+    """This method is called when an item is selected"""
+    self.item['garage_count'] = int(self.dropdown_menu_garage_count.selected_value)
