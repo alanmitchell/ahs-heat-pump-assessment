@@ -210,3 +210,7 @@ class ModelInputs(ModelInputsTemplate):
     print('Save Model Inputs')
     anvil.server.call('update_client', self.client_id, {'model_inputs': self.item})
     self.last_saved = self.item.copy()
+
+  def button_calculate_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    alert('Just Kidding!')
