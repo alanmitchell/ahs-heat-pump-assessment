@@ -64,9 +64,13 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     """Updates data bindings, including dropdowns that aren't explicitly bound.
     """
     self.refresh_data_bindings()
+    self.recalc_cost_totals()
+    self.checkbox_split_unit_change()
     self.dropdown_menu_hp_source.selected_value = self.item.get('hp_source', None)
     self.dropdown_menu_hp_distribution.selected_value = self.item.get('hp_distribution', None)
+    self.dropdown_menu_hp_distribution_change()
     self.dropdown_menu_dhw_source.selected_value = self.item.get('dhw_source', None)
+    self.dropdown_menu_dhw_source_change()
     self.dropdown_menu_dhw_after_fuel.selected_value = self.item.get('dhw_after_fuel', None)
 
   def dropdown_menu_hp_source_change(self, **event_args):

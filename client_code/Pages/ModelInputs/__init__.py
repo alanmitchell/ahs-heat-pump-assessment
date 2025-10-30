@@ -68,10 +68,16 @@ class ModelInputs(ModelInputsTemplate):
     if self.client_id:
       fields = ('model_inputs',)
       client = anvil.server.call('get_client', self.client_id, fields)
-      self.item = client['model_inputs'] if client['model_inputs'] else {}
+      if client['model_inputs']:
+        self.item = client['model_inputs'] 
+      else:
+        # put default values here
+        self.item = {'primary_residence': True}
+
       self.last_saved = self.item.copy()    # tracks last inputs saved
 
       # Fill out components that are not explicitly bound.
+      # *** REMEMBER to manually call Change, Enter, Lost Focus Events
       inp = self.item     # shortcut
       # modeling city. It's an ID in input dictionary, not a text string
       rev_city_map = {v: k for k, v in self.city_map.items()}
