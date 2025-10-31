@@ -52,3 +52,18 @@ class SelectClient(SelectClientTemplate):
   def row_selected(self, item, **event_args):
     self.layout.rich_text_client_name.content = f"**Client:** {item['full_name']}"
     anvil.server.call('update_user_info', {'last_client_id': item['row_id']})
+
+  def button_add_new_client_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    self.card_client.visible = True
+    self.button_add_new_client.visible = False
+
+  def button_add_client_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    self.card_client.visible = False
+    self.button_add_new_client.visible = True
+
+  def button_add_client_copy_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    self.card_client.visible = False
+    self.button_add_new_client.visible = True
