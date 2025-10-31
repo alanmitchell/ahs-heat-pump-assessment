@@ -137,6 +137,16 @@ class ModelInputs(ModelInputsTemplate):
       # Populate Electric Utility dropdown
       choices = [(util['label'], util['id']) for util in city['ElecUtilities'] if 'Resid' in util['label']]
       self.dropdown_menu_rate_sched.items = choices
+      if len(choices):
+        # select the first choice
+        self.dropdown_menu_rate_sched.selected_value = choices[0][1]
+      else:
+        self.dropdown_menu_rate_sched.selected_value = None
+
+    else:
+      # clear out rate schedule dropdown; otherwise it will retain the choices from the last
+      # valid city.
+      self.dropdown_menu_rate_sched.items = []
       self.dropdown_menu_rate_sched.selected_value = None
 
   def tabs_heating_system_tab_click(self, tab_index, tab_title, **event_args):
