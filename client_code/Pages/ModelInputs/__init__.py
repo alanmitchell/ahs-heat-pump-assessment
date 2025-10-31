@@ -57,7 +57,7 @@ class ModelInputs(ModelInputsTemplate):
     
     # Load heat pump options
     self.heat_pump_options = []
-    for i in range(3):
+    for i in range(4):
       option = HeatPumpOption()
       option.visible = True if i == 0 else False
       self.heat_pump_options.append(option)
@@ -100,7 +100,9 @@ class ModelInputs(ModelInputsTemplate):
       self.heating_system_secondary.refresh()
       
       # heat pump options
-      options = inp.get('heat_pump_options', [{}] * len(self.heat_pump_options))
+      default_options = [{} for i in range(len(self.heat_pump_options))]
+      default_options[-1]['title'] = 'As Installed'
+      options = inp.get('heat_pump_options', default_options)
       i = 0
       for option in options:
         self.heat_pump_options[i].item = option.copy()
@@ -147,7 +149,7 @@ class ModelInputs(ModelInputsTemplate):
 
   def tabs_hp_options_tab_click(self, tab_index, tab_title, **event_args):
     """This method is called when a Heat Pump Options tab is clicked"""
-    for i in range(3):
+    for i in range(len(self.heat_pump_options)):
       self.heat_pump_options[i].visible = True if i == tab_index else False
 
   def dropdown_menu_dhw_sys_type_change(self, **event_args):

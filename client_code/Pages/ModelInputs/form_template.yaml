@@ -404,7 +404,7 @@ components_by_slot:
               layout_properties: {slot: card-content-container-slot}
               name: tabs_hp_options
               properties:
-                tab_titles: [Option 1, Option 2, Option 3]
+                tab_titles: [Option 1, Option 2, Option 3, As Installed]
               type: form:dep_2eljrbaolsjaye:Tabs
             layout_properties: {slot: card-content-slot}
             name: card_content_container_hp_options
