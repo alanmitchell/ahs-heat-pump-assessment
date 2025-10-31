@@ -135,8 +135,9 @@ class ModelInputs(ModelInputsTemplate):
       self.text_box_spruce_price.text = city['SprucePrice']
 
       # Populate Electric Utility dropdown
-      choices = [(util['label'], util['id']) for util in city['ElecUtilities']]
+      choices = [(util['label'], util['id']) for util in city['ElecUtilities'] if 'Resid' in util['label']]
       self.dropdown_menu_rate_sched.items = choices
+      self.dropdown_menu_rate_sched.selected_value = None
 
   def tabs_heating_system_tab_click(self, tab_index, tab_title, **event_args):
     """This method is called when a heating system tab is clicked"""
@@ -210,7 +211,11 @@ class ModelInputs(ModelInputsTemplate):
 
   def save_values(self):
     print('Save Model Inputs')
-    anvil.server.call('update_client', self.client_id, {'model_inputs': self.item})
+    # add the model inputs version both to the model inputs dictionary and the 
+    # main record.
+    self.item['version_model_inputs'] = Library.VERSION_MODEL_INPUTS
+    client_rec = {'version_model_inputs': Library.VERSION_MODEL_INPUTS, 'model_inputs': self.item}
+    anvil.server.call('update_client', self.client_id, client_rec)
     self.last_saved = self.item.copy()
 
   def button_calculate_click(self, **event_args):
