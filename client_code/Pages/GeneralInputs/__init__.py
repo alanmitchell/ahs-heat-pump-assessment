@@ -32,7 +32,7 @@ class GeneralInputs(GeneralInputsTemplate):
       client = anvil.server.call('get_client', self.client_id, fields)
       client.pop('row_id')  # already have this as self.client_id
       assessor = client.pop('assessor')
-      client['assessor_id'] =assessor.get_id()
+      client['assessor_id'] = assessor.get_id() if assessor else None
       self.item = client
       self.dropdown_menu_assessor.selected_value = self.item['assessor_id']
       self.last_saved = self.item.copy()    # tracks last inputs saved
