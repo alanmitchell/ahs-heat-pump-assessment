@@ -39,7 +39,7 @@ class PastFuel(PastFuelTemplate):
         timestamp_str = f"{d.getFullYear()}-{d.getMonth()+1:02d}-{d.getDate():02d} {d.getHours():02d}:{d.getMinutes():02d}"
         historical_file_id = anvil.server.call('make_client_historical_use_ss', f"{client_name} {assess_id} Historical Use {timestamp_str}")
         # save the file ID in the DataTable
-        anvil.server.call('update_client', client['row_id'], {'historical_use_file_id': historical_file_id})
+        anvil.server.call('add_update_client', client['row_id'], {'historical_use_file_id': historical_file_id})
       url = f"https://docs.google.com/spreadsheets/d/{historical_file_id}/edit"
       anvil.js.window.open(url, "_blank")
       
@@ -77,7 +77,7 @@ class PastFuel(PastFuelTemplate):
         assess_id = chg_none_blank(client['assessment_id'], 'Unknown')
         google_doc_file_id = anvil.server.call('make_client_google_doc', f"{client_name} {assess_id} Pictures/Misc")
         # save the file ID in the DataTable
-        anvil.server.call('update_client', client['row_id'], {'google_doc_file_id': google_doc_file_id})
+        anvil.server.call('add_update_client', client['row_id'], {'google_doc_file_id': google_doc_file_id})
       url = f"https://docs.google.com/document/d/{google_doc_file_id}/edit"
       anvil.js.window.open(url, "_blank")
 

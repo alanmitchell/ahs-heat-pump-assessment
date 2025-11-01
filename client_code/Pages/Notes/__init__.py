@@ -32,4 +32,4 @@ class Notes(NotesTemplate):
     # get the client we are currently working on
     if self.client:
       notes = self.text_area_notes.text
-      anvil.server.call('update_client', self.client['row_id'], {'assessor_notes': notes})
+      anvil.server.call('add_update_client', self.client['row_id'], {'assessor_notes': notes})

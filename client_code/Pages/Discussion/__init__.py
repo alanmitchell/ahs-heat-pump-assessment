@@ -32,4 +32,4 @@ class Discussion(DiscussionTemplate):
     """Discussion text changed."""
     if self.client:
       discussion = self.text_area_discussion.text
-      anvil.server.call('update_client', self.client['row_id'], {'discussion': discussion})
+      anvil.server.call('add_update_client', self.client['row_id'], {'discussion': discussion})

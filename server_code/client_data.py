@@ -44,24 +44,43 @@ def get_client(row_id: str, field_subset: tuple[str]=None) -> Optional[Dict[str,
       return None
 
 @anvil.server.callable
-def update_client(row_id: str, fields: Dict[str, Any]) -> bool:
-  """Updates the fields of a Client data row. 'row_id' identifies the Client row
-  to update. 'fields' is a dictionary of the field values that need to be updated.
+def add_update_client(row_id: str, fields: Dict[str, Any]) -> bool:
+  """Adds a New Client or Updates the fields of an Existing Client. 'row_id' identifies the Client row
+  to update. If 'row_id' is None, a new client is added. 'fields' is a dictionary of the field values that 
+  need to be updated for the Client.  If the Add or Update is successful, the Row ID of the Client is returned.
+  If no success, False is returned.
+  Only logged in Users can call this function.
   """
+  def clean_fields(field_dict):
+    """This function cleans up the field value dictionary so that it can be used to update or
+    add a row in the ClientData table.
+    """
+    if 'assessor_id' in field_dict:
+      assessor_id = field_dict.pop('assessor_id')
+      # get the assessor row associated with this assessor ID
+      assessor = app_tables.users.get_by_id(assessor_id)
+      field_dict['assessor'] = assessor
+      
   if get_user():
-    # retrieve the client row
-    client = app_tables.clientdata.get_by_id(row_id)
-    if client:
-      for field_name, val in fields.items():
-        if field_name == 'assessor_id':
-          # special case: the actual field, 'assessor' is a DataTable row
-          assessor = app_tables.users.get_by_id(val)
-          if assessor:
-            client['assessor'] = assessor
-        else:
-          client[field_name] = val
-      return True
-    else:
+    # clean up the field value dictionary
+    try:
+      clean_fields(fields)
+    except:
+      # the assessor probably does not exist
       return False
+
+    if row_id:
+      # retrieve the client row
+      client = app_tables.clientdata.get_by_id(row_id)
+      if client:
+        client.update(**fields)
+        return row_id
+      else:
+        return False
+    else:
+      # Add a new Client
+      new_client = app_tables.clientdata.add_row(**fields)
+      return new_client.get_id()
   else:
+    # No logged in User
     return False

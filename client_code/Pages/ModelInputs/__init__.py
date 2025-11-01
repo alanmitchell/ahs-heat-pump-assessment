@@ -225,7 +225,7 @@ class ModelInputs(ModelInputsTemplate):
     # main record.
     self.item['version_model_inputs'] = Library.VERSION_MODEL_INPUTS
     client_rec = {'version_model_inputs': Library.VERSION_MODEL_INPUTS, 'model_inputs': self.item}
-    anvil.server.call('update_client', self.client_id, client_rec)
+    anvil.server.call('add_update_client', self.client_id, client_rec)
     self.last_saved = self.item.copy()
 
   def button_calculate_click(self, **event_args):

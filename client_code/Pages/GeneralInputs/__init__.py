@@ -28,7 +28,7 @@ class GeneralInputs(GeneralInputsTemplate):
     # get the client we are currently working on
     self.client_id = get_user()["last_client_id"]
     if self.client_id:
-      fields = ('full_name', 'address', 'city', 'assessment_id', 'assessor', 'assess_visit_date')
+      fields = ('full_name', 'email', 'address', 'city', 'assessment_id', 'assessor', 'assess_visit_date')
       client = anvil.server.call('get_client', self.client_id, fields)
       client.pop('row_id')  # already have this as self.client_id
       assessor = client.pop('assessor')
@@ -54,4 +54,4 @@ class GeneralInputs(GeneralInputsTemplate):
       self.last_saved = self.item.copy()
 
   def save_values(self, **event_args):
-    anvil.server.call('update_client', self.client_id, self.item)
+    anvil.server.call('add_update_client', self.client_id, self.item)
