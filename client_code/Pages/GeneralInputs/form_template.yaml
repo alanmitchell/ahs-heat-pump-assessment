@@ -1,6 +1,6 @@
 components_by_slot:
   content:
-  - event_bindings: {tick: timer_check_save_tick}
+  - event_bindings: {tick: save_values}
     layout_properties: {}
     name: timer_check_save
     properties: {interval: 10}

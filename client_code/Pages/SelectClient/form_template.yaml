@@ -81,9 +81,9 @@ components_by_slot:
               name: button_add_client
               properties: {text: Add Client}
               type: form:dep_lin1x4oec0ytd:_Components.Button
-            - event_bindings: {click: button_add_client_copy_click}
+            - event_bindings: {click: button_cancel_add_client_click}
               layout_properties: {col_xs: 5, row: NFYTET, width_xs: 5}
-              name: button_add_client_copy
+              name: button_cancel_add_client
               properties: {background_color: 'theme:Tertiary', text: Cancel}
               type: form:dep_lin1x4oec0ytd:_Components.Button
             layout_properties: {slot: card-content-container-slot}

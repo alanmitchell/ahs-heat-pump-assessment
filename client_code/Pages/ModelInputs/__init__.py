@@ -1,3 +1,5 @@
+import copy
+
 from ._anvil_designer import ModelInputsTemplate
 from anvil import *
 import m3.components as m3
@@ -18,7 +20,7 @@ class ModelInputs(ModelInputsTemplate):
     self.init_components(**properties)
     self.layout.model_inputs_link.selected = True
     self.set_event_handler('show', self.form_show)
-    self.set_event_handler('hide', self.form_close)
+    self.set_event_handler('hide', self.save_values)
 
     # get the client we are currently working on
     self.client_id = get_user()["last_client_id"]
@@ -66,15 +68,21 @@ class ModelInputs(ModelInputsTemplate):
     # get the client we are currently working on
     self.client_id = get_user()["last_client_id"]
     if self.client_id:
-      fields = ('model_inputs',)
+      fields = ('model_inputs', 'version_model_inputs')
       client = anvil.server.call('get_client', self.client_id, fields)
+      if client:
+        # Get rid of row_id as it will affect Inputs changed comparison
+        client.pop('row_id')
+        self.last_saved = copy.deepcopy(client)   # used to determine if inputs have changed
+      else:
+        self.last_saved = {}
+        
       if client['model_inputs']:
+        # Item property only holds the model inputs, not version_model_inputs
         self.item = client['model_inputs'] 
       else:
         # put default values here
         self.item = {'primary_residence': True}
-
-      self.last_saved = self.item.copy()    # tracks last inputs saved
 
       # Fill out components that are not explicitly bound.
       # *** REMEMBER to manually call Change, Enter, Lost Focus Events
@@ -144,10 +152,14 @@ class ModelInputs(ModelInputsTemplate):
         self.dropdown_menu_rate_sched.selected_value = None
 
     else:
+      self.item['model_city'] = None
       # clear out rate schedule dropdown; otherwise it will retain the choices from the last
       # valid city.
       self.dropdown_menu_rate_sched.items = []
       self.dropdown_menu_rate_sched.selected_value = None
+
+    # Need to fire change event so new Rate Sched selected value is stored
+    self.dropdown_menu_rate_sched_change()
 
   def tabs_heating_system_tab_click(self, tab_index, tab_title, **event_args):
     """This method is called when a heating system tab is clicked"""
@@ -209,24 +221,17 @@ class ModelInputs(ModelInputsTemplate):
     options = [option.item.copy() for option in self.heat_pump_options]
     self.item['heat_pump_options'] = options
 
-  def form_close(self, **event_args):
-    self.transfer_values_from_custom_comps()
-    self.save_values()
-  
-  def timer_check_save_tick(self, **event_args):
-    """Saves values to database if they have not been saved recently."""
-    self.transfer_values_from_custom_comps()
-    if self.item != self.last_saved:
-      self.save_values()
-
-  def save_values(self):
-    print('Save Model Inputs')
+  def save_values(self, **event_args):
+    # If inputs have changed, save them to the Server DataTable.
     # add the model inputs version both to the model inputs dictionary and the 
     # main record.
+    self.transfer_values_from_custom_comps()
     self.item['version_model_inputs'] = Library.VERSION_MODEL_INPUTS
     client_rec = {'version_model_inputs': Library.VERSION_MODEL_INPUTS, 'model_inputs': self.item}
-    anvil.server.call('add_update_client', self.client_id, client_rec)
-    self.last_saved = self.item.copy()
+    if client_rec != self.last_saved:
+      anvil.server.call('add_update_client', self.client_id, client_rec)
+      print('Saved Values')
+      self.last_saved = copy.deepcopy(client_rec)
 
   def button_calculate_click(self, **event_args):
     """This method is called when the component is clicked."""

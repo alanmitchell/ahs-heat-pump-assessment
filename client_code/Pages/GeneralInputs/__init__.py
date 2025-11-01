@@ -1,3 +1,5 @@
+import copy
+
 from ._anvil_designer import GeneralInputsTemplate
 from anvil import *
 import m3.components as m3
@@ -35,7 +37,7 @@ class GeneralInputs(GeneralInputsTemplate):
       client['assessor_id'] = assessor.get_id() if assessor else None
       self.item = client
       self.dropdown_menu_assessor.selected_value = self.item['assessor_id']
-      self.last_saved = self.item.copy()    # tracks last inputs saved
+      self.last_saved = copy.deepcopy(self.item)    # tracks last inputs saved
     else:
       self.last_saved = {}
 
@@ -46,12 +48,9 @@ class GeneralInputs(GeneralInputsTemplate):
     """This method is called when an item is selected"""
     self.item['assessor_id'] = self.dropdown_menu_assessor.selected_value
 
-  def timer_check_save_tick(self, **event_args):
-    """This method is called Every [interval] seconds. It saves the Form values
-    if a change has beeen made since the last save."""
-    if self.item != self.last_saved:
-      self.save_values()
-      self.last_saved = self.item.copy()
-
   def save_values(self, **event_args):
-    anvil.server.call('add_update_client', self.client_id, self.item)
+    """Save inputs if they have changed."""
+    if self.item != self.last_saved:
+      anvil.server.call('add_update_client', self.client_id, self.item)
+      print('Saved Values')
+      self.last_saved = copy.deepcopy(self.item)
