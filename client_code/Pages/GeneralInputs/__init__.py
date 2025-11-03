@@ -32,12 +32,19 @@ class GeneralInputs(GeneralInputsTemplate):
     if self.client_id:
       fields = ('full_name', 'email', 'address', 'city', 'assessment_id', 'assessor', 'assess_visit_date')
       client = anvil.server.call('get_client', self.client_id, fields)
-      client.pop('row_id')  # already have this as self.client_id
-      assessor = client.pop('assessor')
-      client['assessor_id'] = assessor.get_id() if assessor else None
-      self.item = client
-      self.dropdown_menu_assessor.selected_value = self.item['assessor_id']
-      self.last_saved = copy.deepcopy(self.item)    # tracks last inputs saved
+      if client:
+        client.pop('row_id')  # already have this as self.client_id
+        assessor = client.pop('assessor')
+        client['assessor_id'] = assessor.get_id() if assessor else None
+        self.item = client
+        self.dropdown_menu_assessor.selected_value = self.item['assessor_id']
+        self.last_saved = copy.deepcopy(self.item)    # tracks last inputs saved
+      else:
+        # this client no longer exists. Blank out the the last_client_id for this User
+        # and go to the Select Client screen
+        anvil.server.call('update_user_info', {'last_client_id': None})
+        open_form('Pages.SelectClient')
+
     else:
       self.last_saved = {}
 
