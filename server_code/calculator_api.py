@@ -9,7 +9,7 @@ from anvil.tables import app_tables
 import anvil.server
 
 # Base URL to access heat pump calculator API endpoints.
-CALCULATOR_API_BASE_URL = "https://dolphin-app-jrrmh.ondigitalocean.app/"
+CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
 
 @anvil.server.callable
 def calculator_api_base_url():
