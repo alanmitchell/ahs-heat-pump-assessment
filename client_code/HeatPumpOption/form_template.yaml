@@ -126,7 +126,7 @@ components:
           - {code: 'self.item[''hspf2'']', property: text, writeback: true}
           layout_properties: {col_xs: 0, row: MWACXH, width_xs: 5}
           name: text_box_hspf2
-          properties: {align: right, label: HSPF 2 Rating, type: number}
+          properties: {align: right, label: 'HSPF 2, Region V, Rating', type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
         - layout_properties: {col_xs: 5, row: MWACXH, width_xs: 2}
           name: text_description_copy_copy_2
