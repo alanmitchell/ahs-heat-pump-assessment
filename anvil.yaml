@@ -48,42 +48,6 @@ db_schema:
       type: simpleObject
     server: full
     title: ClientData
-  media:
-    client: none
-    columns:
-    - admin_ui: {width: 200}
-      name: client
-      target: clientdata
-      type: link_single
-    - admin_ui: {width: 200}
-      name: media_object
-      type: media
-    - admin_ui: {width: 200}
-      name: category
-      type: string
-    - admin_ui: {width: 200}
-      name: caption
-      type: string
-    server: full
-    title: Media
-  options:
-    client: none
-    columns:
-    - admin_ui: {width: 200}
-      name: client
-      target: clientdata
-      type: link_single
-    - admin_ui: {width: 200}
-      name: option_number
-      type: number
-    - admin_ui: {width: 200}
-      name: title
-      type: string
-    - admin_ui: {width: 200}
-      name: description
-      type: string
-    server: full
-    title: Options
   settings:
     client: none
     columns:
