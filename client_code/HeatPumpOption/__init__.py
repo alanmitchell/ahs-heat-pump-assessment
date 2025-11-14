@@ -34,10 +34,10 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     """Determine whether more info is needed."""
     dhw_type = self.dropdown_menu_dhw_source.selected_value
     self.item['dhw_source'] = dhw_type
-    if dhw_type in (2, 3, 4):
+    if dhw_type in ("new-tank", "new-tankless", "new-hpwh") :
       self.grid_panel_new_dhw.visible = True
-      if dhw_type == 4:
-        self.dropdown_menu_dhw_after_fuel.selected_value = 1
+      if dhw_type == "new-hpwh":
+        self.dropdown_menu_dhw_after_fuel.selected_value = "elec"
         self.dropdown_menu_dhw_after_fuel.enabled = False
       else:
         self.dropdown_menu_dhw_after_fuel.enabled = True
@@ -49,7 +49,7 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     """This method is called when an item is selected"""
     distrib = self.dropdown_menu_hp_distribution.selected_value
     self.item['hp_distribution'] = distrib
-    self.checkbox_ducted.visible = (distrib == 1)
+    self.checkbox_ducted.visible = (distrib == "air")
 
   def checkbox_split_unit_change(self, **event_args):
     """This method is called when the component is checked or unchecked"""

@@ -7,55 +7,55 @@ VERSION_MODEL_INPUTS = "1.0"      # the structure of the model inputs
 # Lists of Fuels.  The IDs match the IDs in the Heat Pump Calculator API (that fuel list
 # comes from AkWarm).
 FUELS_ALL = [
-  ('Oil', 4),
-  ('Propane', 3),
-  ('Electricity', 1),
-  ('Birch/Hardwood', 6),
-  ('Spruce/Softwood', 7),
-  ('Wood Pellets', 8),
-  ('Natural Gas', 2)
+  ('Oil', "oil"),
+  ('Propane', "propane"),
+  ('Electricity', "elec"),
+  ('Birch/Hardwood', "hardwood"),
+  ('Spruce/Softwood', "softwood"),
+  ('Wood Pellets', "pellets"),
+  ('Natural Gas', "ng")
 ]
 # Clothes Drying & Cooking fuels
 FUELS_DRYING_COOKING = [
-  ('Propane', 3),
-  ('Electricity', 1),
-  ('Natural Gas', 2)
+  ('Propane', "propane"),
+  ('Electricity', "elec"),
+  ('Natural Gas', "ng")
 ]
 
 # Space Heating System Types, based on Fuel
 SPACE_HTG_SYS_TYPES = {
-  4: [('Boiler', 1), ('Furnace', 2), ('Toyostove or Similar', 3), ('Non-Electric Space Heater', 4)],
-  3: [('Boiler', 1), ('Furnace', 2), ('Rinnai or Similar', 3), ('Non-Electric Space Heater', 4)],
-  1: [('Boiler', 1), ('Furnace', 2), ('Baseboard or Radiant Htr', 5), ('Air-Source Heat Pump', 6), ('Ground-Source Heat Pump', 7), ('Water-Source Heat Pump', 8)],
-  6: [('Wood Stove', 9), ('Wood Boiler', 1)],
-  7: [('Wood Stove', 9), ('Wood Boiler', 1)],
-  8: [('Pellet Stove', 9), ('Pellet Boiler', 1)],
-  2: [('Boiler', 1), ('Furnace', 2), ('Rinnai or Similar', 3), ('Non-Electric Space Heater', 4)],
+  "oil": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Toyostove or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
+  "propane": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Rinnai or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
+  "elec": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Baseboard or Radiant Htr', "elec-space"), ('Air-Source Heat Pump', "ashp"), ('Ground-Source Heat Pump', "gshp"), ('Water-Source Heat Pump', "wshp")],
+  "hardwood": [('Wood Stove', "stove"), ('Wood Boiler', "boiler")],
+  "softwood": [('Wood Stove', "stove"), ('Wood Boiler', "boiler")],
+  "pellets": [('Pellet Stove', "stove"), ('Pellet Boiler', "boiler")],
+  "ng": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Rinnai or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
 }
 
 # Water Heating System Types
 DHW_SYS_TYPES = [
-  ('From Space Heater', 1),
-  ('Tank Heater', 2),
-  ('Instant Tankless', 3),
-  ('Heat Pump Water Htr', 4)
+  ('From Space Heater', "from-space-htr"),
+  ('Tank Heater', "tank"),
+  ('Instant Tankless', "tankless"),
+  ('Heat Pump Water Htr', "hpwh")
 ]
 
 HP_SOURCE = [
-  ('Outdoor Air', 1),
-  ('Water (e.g. Lake)', 2),
-  ('Ground', 3)
+  ('Outdoor Air', "air"),
+  ('Water (e.g. Lake)', "water"),
+  ('Ground', "ground")
 ]
 
 HP_HEAT_DISTRIBUTION = [
-  ('Air', 1),
-  ('Hydronic/Water', 2)
+  ('Air', "air"),
+  ('Hydronic/Water', "hydronic")
 ]
 
 DHW_AFTER_HP = [
-  ('Same as Before', 9),
-  ('From Space Heat Pump', 1),
-  ('New Tank', 2),
-  ('New Instant Tankless', 3),
-  ('New Heat Pump Water Htr', 4)
+  ('Same as Before', "as-before"),
+  ('From Space Heat Pump', "from-space-hp"),
+  ('New Tank', "new-tank"),
+  ('New Instant Tankless', "new-tankless"),
+  ('New Heat Pump Water Htr', "new-hpwh")
 ]
