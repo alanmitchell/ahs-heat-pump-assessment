@@ -129,7 +129,7 @@ components:
           properties: {align: right, label: 'HSPF 2, Region V, Rating', type: number}
           type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
         - layout_properties: {col_xs: 5, row: MWACXH, width_xs: 2}
-          name: text_description_copy_copy_2
+          name: text_rating_or
           properties:
             align: center
             spacing:

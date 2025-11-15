@@ -72,6 +72,7 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     self.dropdown_menu_dhw_source.selected_value = self.item.get('dhw_source', None)
     self.dropdown_menu_dhw_source_change()
     self.dropdown_menu_dhw_after_fuel.selected_value = self.item.get('dhw_after_fuel', None)
+    self.update_inaccessible_load()
 
   def dropdown_menu_hp_source_change(self, **event_args):
     """HP Source type changed"""
@@ -83,4 +84,6 @@ class HeatPumpOption(HeatPumpOptionTemplate):
 
   def update_inaccessible_load(self, **event_args):
     """This method is called when the text in this component is edited."""
-    pass
+    inaccessible_load = 100.0 - text_to_float(self.text_box_load_exposed) - \
+      text_to_float(self.text_box_load_adjacent)
+    self.text_inaccessible_load.text = f'{inaccessible_load:,.1f}%'
