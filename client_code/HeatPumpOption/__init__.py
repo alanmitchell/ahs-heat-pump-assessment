@@ -67,6 +67,7 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     self.recalc_cost_totals()
     self.checkbox_split_unit_change()
     self.dropdown_menu_hp_source.selected_value = self.item.get('hp_source', None)
+    self.dropdown_menu_hp_source_change()
     self.dropdown_menu_hp_distribution.selected_value = self.item.get('hp_distribution', None)
     self.dropdown_menu_hp_distribution_change()
     self.dropdown_menu_dhw_source.selected_value = self.item.get('dhw_source', None)
@@ -76,7 +77,17 @@ class HeatPumpOption(HeatPumpOptionTemplate):
 
   def dropdown_menu_hp_source_change(self, **event_args):
     """HP Source type changed"""
-    self.item['hp_source'] = self.dropdown_menu_hp_source.selected_value
+    hp_source = self.dropdown_menu_hp_source.selected_value
+    print('change source')
+    self.item['hp_source'] = hp_source
+    self.text_box_hspf2.visible = (hp_source == 'air')
+    self.text_rating_or.visible = (hp_source == 'air')
+    if hp_source == 'air':
+      self.text_box_cop32f.label = 'Realistic COP @ 32 °F Outside Air'
+      self.text_max_capacity.text = 'Maximum Capacity at 5 °F Outside Air:'
+    else:
+      self.text_box_cop32f.label = 'Realistic COP @ 32 °F EWT'
+      self.text_max_capacity.text = 'Maximum Capacity at 32 °F EWT:'
 
   def dropdown_menu_dhw_after_fuel_change(self, **event_args):
     """DHW Fuel after Heat Pump changed"""
