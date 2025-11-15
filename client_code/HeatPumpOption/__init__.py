@@ -80,3 +80,7 @@ class HeatPumpOption(HeatPumpOptionTemplate):
   def dropdown_menu_dhw_after_fuel_change(self, **event_args):
     """DHW Fuel after Heat Pump changed"""
     self.item['dhw_after_fuel'] = self.dropdown_menu_dhw_after_fuel.selected_value
+
+  def update_inaccessible_load(self, **event_args):
+    """This method is called when the text in this component is edited."""
+    pass
