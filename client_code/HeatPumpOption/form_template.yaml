@@ -245,7 +245,7 @@ components:
           name: heading_unserved
           properties: {scale: small, text: Source of Heat for Space Heating Load not served by Heat Pump}
           type: form:dep_lin1x4oec0ytd:_Components.Heading
-        - layout_properties: {col_xs: 0, row: CYKGHA, width_xs: 8}
+        - layout_properties: {col_xs: 0, row: CYKGHA, width_xs: 6}
           name: text_unserved_source
           properties:
             align: right
@@ -255,11 +255,11 @@ components:
             text: 'Source of Heat for Load not served by Heat Pump:'
           type: form:dep_lin1x4oec0ytd:_Components.Text
         - event_bindings: {change: dropdown_menu_unserved_source_change}
-          layout_properties: {col_xs: 8, row: CYKGHA, width_xs: 4}
+          layout_properties: {col_xs: 6, row: CYKGHA, width_xs: 6}
           name: dropdown_menu_unserved_source
           properties: {}
           type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
-        - layout_properties: {col_xs: 0, row: KBTFNJ, width_xs: 7}
+        - layout_properties: {col_xs: 0, row: KBTFNJ, width_xs: 9}
           name: heating_system_unserved
           properties: {}
           type: form:HeatingSystem

@@ -94,7 +94,6 @@ class HeatPumpOption(HeatPumpOptionTemplate):
   def dropdown_menu_hp_source_change(self, **event_args):
     """HP Source type changed"""
     hp_source = self.dropdown_menu_hp_source.selected_value
-    print('change source')
     self.item['hp_source'] = hp_source
     self.text_box_hspf2.visible = (hp_source == 'air')
     self.text_rating_or.visible = (hp_source == 'air')
