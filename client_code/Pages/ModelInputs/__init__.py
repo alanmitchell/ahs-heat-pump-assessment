@@ -217,7 +217,9 @@ class ModelInputs(ModelInputsTemplate):
     of this form."""
     self.item['heating_system_primary'] = self.heating_system_primary.item.copy()
     self.item['heating_system_secondary'] = self.heating_system_secondary.item.copy()
-
+    
+    # first ensure that item property of Option custom controls are up-to-date
+    [option.update_item_property() for option in self.heat_pump_options]
     options = [option.item.copy() for option in self.heat_pump_options]
     self.item['heat_pump_options'] = options
 

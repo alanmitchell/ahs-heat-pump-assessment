@@ -18,6 +18,9 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     self.dropdown_menu_hp_distribution.items = Library.HP_HEAT_DISTRIBUTION
     self.dropdown_menu_dhw_source.items = Library.DHW_AFTER_HP
     self.dropdown_menu_dhw_after_fuel.items = Library.FUELS_ALL
+    self.dropdown_menu_unserved_source.items = Library.UNSERVED_HP_LOAD
+    self.heating_system_unserved.visible = False
+    self.heating_system_unserved.text_box_pct_load_served.enabled = False
 
   def recalc_cost_totals(self, **event_args):
     """This method is called when the text in this component is edited."""
@@ -61,7 +64,8 @@ class HeatPumpOption(HeatPumpOptionTemplate):
       self.text_box_number_heads.visible = False
 
   def refresh(self):
-    """Updates data bindings, including dropdowns that aren't explicitly bound.
+    """Updates data bindings (moves data from .item to the controls), 
+    including dropdowns that aren't explicitly bound.
     """
     self.refresh_data_bindings()
     self.recalc_cost_totals()
@@ -74,6 +78,18 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     self.dropdown_menu_dhw_source_change()
     self.dropdown_menu_dhw_after_fuel.selected_value = self.item.get('dhw_after_fuel', None)
     self.update_inaccessible_load()
+    self.dropdown_menu_unserved_source.selected_value = self.item.get('unserved_source', None)
+    self.dropdown_menu_unserved_source_change()
+
+    self.heating_system_unserved.item = self.item.get('heating_system_unserved', {'pct_load_served': 100}).copy()
+    self.heating_system_unserved.refresh()
+
+  def update_item_property(self):
+    """Takes values from the custom controls and moves them to the item property
+    of this control, since this data movement does not automatically occur when a change occurs
+    in the custom control.
+    """
+    self.item['heating_system_unserved'] = self.heating_system_unserved.item.copy()
 
   def dropdown_menu_hp_source_change(self, **event_args):
     """HP Source type changed"""
@@ -98,3 +114,9 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     inaccessible_load = 100.0 - text_to_float(self.text_box_load_exposed) - \
       text_to_float(self.text_box_load_adjacent)
     self.text_inaccessible_load.text = f'{inaccessible_load:,.1f}%'
+
+  def dropdown_menu_unserved_source_change(self, **event_args):
+    """This method is called when an item is selected"""
+    unserved_source = self.dropdown_menu_unserved_source.selected_value
+    self.item['unserved_source'] = unserved_source
+    self.heating_system_unserved.visible = (unserved_source == 'other')

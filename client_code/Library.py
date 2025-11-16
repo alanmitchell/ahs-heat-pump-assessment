@@ -59,3 +59,9 @@ DHW_AFTER_HP = [
   ('New Instant Tankless', "new-tankless"),
   ('New Heat Pump Water Htr', "new-hpwh")
 ]
+
+UNSERVED_HP_LOAD = [
+  ('Existing Primary System', 'primary'),
+  ('Existing Secondary System', 'secondary'),
+  ('Other', 'other')
+]
