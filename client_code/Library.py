@@ -7,11 +7,11 @@ VERSION_MODEL_INPUTS = "1.0"      # the structure of the model inputs
 # Lists of Fuels.  The IDs match the IDs in the Heat Pump Calculator API (that fuel list
 # comes from AkWarm).
 FUELS_ALL = [
-  ('Oil', "oil"),
+  ('Oil', "oil1"),
   ('Propane', "propane"),
   ('Electricity', "elec"),
-  ('Birch/Hardwood', "hardwood"),
-  ('Spruce/Softwood', "softwood"),
+  ('Birch/Har', "birch"),
+  ('Spruce/Softwood', "spruce"),
   ('Wood Pellets', "pellets"),
   ('Natural Gas', "ng")
 ]
@@ -24,11 +24,11 @@ FUELS_DRYING_COOKING = [
 
 # Space Heating System Types, based on Fuel
 SPACE_HTG_SYS_TYPES = {
-  "oil": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Toyostove or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
+  "oil1": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Toyostove or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
   "propane": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Rinnai or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
   "elec": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Baseboard or Radiant Htr', "elec-space"), ('Air-Source Heat Pump', "ashp"), ('Ground-Source Heat Pump', "gshp"), ('Water-Source Heat Pump', "wshp")],
-  "hardwood": [('Wood Stove', "stove"), ('Wood Boiler', "boiler")],
-  "softwood": [('Wood Stove', "stove"), ('Wood Boiler', "boiler")],
+  "birch": [('Wood Stove', "stove"), ('Wood Boiler', "boiler")],
+  "spruce": [('Wood Stove', "stove"), ('Wood Boiler', "boiler")],
   "pellets": [('Pellet Stove', "stove"), ('Pellet Boiler', "boiler")],
   "ng": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Rinnai or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
 }
