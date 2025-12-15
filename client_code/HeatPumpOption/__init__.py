@@ -20,7 +20,6 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     self.dropdown_menu_dhw_after_fuel.items = Library.FUELS_ALL
     self.dropdown_menu_unserved_source.items = Library.UNSERVED_HP_LOAD
     self.heating_system_unserved.visible = False
-    self.heating_system_unserved.text_box_pct_load_served.enabled = False
 
   def recalc_cost_totals(self, **event_args):
     """This method is called when the text in this component is edited."""
@@ -81,7 +80,7 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     self.dropdown_menu_unserved_source.selected_value = self.item.get('unserved_source', None)
     self.dropdown_menu_unserved_source_change()
 
-    self.heating_system_unserved.item = self.item.get('heating_system_unserved', {'pct_load_served': 100}).copy()
+    self.heating_system_unserved.item = self.item.get('heating_system_unserved', {}).copy()
     self.heating_system_unserved.refresh()
 
   def update_item_property(self):

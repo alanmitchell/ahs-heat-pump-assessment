@@ -33,6 +33,3 @@ class HeatingSystem(HeatingSystemTemplate):
   def dropdown_menu_system_type_change(self, **event_args):
     """This method is called when an item is selected"""
     self.item['system_type'] = self.dropdown_menu_system_type.selected_value
-
-  def pct_load_change(self, **event_args):
-    self.raise_event("x-pct-load-change", value=self.text_box_pct_load_served.text, sender=self, **event_args)

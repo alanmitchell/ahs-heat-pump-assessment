@@ -43,22 +43,6 @@ components:
     name: text_box_efficiency
     properties: {label: Enter in Percent, type: number}
     type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
-  - layout_properties: {col_xs: 0, row: QCLMXM, width_xs: 4}
-    name: text_pct_load_served
-    properties:
-      align: right
-      spacing:
-        margin: ['20', null, null, null]
-      style: body
-      text: 'Percent of Heat Load Served:'
-    type: form:dep_lin1x4oec0ytd:_Components.Text
-  - data_bindings:
-    - {code: 'self.item[''pct_load_served'']', property: text, writeback: true}
-    event_bindings: {lost_focus: pct_load_change, pressed_enter: pct_load_change}
-    layout_properties: {col_xs: 4, row: QCLMXM, width_xs: 8}
-    name: text_box_pct_load_served
-    properties: {label: Enter in Percent, type: number}
-    type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
   layout_properties: {grid_position: 'CWVNZL,OCJOTE'}
   name: grid_panel_1
   properties:

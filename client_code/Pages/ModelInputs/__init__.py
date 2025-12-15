@@ -44,10 +44,8 @@ class ModelInputs(ModelInputsTemplate):
     self.city_map = {item['label']: item['id'] for item in resp}
 
     # initial visibility of heating system tabs
-    self.heating_system_primary.set_event_handler("x-pct-load-change", self.primary_load_change)
     self.heating_system_primary.visible = True
     self.heating_system_secondary.visible = False
-    self.heating_system_secondary.text_box_pct_load_served.enabled = False
 
     # DHW System Type
     self.dropdown_menu_dhw_sys_type.items = Library.DHW_SYS_TYPES
@@ -102,9 +100,9 @@ class ModelInputs(ModelInputsTemplate):
       self.dropdown_menu_drying_fuel.selected_value = inp.get('drying_fuel', None)
 
       # heating systems
-      self.heating_system_primary.item = inp.get('heating_system_primary', {'pct_load_served': 100}).copy()
+      self.heating_system_primary.item = inp.get('heating_system_primary', {}).copy()
       self.heating_system_primary.refresh()
-      self.heating_system_secondary.item = inp.get('heating_system_secondary', {'pct_load_served': 0}).copy()
+      self.heating_system_secondary.item = inp.get('heating_system_secondary', {}).copy()
       self.heating_system_secondary.refresh()
       
       # heat pump options
@@ -192,10 +190,6 @@ class ModelInputs(ModelInputsTemplate):
       controls(True, False)
     else:
       controls()
-
-  def primary_load_change(self, value, **event_args):
-    self.heating_system_secondary.item['pct_load_served'] = 100.0 - value
-    self.heating_system_secondary.refresh()
 
   def dropdown_menu_garage_count_change(self, **event_args):
     self.item['garage_count'] = int(self.dropdown_menu_garage_count.selected_value)
