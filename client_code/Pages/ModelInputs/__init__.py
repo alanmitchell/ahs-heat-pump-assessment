@@ -183,7 +183,7 @@ class ModelInputs(ModelInputsTemplate):
       self.dropdown_menu_dhw_fuel.enabled = fuel_enabled
     sys_type = self.dropdown_menu_dhw_sys_type.selected_value
     self.item['dhw_sys_type'] = sys_type
-    if sys_type == "from-space-htr":
+    if sys_type == "from-space-htr" or sys_type is None:
       controls(False)
     elif sys_type == "hpwh":
       self.dropdown_menu_dhw_fuel.selected_value = "elec"

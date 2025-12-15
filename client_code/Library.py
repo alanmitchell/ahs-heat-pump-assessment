@@ -38,6 +38,7 @@ SPACE_HTG_SYS_TYPES = {
 
 # Water Heating System Types
 DHW_SYS_TYPES = [
+  ('Not Present', None),
   ('From Space Heater', "from-space-htr"),
   ('Tank Heater', "tank"),
   ('Instant Tankless', "tankless"),
