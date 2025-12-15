@@ -7,6 +7,7 @@ VERSION_MODEL_INPUTS = "1.0"      # the structure of the model inputs
 # Lists of Fuels.  The IDs match the IDs in the Heat Pump Calculator API (that fuel list
 # comes from AkWarm).
 FUELS_ALL = [
+  ('None', None),
   ('Oil', "oil1"),
   ('Propane', "propane"),
   ('Electricity', "elec"),
@@ -17,6 +18,7 @@ FUELS_ALL = [
 ]
 # Clothes Drying & Cooking fuels
 FUELS_DRYING_COOKING = [
+  ('Not Present', None),
   ('Propane', "propane"),
   ('Electricity', "elec"),
   ('Natural Gas', "ng")
@@ -24,6 +26,7 @@ FUELS_DRYING_COOKING = [
 
 # Space Heating System Types, based on Fuel
 SPACE_HTG_SYS_TYPES = {
+  None: [],
   "oil1": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Toyostove or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
   "propane": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Rinnai or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
   "elec": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Baseboard or Radiant Htr', "elec-space"), ('Air-Source Heat Pump', "ashp"), ('Ground-Source Heat Pump', "gshp"), ('Water-Source Heat Pump', "wshp")],
