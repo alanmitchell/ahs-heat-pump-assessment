@@ -112,3 +112,7 @@ def get_sheet_values(spreadsheet_id: str, sheet_name: str) -> str:
   values = result.get("values", [])
 
   return values
+
+@anvil.server.callable
+def do_nothing():
+  return None
