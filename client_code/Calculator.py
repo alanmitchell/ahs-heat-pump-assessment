@@ -18,7 +18,7 @@ def make_api_analyze_inputs(ui_inputs):
   
   api_inp = {
 '''
-  'city_id': 
+  'city_id': inp['model_city]
 
   energy_prices: EnergyPrices    # Energy price information for the building
 
