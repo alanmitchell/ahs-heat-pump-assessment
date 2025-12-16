@@ -13,6 +13,7 @@ from anvil.users import get_user
 from ...Utility import chg_none, active_client_name
 from ...HeatPumpOption import HeatPumpOption
 from ... import Library
+from ... import Calculator
 
 class ModelInputs(ModelInputsTemplate):
   def __init__(self, **properties):
@@ -26,7 +27,7 @@ class ModelInputs(ModelInputsTemplate):
     self.client_id = get_user()["last_client_id"]
     
     # get base URL for Heatpump Calculator API
-    self.calc_api_url = anvil.server.call('calculator_api_base_url')
+    self.calc_api_url = Calculator.CALCULATOR_API_BASE_URL
 
     # load the modeling city Autocomplete Text box with suggestions.
     resp = anvil.http.request(
@@ -231,4 +232,5 @@ class ModelInputs(ModelInputsTemplate):
 
   def button_calculate_click(self, **event_args):
     """This method is called when the component is clicked."""
-    alert('Just Kidding!')
+    self.save_values()
+    Calculator.analyze_options(self.item)
