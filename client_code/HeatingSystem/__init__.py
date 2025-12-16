@@ -30,7 +30,7 @@ class HeatingSystem(HeatingSystemTemplate):
     system_choices = Library.SPACE_HTG_SYS_TYPES[fuel_id]
     valid_values = [v for _, v in system_choices]
     self.dropdown_menu_system_type.items = system_choices
-    if self.item['system_type'] not in valid_values:
+    if 'system_type' in self.item and self.item['system_type'] not in valid_values:
       self.item['system_type'] = None
       self.dropdown_menu_system_type.selected_value = None
 
