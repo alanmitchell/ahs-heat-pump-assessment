@@ -185,9 +185,13 @@ class ModelInputs(ModelInputsTemplate):
     sys_type = self.dropdown_menu_dhw_sys_type.selected_value
     self.item['dhw_sys_type'] = sys_type
     if sys_type == "from-space-htr" or sys_type is None:
+      # set fuel to None; eventually pull fuel from Primary Space Heater
+      self.dropdown_menu_dhw_fuel.selected_value = None
+      self.dropdown_menu_dhw_fuel_change()
       controls(False)
     elif sys_type == "hpwh":
       self.dropdown_menu_dhw_fuel.selected_value = "elec"
+      self.dropdown_menu_dhw_fuel_change()
       controls(True, False)
     else:
       controls()

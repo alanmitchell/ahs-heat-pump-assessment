@@ -42,7 +42,7 @@ def make_api_analyze_inputs(ui_inputs):
   'occupant_count': inp['occupant_count'],
   'indoor_heat_setpoint': 70.0,
   'ua_per_ft2': 0.19,    # will be changed in model fitting
-  'dhw_fuel_id': Fuel_id | None = None       # ID of domestic hot water fuel
+  'dhw_fuel_id':        # ID of domestic hot water fuel
   'dhw_ef': float = 0.62                     # Energy Factor of DHW System
   'clothes_drying_fuel_id': Fuel_id | None = None   # ID of clothes drying fuel
   'cooking_fuel_id': Fuel_id | None = None   # ID of cooking fuel
