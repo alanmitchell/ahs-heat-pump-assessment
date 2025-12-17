@@ -18,7 +18,9 @@ def make_api_analyze_inputs(ui_inputs):
 
   # Energy Prices sub-dictionary
   energy_prices = {
-    
+    'utility_id': inp['rate_sched'],
+    'pce_limit': 750.0,
+    'elec_rate_override': None,
   }
 
   # Tuple containing Primary and Secondary conventional heating systems
