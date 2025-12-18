@@ -6,6 +6,18 @@ import anvil.http
 # Base URL to access heat pump calculator API endpoints.
 CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
 
+# Auxiliary electric use values (kWh / MMBTU output) for all possible heating system types
+HEATING_SYS_AUX = {
+  'ashp': 0.0,        # included in COP
+  'stove': 0.0,       # e.g. wood stove, no electricity
+  'pellet-stove': 9999,     # wood pellet stove
+  'wshp': 0.0,        # included in COP
+  'hi-effic-space': 9999, 
+  'furnace': 9999, 
+  'no-elec-space': 0.0,        # n
+  'gshp', 'elec-space', 'boiler'
+}
+
 def analyze_options(ui_inputs):
   """Performs the full analysis of all heat pump options and As Installed case.
   'input_dict': The dictionary of all the model inputs.
@@ -29,6 +41,7 @@ def make_api_analyze_inputs(ui_inputs):
     'sales_tax_override': None
   }
 
+  # --- Conventional Heating Systems
   # Tuple containing Primary and Secondary conventional heating systems
   conventional_systems = (
     {

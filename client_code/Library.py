@@ -27,13 +27,13 @@ FUELS_DRYING_COOKING = [
 # Space Heating System Types, based on Fuel
 SPACE_HTG_SYS_TYPES = {
   None: [],
-  "oil1": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Toyostove or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
-  "propane": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Rinnai or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
+  "oil1": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Toyostove or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "no-elec-space")],
+  "propane": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Rinnai or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "no-elec-space")],
   "elec": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Baseboard or Radiant Htr', "elec-space"), ('Air-Source Heat Pump', "ashp"), ('Ground-Source Heat Pump', "gshp"), ('Water-Source Heat Pump', "wshp")],
   "birch": [('Wood Stove', "stove"), ('Wood Boiler', "boiler")],
   "spruce": [('Wood Stove', "stove"), ('Wood Boiler', "boiler")],
-  "pellets": [('Pellet Stove', "stove"), ('Pellet Boiler', "boiler")],
-  "ng": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Rinnai or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "space")],
+  "pellets": [('Pellet Stove', "pellet-stove"), ('Pellet Boiler', "boiler")],
+  "ng": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Rinnai or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "no-elec-space")],
 }
 
 # Water Heating System Types
