@@ -76,10 +76,21 @@ def make_api_analyze_inputs(ui_inputs):
   fuel = inp['heating_system_secondary'].get('fuel', None)
   sys_type = inp['heating_system_secondary'].get('system_type', None)
   aux_use = HEATING_SYS_AUX[sys_type]
+  effic = inp['heating_system_secondary'].get('efficiency', 80.0)
+  if effic is not None:
+    effic /= 100.0
+    # div by 0 protection for calc API
+    if effic == 0.0:
+      effic = 0.8
+  else:
+    effic = 0.8     # protect against div by 0 in calc API
+  # extra div by 0 protection in calc API
+  if effic == 0.0:
+    effic = 0.8
   secondary_info = {
     'heat_fuel_id': fuel,
     # prior error check will ensure value if fuel is not None
-    'heating_effic': inp['heating_system_secondary'].get('efficiency', 80.0) / 100.0,
+    'heating_effic': effic,
     'aux_elec_use': aux_use,
     'frac_load_served': 0.0      # will be adjusted during model fitting
   }
