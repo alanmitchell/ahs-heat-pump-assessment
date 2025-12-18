@@ -134,13 +134,12 @@ class ModelInputs(ModelInputsTemplate):
         method="GET",
         json=True
       )
-      oil_price = city['Oil1Price'] or city['Oil2Price']   # No. 1 oil has preference
-      self.text_box_oil_price.text = '%.2f' % oil_price if oil_price else None
-      self.text_box_propane_price.text = '%.2f' % city['PropanePrice'] if city['PropanePrice'] else None
-      self.text_box_ng_price.text = '%.2f' % city['GasPrice'] if city['GasPrice'] else None
-      self.text_box_birch_price.text = city['BirchPrice']
-      self.text_box_spruce_price.text = city['SprucePrice']
-      # do pellet price here
+      self.item['oil_price'] = city['Oil1Price'] or city['Oil2Price']   # No. 1 oil has preference
+      self.item['propane_price'] = city['PropanePrice']
+      self.item['ng_price'] = round(city['GasPrice'], 3)
+      self.item['birch_price'] = city['BirchPrice']
+      self.item['spruce_price'] = city['SprucePrice']
+      self.item['pellet_price'] = city['WoodPelletsPrice']
 
       # Populate Electric Utility dropdown
       choices = [(util['label'], util['id']) for util in city['ElecUtilities'] if 'Resid' in util['label']]
