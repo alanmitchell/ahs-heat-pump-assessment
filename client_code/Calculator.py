@@ -44,7 +44,9 @@ def analyze_options(ui_inputs):
   """Performs the full analysis of all heat pump options and As Installed case.
   'input_dict': The dictionary of all the model inputs.
   """
-  anvil.server.call('pprint', ui_inputs)
+  #anvil.server.call('pprint', ui_inputs)
+  api_inputs = make_api_analyze_inputs(ui_inputs)
+  anvil.server.call('pprint', api_inputs)
 
 def make_api_analyze_inputs(ui_inputs):
   # shortcut variable
@@ -64,15 +66,25 @@ def make_api_analyze_inputs(ui_inputs):
   }
 
   # --- Conventional Heating Systems
+  aux_use = HEATING_SYS_AUX[inp['heating_system_primary']['system_type']]
+  primary_info = {
+    'heat_fuel_id': inp['heating_system_primary']['fuel'],
+    'heating_effic': inp['heating_system_primary']['efficiency'] / 100.0,
+    'aux_elec_use': aux_use,
+    'frac_load_served': 1.0      # will be adjusted during model fitting
+  }
+  fuel = inp['heating_system_secondary'].get('fuel', None)
+  sys_type = inp['heating_system_secondary'].get('system_type', None)
+  aux_use = HEATING_SYS_AUX[sys_type]
+  secondary_info = {
+    'heat_fuel_id': fuel,
+    # prior error check will ensure value if fuel is not None
+    'heating_effic': inp['heating_system_secondary'].get('efficiency', 80.0) / 100.0,
+    'aux_elec_use': aux_use,
+    'frac_load_served': 0.0      # will be adjusted during model fitting
+  }
   # Tuple containing Primary and Secondary conventional heating systems
-  conventional_systems = (
-    {
-      
-    },
-    {
-      
-    }
-  )
+  conventional_systems = (primary_info, secondary_info)
 
   # determine DHW API inputs
   if inp['dhw_sys_type'] == 'from-space-htr':
