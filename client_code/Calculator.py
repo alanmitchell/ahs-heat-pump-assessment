@@ -1,4 +1,5 @@
-"""Module for managing the interface to the backend Calculator API.
+"""Module for managing the interface to the backend Calculator API. Prepares inputs
+from the UI to be used in the Heat Pump Calculator API.
 """
 import anvil.server
 import anvil.http
@@ -8,14 +9,35 @@ CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
 
 # Auxiliary electric use values (kWh / MMBTU output) for all possible heating system types
 HEATING_SYS_AUX = {
+  None: 0.0,          # Secondary system may be None
   'ashp': 0.0,        # included in COP
   'stove': 0.0,       # e.g. wood stove, no electricity
-  'pellet-stove': 9999,     # wood pellet stove
+  
+  # 150 W for 25,000 BTU/hr output according to  See https://chatgpt.com/share/69443d58-3934-800c-90fb-7c12af04d8af
+  # But, larger pellet stoves were addressed in this Chat: https://chatgpt.com/share/6944426a-2f18-800c-9728-eb9d72193f44
+  # That chat said 50 - 150 W for 34 - 50,000 BTU/hr pellet stove, a much lower value.
+  # I'll use 125 W for 40,000 BTU/hr which is 3.1 and adjust up to 3.7 for part-load operation.
+  'pellet-stove': 3.7,   
+  
   'wshp': 0.0,        # included in COP
-  'hi-effic-space': 9999, 
-  'furnace': 9999, 
-  'no-elec-space': 0.0,        # n
-  'gshp', 'elec-space', 'boiler'
+  
+  # Toyo L-530/560, 40 W electric for 22,000 BTU/hr output is 1.8 kWh/MMBTU but increase for
+  # part-load.  See: https://chatgpt.com/share/69443f0c-5f10-800c-a1d5-cf241027a500
+  'hi-effic-space': 2.3,
+
+  # From https://chatgpt.com/share/6944426a-2f18-800c-9728-eb9d72193f44, gas/oil furnace is
+  # 2 - 4% electric as fraction of energy output. 3% is 8.8 kWh/MMBTU. Generally cycles so no 
+  # major part-load adjustment.
+  'furnace': 8.8, 
+
+  'no-elec-space': 0.0,        # fuel space heater not needing electricity
+  'gshp': 0.0,         # included in COP
+  'elec-space': 0.0,   # already in the main fuel use of heater
+
+  # From https://chatgpt.com/share/6944426a-2f18-800c-9728-eb9d72193f44, hydronic boiler is
+  # 0.5 - 2.0%.  Does not look like they are accounting for burner gun use.  I'll use 1.5%,
+  # which is 4.4 kWh/MMBTU
+  'boiler': 4.4,
 }
 
 def analyze_options(ui_inputs):
