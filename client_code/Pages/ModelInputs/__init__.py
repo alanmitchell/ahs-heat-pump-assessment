@@ -140,6 +140,7 @@ class ModelInputs(ModelInputsTemplate):
       self.text_box_ng_price.text = '%.2f' % city['GasPrice'] if city['GasPrice'] else None
       self.text_box_birch_price.text = city['BirchPrice']
       self.text_box_spruce_price.text = city['SprucePrice']
+      # do pellet price here
 
       # Populate Electric Utility dropdown
       choices = [(util['label'], util['id']) for util in city['ElecUtilities'] if 'Resid' in util['label']]
