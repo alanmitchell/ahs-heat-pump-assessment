@@ -50,7 +50,10 @@ def analyze_options(ui_inputs):
   api_inputs = make_api_analyze_inputs(ui_inputs)
   #anvil.server.call('pprint', api_inputs)
   response = calculate_results(api_inputs)
-  anvil.server.call('pprint', response['annual_results'])
+  try:
+    anvil.server.call('pprint', response['annual_results'])
+  except:
+    anvil.server.call('pprint', response)
 
 def make_api_analyze_inputs(ui_inputs):
   # shortcut variable
@@ -72,7 +75,8 @@ def make_api_analyze_inputs(ui_inputs):
     'pce_rate_override': None,
     'customer_charge_override': None,
     'co2_lbs_per_kwh_override': None,
-    'fuel_price_overrides': {fuel_id: inp[fuel_name] for fuel_name, fuel_id in fuel_name_to_id.items() if inp[fuel_name] is not None},
+    #'fuel_price_overrides': {fuel_id: inp[fuel_name] for fuel_name, fuel_id in fuel_name_to_id.items() if inp[fuel_name] is not None},
+    'fuel_price_overrides': {fuel_id: inp[fuel_name] for fuel_name, fuel_id in fuel_name_to_id.items()},
     'sales_tax_override': None
   }
 
@@ -139,10 +143,16 @@ def calculate_results(inputs):
   #import json
   #print(json.dumps(inputs))  # will throw if not serializable
 
-  resp = anvil.http.request(
-    CALCULATOR_API_BASE_URL + 'energy/energy-model',
-    method="POST",
-    data=inputs,
-    json=True
-  )
+  try:
+    resp = anvil.http.request(
+      CALCULATOR_API_BASE_URL + 'energy/energy-model',
+      method="POST",
+      data=inputs,
+      json=True
+    )
+  except anvil.http.HttpError as e:
+    print(f"Error {e.status}")
+    print(f"Error {e.content}")
+    return {'status': e.status}
+
   return resp
