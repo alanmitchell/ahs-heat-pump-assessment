@@ -23,9 +23,6 @@ class ModelInputs(ModelInputsTemplate):
     self.set_event_handler('show', self.form_show)
     self.set_event_handler('hide', self.save_values)
 
-    # get the client we are currently working on
-    self.client_id = get_user()["last_client_id"]
-    
     # get base URL for Heatpump Calculator API
     self.calc_api_url = Calculator.CALCULATOR_API_BASE_URL
 
@@ -238,4 +235,5 @@ class ModelInputs(ModelInputsTemplate):
   def button_calculate_click(self, **event_args):
     """This method is called when the component is clicked."""
     self.save_values()
-    Calculator.analyze_options(self.item)
+    #Calculator.analyze_options(self.item)
+    anvil.server.call('get_actual_use', self.client_id)
