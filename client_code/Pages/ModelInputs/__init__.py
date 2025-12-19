@@ -134,12 +134,13 @@ class ModelInputs(ModelInputsTemplate):
         method="GET",
         json=True
       )
-      self.item['oil_price'] = city['Oil1Price'] or city['Oil2Price']   # No. 1 oil has preference
-      self.item['propane_price'] = city['PropanePrice']
-      self.item['ng_price'] = round(city['GasPrice'], 3)
-      self.item['birch_price'] = city['BirchPrice']
-      self.item['spruce_price'] = city['SprucePrice']
-      self.item['pellet_price'] = city['WoodPelletsPrice']
+      oil_price = city['Oil1Price'] or city['Oil2Price']    # No. 1 oil has preference
+      self.text_box_oil_price.label = f'${oil_price:.2f} / gallon' if oil_price else 'NA / gallon'
+      self.text_box_propane_price.label = f"${city['PropanePrice']:.2f} / gallon" if city['PropanePrice'] else 'NA / gallon'
+      self.text_box_ng_price.label = f"${city['GasPrice']:.3f} / ccf" if city['GasPrice'] else 'NA / ccf'
+      self.text_box_birch_price.label = f"${city['BirchPrice']:.0f} / cord" if city['BirchPrice'] else 'NA / cord'
+      self.text_box_spruce_price.label = f"${city['SprucePrice']:.0f} / cord" if city['SprucePrice'] else 'NA / cord'
+      self.text_box_pellet_price.label = f"${city['WoodPelletsPrice']:.3f} / pound" if city['WoodPelletsPrice'] else 'NA / pound'
 
       # Populate Electric Utility dropdown
       choices = [(util['label'], util['id']) for util in city['ElecUtilities'] if 'Resid' in util['label']]
