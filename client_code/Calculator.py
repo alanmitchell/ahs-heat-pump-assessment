@@ -48,14 +48,23 @@ def analyze_options(ui_inputs):
   """
   #anvil.server.call('pprint', ui_inputs)
   api_inputs = make_api_analyze_inputs(ui_inputs)
-  anvil.server.call('pprint', api_inputs)
+  #anvil.server.call('pprint', api_inputs)
+  response = calculate_results(api_inputs)
+  anvil.server.call('pprint', response['annual_results'])
 
 def make_api_analyze_inputs(ui_inputs):
   # shortcut variable
   inp = ui_inputs
 
   # Energy Prices sub-dictionary
-  fuel_price_names = ('oil_price', 'propane_price', 'ng_price', 'birch_price', 'spruce_price', 'pellet_price')
+  fuel_name_to_id = {
+    'oil_price': 'oil1', 
+    'propane_price': 'propane', 
+    'ng_price': 'ng', 
+    'birch_price': 'birch', 
+    'spruce_price': 'spruce', 
+    'pellet_price': 'pellets'
+  }
   energy_prices = {
     'utility_id': inp['rate_sched'],
     'pce_limit': 750.0,
@@ -63,7 +72,7 @@ def make_api_analyze_inputs(ui_inputs):
     'pce_rate_override': None,
     'customer_charge_override': None,
     'co2_lbs_per_kwh_override': None,
-    'fuel_price_overrides': {fuel: inp[fuel] for fuel in fuel_price_names if inp[fuel] is not None},
+    'fuel_price_overrides': {fuel_id: inp[fuel_name] for fuel_name, fuel_id in fuel_name_to_id.items() if inp[fuel_name] is not None},
     'sales_tax_override': None
   }
 
@@ -126,10 +135,14 @@ def make_api_analyze_inputs(ui_inputs):
 
 def calculate_results(inputs):
 
+  # Can enter the JSON below into Insomnium to debug
+  #import json
+  #print(json.dumps(inputs))  # will throw if not serializable
+
   resp = anvil.http.request(
     CALCULATOR_API_BASE_URL + 'energy/energy-model',
     method="POST",
     data=inputs,
     json=True
   )
-  anvil.server.call('pprint', resp)
+  return resp
