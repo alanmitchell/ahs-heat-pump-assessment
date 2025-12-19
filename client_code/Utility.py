@@ -3,7 +3,6 @@
 from anvil.users import get_user
 import anvil.server
 
-
 def chg_none(val, none_replacement=""):
   """Returns 'val' unless it is None, whereupon it return 'none_replacement'.
   """
@@ -17,6 +16,11 @@ def chg_none_blank(val: str, replacement=""):
     return replacement
   else:
     return val
+
+def convert(value, match_list, replacement):
+  '''If 'value' is in 'match_list', a Tuple or List, return 'replacement', otherwise return 'value'.
+  '''
+  return replacement if value in match_list else value
 
 def text_to_float(tb_control):
   """Returns the value of a text box that is configured with type="number". A text box

@@ -4,6 +4,8 @@ from the UI to be used in the Heat Pump Calculator API.
 import anvil.server
 import anvil.http
 
+from .Utility import convert
+
 # Base URL to access heat pump calculator API endpoints.
 CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
 
@@ -73,20 +75,12 @@ def make_api_analyze_inputs(ui_inputs):
     'aux_elec_use': aux_use,
     'frac_load_served': 1.0      # will be adjusted during model fitting
   }
-  fuel = inp['heating_system_secondary'].get('fuel', None)
-  sys_type = inp['heating_system_secondary'].get('system_type', None)
+  fuel = inp['heating_system_secondary'].get('fuel')
+  sys_type = inp['heating_system_secondary'].get('system_type')
   aux_use = HEATING_SYS_AUX[sys_type]
-  effic = inp['heating_system_secondary'].get('efficiency', 80.0)
-  if effic is not None:
-    effic /= 100.0
-    # div by 0 protection for calc API
-    if effic == 0.0:
-      effic = 0.8
-  else:
-    effic = 0.8     # protect against div by 0 in calc API
-  # extra div by 0 protection in calc API
-  if effic == 0.0:
-    effic = 0.8
+  effic = inp['heating_system_secondary'].get('efficiency')
+  # if missing or 0.0 convert to 80% to protect against divide by zero in Calc API
+  effic = convert(effic, (None, '', 0.0), 80.0) / 100.0
   secondary_info = {
     'heat_fuel_id': fuel,
     # prior error check will ensure value if fuel is not None
