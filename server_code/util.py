@@ -13,3 +13,8 @@ def pprint(obj):
   """Pretty prints 'obj' to the console.
   """
   pretty.pprint(obj)
+
+def convert(value, match_list, replacement):
+  '''If 'value' is in 'match_list', a Tuple or List, return 'replacement', otherwise return 'value'.
+  '''
+  return replacement if value in match_list else value

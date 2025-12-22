@@ -8,6 +8,7 @@ from anvil.users import get_user
 
 from .client_data import get_client
 from .google_util import get_sheet_values
+from .util import convert
 
 # maps day of year to cumulative oil use through that day.
 # Based on modeling a 2200 square foot Juneau home assuming Space and DHW end uses
@@ -15,7 +16,7 @@ from .google_util import get_sheet_values
 OIL_DAY_NUM = np.array([0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365])
 OIL_CUM_USE = np.array([0.0, 0.146, 0.264, 0.385, 0.461, 0.511, 0.549, 0.583, 0.623, 0.674, 0.754, 0.867, 1.000])
 
-def fills_to_use(range_string: str, method: str) -> float:
+def fills_to_use(range_string: str | None, method: str) -> float:
   """Converts a string generated from the custom Google Sheets function RANGE_TO_LIST into an
   annual usage value. The 'range_str' is the RANGE_TO_LIST of a two-column range containing
   fill dates and fill amounts.  RANGE_TO_LIST converts dates into serial numbers using the Excel
@@ -25,6 +26,10 @@ def fills_to_use(range_string: str, method: str) -> float:
   The return value is a float value equal to the average annual usage implied by the data. 
   If there are problems with the data, an error is raised.
   """
+  if range_string is None:
+    # no fuel if the range is empty
+    return 0.0
+
   def convert_val(x):
     # If x looks like an Excel datetime serial number, return the associated Python datetime
     # value. Otherwise return the float value of x. Raise an error if x is non-numeric.
@@ -64,7 +69,20 @@ def fills_to_use(range_string: str, method: str) -> float:
   if state != 'summing fills' or last_date is None:
     raise ValueError('Bad formatted fill data.')
   else:
-    return total_use
+    # calculate annual average use
+    # make a function that converts the day of the year (1 - 366) into a cumulative fraction
+    # of fuel use.
+    match method:
+      case 'oil':
+        day_to_frac_use = lambda doy: np.interp(doy, OIL_DAY_NUM, OIL_CUM_USE)
+      case 'linear':
+        day_to_frac_use = lambda doy: doy / 365.0
+      case _:
+        raise ValueError('Unsupported value for "method".')
+    start_yr = start_date.year + day_to_frac_use(start_date.timetuple().tm_yday)
+    end_yr = last_date.year + day_to_frac_use(last_date.timetuple().tm_yday)
+    
+    return float(total_use / (end_yr - start_yr))      # converts np.float to regular float
 
 @anvil.server.callable
 def get_actual_use(client_id):
@@ -87,19 +105,43 @@ def get_actual_use(client_id):
           variables[row[0]] = None
 
       # process the variables
-      print(variables)
+      err_msgs = []
       for var, val in variables.items():
-        match var:
-          case 'spruce_cords' | 'birch_cords' | 'pellet_pounds':
-            # convert non-numeric to 0.0
-            try:
-              variables[var] = float(val)
-            except (TypeError, ValueError):
-              variables[var] = 0.0
+        try:
+          match var:
+            case 'spruce_cords' | 'birch_cords' | 'pellet_pounds':
+              try:
+                variables[var] = float(convert(val, (None,), 0.0))
+              except (TypeError, ValueError):
+                raise ValueError('Cannot convert cell contents to a number.')
+  
+            case 'oil_fills':
+              variables[var] = fills_to_use(val, 'oil')
 
-          case 'oil_fills':
-            variables[var] = fills_to_use(val, 'oil')
+            case 'propane_fills':
+              variables[var] = fills_to_use(val, 'linear')
 
-      print(variables)
+            case 'electricity_monthly':
+              try:
+                mo_vals = [float(x) for x in val.split('|')]
+              except Exception as e:
+                raise ValueError('One or more monthly values is missing or not a number.')
+              variables[var] = mo_vals
+
+            case 'ng_use':
+              try:
+                mo_vals = [float(x) for x in val.split('|')]
+              except Exception as e:
+                raise ValueError('One or more monthly values is missing or not a number.')
+              variables[var] = sum(mo_vals)
+
+        except Exception as e:
+          err_msgs.append(f'Error processing {var}: {e}')
+
+      if len(err_msgs):
+        final_msg = ', '.join(err_msgs)
+        raise ValueError(final_msg)
+      else:
+        print(variables)
   # if we got to here, no User or client
   return {}
