@@ -8,8 +8,10 @@ from .google_util import get_sheet_values
 # maps day of year to cumulative oil use through that day.
 # Based on modeling a 2200 square foot Juneau home assuming Space and DHW end uses
 # are served by Oil.  See gdrive/alaska-heat-smart/hp-calculator/actual-use/oil-use.xlsx
-DAY_NUM = np.array([0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365])
-CUM_USE = np.array([0.0, 0.146, 0.264, 0.385, 0.461, 0.511, 0.549, 0.583, 0.623, 0.674, 0.754, 0.867, 1.000])
+OIL_DAY_NUM = np.array([0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365])
+OIL_CUM_USE = np.array([0.0, 0.146, 0.264, 0.385, 0.461, 0.511, 0.549, 0.583, 0.623, 0.674, 0.754, 0.867, 1.000])
+
+
 
 @anvil.server.callable
 def get_actual_use(client_id):
