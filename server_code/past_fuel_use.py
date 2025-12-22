@@ -1,5 +1,5 @@
 from typing import Any
-from datetime import date, timedelta, datetime
+from datetime import timedelta, datetime
 
 import numpy as np
 
@@ -22,19 +22,27 @@ def fills_to_use(range_string: str, method: str) -> float:
   date representation (0 = 12/30/1899).
   'method' indicates the pattern of usage assumed. A value of 'linear' means constant, non-seasonal
   usage. A value of 'oil' means seasonal usage following the pattern indicated by OIL_CUM_USE.
-  The return value is a float value equal to the annual usage implied by the data. If there are
-  problems with the data, an error is raised.
+  The return value is a float value equal to the average annual usage implied by the data. 
+  If there are problems with the data, an error is raised.
   """
   def convert_val(x):
-    # converts 
-    if x > 40000:
+    # If x looks like an Excel datetime serial number, return the associated Python datetime
+    # value. Otherwise return the float value of x. Raise an error if x is non-numeric.
+    try:
+      float_x = float(x)
+    except ValueError:
+      raise ValueError('Bad Formatted Fill Data.')
+
+    if float_x > 40000:
       # it's a date
-      return date(1899, 12, 30) + timedelta(days=x)
+      return datetime(1899, 12, 30) + timedelta(days=float_x)
     else:
       # should be a number
-      return float(x)
+      return float_x
 
   state = 'find start date'
+  start_date = None
+  last_date = None
   total_use = 0.0
   for val in range_string.split('|'):
     val = convert_val(val)
@@ -45,6 +53,7 @@ def fills_to_use(range_string: str, method: str) -> float:
           state = 'find second date'   # cuz need to skip any first fill value
       case 'find second date':
         if type(val) is datetime:
+          last_date = val
           state = 'summing fills'
       case 'summing fills':
         if type(val) is datetime:
@@ -52,7 +61,7 @@ def fills_to_use(range_string: str, method: str) -> float:
         else:
           total_use += val
 
-  if state != 'summing fills':
+  if state != 'summing fills' or last_date is None:
     raise ValueError('Bad formatted fill data.')
   else:
     return total_use
@@ -87,6 +96,10 @@ def get_actual_use(client_id):
               variables[var] = float(val)
             except (TypeError, ValueError):
               variables[var] = 0.0
+
+          case 'oil_fills':
+            variables[var] = fills_to_use(val, 'oil')
+
       print(variables)
   # if we got to here, no User or client
   return {}
