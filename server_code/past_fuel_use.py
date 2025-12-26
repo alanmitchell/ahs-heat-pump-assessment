@@ -134,7 +134,7 @@ def get_actual_use(historical_use_file_id):
             variables[var] = sum(mo_vals)
 
       except Exception as e:
-        err_msgs.append(f'Error processing {var}: {e}')
+        err_msgs.append(f'**{var}**: {e}')
 
     if len(err_msgs):
       final_msg = '\n'.join(err_msgs)

@@ -57,11 +57,24 @@ class PastFuel(PastFuelTemplate):
       client = anvil.server.call('get_client', client_id)
       historical_file_id = client['historical_use_file_id']  # file id of historical use spreadsheet
       if historical_file_id is not None:
+        result = '|  |  |\n| --- | --- |\n'
         try:
           fuel_use =anvil.server.call('get_actual_use', historical_file_id)
-          self.rich_text_historical_use.content = str(fuel_use)
+          fuel_map = {
+            'electricity_monthly': ('Monthly Electricity', 'kWh', ''),
+            'oil_fills': ('Oil', 'gallons / year', '.0f'),
+            'propane_fills': ('Propane', 'gallons / year', '.0f'),
+            'ng_use': ('Natural Gas', 'ccf / year', '.0f'),
+            'spruce_cords': ('Spruce', 'cords / year', '.2f'),
+            'birch_cords': ('Birch', 'cords / year', '.2f'),
+            'pellet_pounds': ('Wood Pellets', 'pounds / year', '.0f')
+          }
+          for var, val in fuel_use.items():
+            label, units, fmt = fuel_map[var]
+            result += f'| **{label}** | {val:{fmt}} {units} |\n'
+          self.rich_text_historical_use.content = result
         except Exception as e:
-          self.rich_text_historical_use.content = f"***There are Data problems in the Spreadsheet:***\n\n{e}"
+          self.rich_text_historical_use.content = f"### There are Data problems in the Spreadsheet:\n\n{e}"
       else:
         set_default()
     else:
