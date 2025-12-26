@@ -50,14 +50,18 @@ class PastFuel(PastFuelTemplate):
     """This method is called when the component is clicked."""
     
     def set_default():
-      self.text_historical_use.text = "No Historical Use Spreadsheet has been created!"  # default if no data
+      self.rich_text_historical_use.content = "***No Historical Use Spreadsheet has been created!***"  # default if no data
     
     client_id = get_user()["last_client_id"]
     if client_id:
       client = anvil.server.call('get_client', client_id)
       historical_file_id = client['historical_use_file_id']  # file id of historical use spreadsheet
       if historical_file_id is not None:
-        self.text_historical_use.text = anvil.server.call('get_sheet_values', historical_file_id, "Output")
+        try:
+          fuel_use =anvil.server.call('get_actual_use', historical_file_id)
+          self.rich_text_historical_use.content = str(fuel_use)
+        except Exception as e:
+          self.rich_text_historical_use.content = f"***There are Data problems in the Spreadsheet:***\n\n{e}"
       else:
         set_default()
     else:

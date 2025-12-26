@@ -85,63 +85,62 @@ def fills_to_use(range_string: str | None, method: str) -> float:
     return float(total_use / (end_yr - start_yr))      # converts np.float to regular float
 
 @anvil.server.callable
-def get_actual_use(client_id):
-  """Returns a dictionary of actual fuel and electricity use for a Client with the
-  ID of 'client_id'.
+def get_actual_use(historical_use_file_id):
+  """Returns a dictionary of actual fuel and electricity use from the Google Sheet
+  with a file ID of 'historical_use_file_id'.
   """
   if get_user():
     # only excecute for logged-in Users
-    client = get_client(client_id, ('historical_use_file_id', ))
-    if client:
-      variables = {}
-      values = get_sheet_values(client['historical_use_file_id'], 'Output')
-      for row in values:
-        # row is a 1 or 2-element list. The first element is the variable name,
-        # and the second, if present, is the value. If not present there is not value
-        # for that variable.
-        if len(row) == 2:
-          variables[row[0]] = row[1]
-        else:
-          variables[row[0]] = None
-
-      # process the variables
-      err_msgs = []
-      for var, val in variables.items():
-        try:
-          match var:
-            case 'spruce_cords' | 'birch_cords' | 'pellet_pounds':
-              try:
-                variables[var] = float(convert(val, (None,), 0.0))
-              except (TypeError, ValueError):
-                raise ValueError('Cannot convert cell contents to a number.')
-  
-            case 'oil_fills':
-              variables[var] = fills_to_use(val, 'oil')
-
-            case 'propane_fills':
-              variables[var] = fills_to_use(val, 'linear')
-
-            case 'electricity_monthly':
-              try:
-                mo_vals = [float(x) for x in val.split('|')]
-              except Exception as e:
-                raise ValueError('One or more monthly values is missing or not a number.')
-              variables[var] = mo_vals
-
-            case 'ng_use':
-              try:
-                mo_vals = [float(x) for x in val.split('|')]
-              except Exception as e:
-                raise ValueError('One or more monthly values is missing or not a number.')
-              variables[var] = sum(mo_vals)
-
-        except Exception as e:
-          err_msgs.append(f'Error processing {var}: {e}')
-
-      if len(err_msgs):
-        final_msg = ', '.join(err_msgs)
-        raise ValueError(final_msg)
+    variables = {}
+    values = get_sheet_values(historical_use_file_id, 'Output')
+    for row in values:
+      # row is a 1 or 2-element list. The first element is the variable name,
+      # and the second, if present, is the value. If not present there is not value
+      # for that variable.
+      if len(row) == 2:
+        variables[row[0]] = row[1]
       else:
-        print(variables)
+        variables[row[0]] = None
+
+    # process the variables
+    err_msgs = []
+    for var, val in variables.items():
+      try:
+        match var:
+          case 'spruce_cords' | 'birch_cords' | 'pellet_pounds':
+            try:
+              variables[var] = float(convert(val, (None,), 0.0))
+            except (TypeError, ValueError):
+              raise ValueError('Cannot convert cell contents to a number.')
+
+          case 'oil_fills':
+            variables[var] = fills_to_use(val, 'oil')
+
+          case 'propane_fills':
+            variables[var] = fills_to_use(val, 'linear')
+
+          case 'electricity_monthly':
+            try:
+              mo_vals = [float(x) for x in val.split('|')]
+            except Exception as e:
+              raise ValueError('One or more monthly values is missing or not a number.')
+            variables[var] = mo_vals
+
+          case 'ng_use':
+            try:
+              mo_vals = [float(x) for x in val.split('|')]
+            except Exception as e:
+              raise ValueError('One or more monthly values is missing or not a number.')
+            variables[var] = sum(mo_vals)
+
+      except Exception as e:
+        err_msgs.append(f'Error processing {var}: {e}')
+
+    if len(err_msgs):
+      final_msg = '\n'.join(err_msgs)
+      raise ValueError(final_msg)
+    else:
+      return variables
+
   # if we got to here, no User or client
   return {}
