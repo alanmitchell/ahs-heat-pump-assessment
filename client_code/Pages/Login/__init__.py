@@ -14,6 +14,9 @@ class Login(LoginTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.layout.rich_text_client_name.content = ''
+    # move on if the user is already logged in.
+    if anvil.users.get_user():
+      self.navigate_to_next_form()
 
   def but_login_click(self, **event_args):
     cur_user = anvil.users.login_with_form(show_signup_option=False)
