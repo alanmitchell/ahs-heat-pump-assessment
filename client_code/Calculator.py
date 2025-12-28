@@ -42,20 +42,41 @@ HEATING_SYS_AUX = {
   'boiler': 4.4,
 }
 
-def analyze_options(ui_inputs):
+def analyze_options(ui_inputs, client_id):
   """Performs the full analysis of all heat pump options and As Installed case.
   'input_dict': The dictionary of all the model inputs.
+  'client_id': The ID of the client being modeled.
   """
   #anvil.server.call('pprint', ui_inputs)
-  api_inputs = make_api_analyze_inputs(ui_inputs)
-  #anvil.server.call('pprint', api_inputs)
+
+  # ----- Get the client record with needed fields
+  fields = ('historical_use_file_id')
+  client = anvil.server.call('get_client', client_id, fields)
+
+  # ----- Validate the inputs before doing calculations
+  err_msgs = []
+  # Acquire actual fuel use and capture errors.
+  if client['historical_use_file_id']:
+    try:
+      actual_fuel_use = anvil.server.call('get_actual_use', client['historical_use_file_id'])
+    except Exception as e:
+      err_msgs.append(f"There are Data problems in the Historical Fuel Use Spreadsheet:\n{e}")
+  else:
+    err_msgs.append('The Historical Fuel Use Spreadsheet has not been created.')
+
+  # ----- Make the API inputs for the base, existing building
+  base_bldg_api_inputs = make_api_base_bldg_inputs(ui_inputs)
+
+  # ----- Fit the inputs to actual fuel use.
+
+  
   response = calculate_results(api_inputs)
   try:
     anvil.server.call('pprint', response['annual_results'])
   except:
     anvil.server.call('pprint', response)
 
-def make_api_analyze_inputs(ui_inputs):
+def make_api_base_bldg_inputs(ui_inputs):
   # shortcut variable
   inp = ui_inputs
 
