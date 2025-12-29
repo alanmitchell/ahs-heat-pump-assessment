@@ -120,3 +120,13 @@ def make_base_bldg_inputs(ui_inputs):
   }
 
   return existing_building
+
+  def make_energy_model_fit_inputs(base_bldg, actual_fuel_use):
+    """Makes the energy model fit inputs for the Heat Pump Calculator API.
+    """
+    electricity_monthly = actual_fuel_use.copy().pop('electricity_monthly')
+    return {
+      "building_description": base_bldg,
+      "actual_fuel_by_type": actual_fuel_use,
+      "electric_use_by_month": electricity_monthly,
+    }

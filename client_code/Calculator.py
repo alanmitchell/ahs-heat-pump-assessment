@@ -4,12 +4,20 @@ from the UI to be used in the Heat Pump Calculator API.
 import anvil.server
 import anvil.http
 
-from .UI_to_API import make_base_bldg_inputs
+from .UI_to_API import make_base_bldg_inputs, make_energy_model_fit_inputs
 from .Utility import convert
 
 # Base URL to access heat pump calculator API endpoints.
 CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
 
+def return_errors(error_messages):
+  """Returns the results dictionary used to convey that an error(s) has occurred.
+  'error_messages' is a list of error messages.
+  """
+  return {
+    "success": False,
+    "messages": error_messages,
+  }
 
 def analyze_options(ui_inputs, client_id):
   """Performs the full analysis of all heat pump options and As Installed case.
@@ -33,12 +41,25 @@ def analyze_options(ui_inputs, client_id):
   else:
     err_msgs.append('The Historical Fuel Use Spreadsheet has not been created.')
 
+  if err_msgs:
+    return return_errors(err_msgs)
+
   # ----- Make the API inputs for the base, existing building
   base_bldg_api_inputs = make_base_bldg_inputs(ui_inputs)
 
   # ----- Fit the inputs to actual fuel use.
+  fit_inputs = make_energy_model_fit_inputs(base_bldg_api_inputs, actual_fuel_use)
+  try:
+    fit_results = anvil.http.request(
+      CALCULATOR_API_BASE_URL + 'energy/fit-model',
+      method="POST",
+      data=fit_inputs,
+      json=True
+    )
+  except anvil.http.HttpError as e:
+    err_msgs.append(e.content)
+    return return_errors(err_msgs)
 
-  
   response = calculate_results(api_inputs)
   try:
     anvil.server.call('pprint', response['annual_results'])
