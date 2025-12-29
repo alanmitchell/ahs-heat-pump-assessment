@@ -23,3 +23,8 @@
   max-width: 870px;
   margin: 16px auto;
 }
+
+/* top/bottom left/right */
+td, th {
+  padding: 1px 6px;
+}

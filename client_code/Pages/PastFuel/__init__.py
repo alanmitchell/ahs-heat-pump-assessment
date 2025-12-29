@@ -62,9 +62,9 @@ class PastFuel(PastFuelTemplate):
           fuel_use =anvil.server.call('get_actual_use', historical_file_id)
           fuel_map = {
             'electricity_monthly': ('Monthly Electricity', 'kWh', ''),
-            'oil_fills': ('Oil', 'gallons / year', '.0f'),
-            'propane_fills': ('Propane', 'gallons / year', '.0f'),
-            'ng_use': ('Natural Gas', 'ccf / year', '.0f'),
+            'oil_gal': ('Oil', 'gallons / year', '.0f'),
+            'propane_gal': ('Propane', 'gallons / year', '.0f'),
+            'ng_ccf': ('Natural Gas', 'ccf / year', '.0f'),
             'spruce_cords': ('Spruce', 'cords / year', '.2f'),
             'birch_cords': ('Birch', 'cords / year', '.2f'),
             'pellet_pounds': ('Wood Pellets', 'pounds / year', '.0f')

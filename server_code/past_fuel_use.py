@@ -87,7 +87,8 @@ def fills_to_use(range_string: str | None, method: str) -> float:
 @anvil.server.callable
 def get_actual_use(historical_use_file_id):
   """Returns a dictionary of actual fuel and electricity use from the Google Sheet
-  with a file ID of 'historical_use_file_id'.
+  with a file ID of 'historical_use_file_id'.  Values returned are annual consumption
+  values, with the exception of electricity, which is returned as 12 monthly values.
   """
   if get_user():
     # only excecute for logged-in Users
@@ -104,34 +105,35 @@ def get_actual_use(historical_use_file_id):
 
     # process the variables
     err_msgs = []
+    var_processed = {}
     for var, val in variables.items():
       try:
         match var:
           case 'spruce_cords' | 'birch_cords' | 'pellet_pounds':
             try:
-              variables[var] = float(convert(val, (None,), 0.0))
+              var_processed[var] = float(convert(val, (None,), 0.0))
             except (TypeError, ValueError):
               raise ValueError('Cannot convert cell contents to a number.')
 
           case 'oil_fills':
-            variables[var] = fills_to_use(val, 'oil')
+            var_processed['oil_gal'] = fills_to_use(val, 'oil')
 
           case 'propane_fills':
-            variables[var] = fills_to_use(val, 'linear')
+            var_processed['propane_gal'] = fills_to_use(val, 'linear')
 
           case 'electricity_monthly':
             try:
               mo_vals = [float(x) for x in val.split('|')]
             except Exception as e:
               raise ValueError('One or more monthly values is missing or not a number.')
-            variables[var] = mo_vals
+            var_processed[var] = mo_vals
 
           case 'ng_use':
             try:
               mo_vals = [float(x) for x in val.split('|')]
             except Exception as e:
               raise ValueError('One or more monthly values is missing or not a number.')
-            variables[var] = sum(mo_vals)
+            var_processed['ng_ccf'] = sum(mo_vals)
 
       except Exception as e:
         err_msgs.append(f'**{var}**: {e}')
@@ -140,7 +142,7 @@ def get_actual_use(historical_use_file_id):
       final_msg = '\n'.join(err_msgs)
       raise ValueError(final_msg)
     else:
-      return variables
+      return var_processed
 
   # if we got to here, no User or client
   return {}
