@@ -27,7 +27,7 @@ def analyze_options(ui_inputs, client_id):
   #anvil.server.call('pprint', ui_inputs)
 
   # ----- Get the client record with needed fields
-  fields = ('historical_use_file_id')
+  fields = ('historical_use_file_id',)
   client = anvil.server.call('get_client', client_id, fields)
 
   # ----- Validate the inputs before doing calculations
@@ -60,11 +60,9 @@ def analyze_options(ui_inputs, client_id):
     err_msgs.append(e.content)
     return return_errors(err_msgs)
 
-  response = calculate_results(api_inputs)
-  try:
-    anvil.server.call('pprint', response['annual_results'])
-  except:
-    anvil.server.call('pprint', response)
+  anvil.server.call('pprint', fit_results)
+  return {'success': True, 'messages': []}
+
 
 def calculate_results(inputs):
 
