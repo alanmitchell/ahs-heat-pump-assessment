@@ -57,7 +57,6 @@ def analyze_options(ui_inputs, client_id):
       json=True
     )
   except anvil.http.HttpError as e:
-    anvil.server.call('pprint', dir(e))
     err_msgs.append(str(e))
     return return_errors(err_msgs)
 
