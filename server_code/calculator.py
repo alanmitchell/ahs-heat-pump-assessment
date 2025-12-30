@@ -3,8 +3,12 @@ from the UI to be used in the Heat Pump Calculator API.
 """
 import json
 
+import requests
+from pprint import pprint
 import anvil.server
 
+from .client_data import get_client
+from .past_fuel_use import get_actual_use
 from .ui_to_api import make_base_bldg_inputs, make_energy_model_fit_inputs
 
 # Base URL to access heat pump calculator API endpoints.
@@ -19,6 +23,7 @@ def return_errors(error_messages):
     "messages": error_messages,
   }
 
+@anvil.server.callable
 def analyze_options(ui_inputs, client_id):
   """Performs the full analysis of all heat pump options and As Installed case.
   'input_dict': The dictionary of all the model inputs.
@@ -27,15 +32,15 @@ def analyze_options(ui_inputs, client_id):
   #anvil.server.call('pprint', ui_inputs)
 
   # ----- Get the client record with needed fields
-  fields = ('historical_use_file_id',)
-  client = anvil.server.call('get_client', client_id, fields)
+  fields = ('historical_use_file_id', )
+  client = get_client(client_id, fields)
 
   # ----- Validate the inputs before doing calculations
   err_msgs = []
   # Acquire actual fuel use and capture errors.
   if client['historical_use_file_id']:
     try:
-      actual_fuel_use = anvil.server.call('get_actual_use', client['historical_use_file_id'])
+      actual_fuel_use = get_actual_use(client['historical_use_file_id'])
     except Exception as e:
       err_msgs.append(f"There are Data problems in the Historical Fuel Use Spreadsheet:\n{e}")
   else:
@@ -49,37 +54,19 @@ def analyze_options(ui_inputs, client_id):
 
   # ----- Fit the inputs to actual fuel use.
   fit_inputs = make_energy_model_fit_inputs(base_bldg_api_inputs, actual_fuel_use)
-  try:
-    fit_results = anvil.http.request(
-      CALCULATOR_API_BASE_URL + 'energy/fit-model',
-      method="POST",
-      data=fit_inputs,
-      json=True
-    )
-  except anvil.http.HttpError as e:
-    err_msgs.append(f'status: {e.status}, message: {e}')
+  fit_results = requests.post(
+    CALCULATOR_API_BASE_URL + 'energy/fit-model',
+    json=fit_inputs,
+    timeout = 30,
+  )
+  if fit_results.status_code >= 400:
+    err = fit_results.json()
+    try:
+      err_msg = f"{err['detail']} {err['timestamp']}"
+    except:
+      err_msg = str(err)
+    err_msgs.append(err_msg)
     return return_errors(err_msgs)
 
-  anvil.server.call('pprint', fit_results)
+  pprint(fit_results.json())
   return {'success': True, 'messages': []}
-
-
-def calculate_results(inputs):
-
-  # Can enter the JSON below into Insomnium to debug
-  #import json
-  #print(json.dumps(inputs))  # will throw if not serializable
-
-  try:
-    resp = anvil.http.request(
-      CALCULATOR_API_BASE_URL + 'energy/energy-model',
-      method="POST",
-      data=inputs,
-      json=True
-    )
-  except anvil.http.HttpError as e:
-    print(f"Error {e.status}")
-    print(f"Error {e.content}")
-    return {'status': e.status}
-
-  return resp
