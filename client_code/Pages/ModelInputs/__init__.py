@@ -13,7 +13,6 @@ from anvil.users import get_user
 from ...Utility import chg_none, active_client_name
 from ...HeatPumpOption import HeatPumpOption
 from ... import Library
-from ... import Calculator
 
 class ModelInputs(ModelInputsTemplate):
   def __init__(self, **properties):
@@ -24,7 +23,7 @@ class ModelInputs(ModelInputsTemplate):
     self.set_event_handler('hide', self.save_values)
 
     # get base URL for Heatpump Calculator API
-    self.calc_api_url = Calculator.CALCULATOR_API_BASE_URL
+    self.calc_api_url = anvil.server.call('calculator_api_base_url')
 
     # load the modeling city Autocomplete Text box with suggestions.
     resp = anvil.http.request(

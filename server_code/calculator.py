@@ -14,6 +14,10 @@ from .ui_to_api import make_base_bldg_inputs, make_energy_model_fit_inputs
 # Base URL to access heat pump calculator API endpoints.
 CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
 
+@anvil.server.callable
+def calculator_api_base_url():
+  return CALCULATOR_API_BASE_URL
+
 def return_errors(error_messages):
   """Returns the results dictionary used to convey that an error(s) has occurred.
   'error_messages' is a list of error messages.
