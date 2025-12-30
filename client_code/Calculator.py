@@ -1,6 +1,8 @@
 """Module for managing the interface to the backend Calculator API. Prepares inputs
 from the UI to be used in the Heat Pump Calculator API.
 """
+import json
+
 import anvil.server
 import anvil.http
 
@@ -57,7 +59,7 @@ def analyze_options(ui_inputs, client_id):
       json=True
     )
   except anvil.http.HttpError as e:
-    err_msgs.append(str(e))
+    err_msgs.append(f'status: {e.status}, message: {e}')
     return return_errors(err_msgs)
 
   anvil.server.call('pprint', fit_results)
