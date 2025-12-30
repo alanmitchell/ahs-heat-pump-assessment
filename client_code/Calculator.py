@@ -49,7 +49,6 @@ def analyze_options(ui_inputs, client_id):
 
   # ----- Fit the inputs to actual fuel use.
   fit_inputs = make_energy_model_fit_inputs(base_bldg_api_inputs, actual_fuel_use)
-  anvil.server.call('pprint', fit_inputs)
   try:
     fit_results = anvil.http.request(
       CALCULATOR_API_BASE_URL + 'energy/fit-model',
@@ -58,8 +57,8 @@ def analyze_options(ui_inputs, client_id):
       json=True
     )
   except anvil.http.HttpError as e:
+    anvil.server.call('pprint', dir(e))
     err_msgs.append(str(e))
-    raise e
     return return_errors(err_msgs)
 
   anvil.server.call('pprint', fit_results)
