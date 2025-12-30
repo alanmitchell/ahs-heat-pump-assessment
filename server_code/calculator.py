@@ -4,9 +4,8 @@ from the UI to be used in the Heat Pump Calculator API.
 import json
 
 import anvil.server
-import anvil.http
 
-from .UI_to_API import make_base_bldg_inputs, make_energy_model_fit_inputs
+from .ui_to_api import make_base_bldg_inputs, make_energy_model_fit_inputs
 
 # Base URL to access heat pump calculator API endpoints.
 CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
