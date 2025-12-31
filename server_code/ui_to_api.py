@@ -137,3 +137,8 @@ def make_energy_model_fit_inputs(base_bldg, actual_fuel_use):
     "actual_fuel_by_type": fuel_use,
     "electric_use_by_month": actual_fuel_use['electricity_monthly'],
   }
+
+def make_option_buildings(base_bldg, options):
+  """Returns a List of buildings created by modifying the "base_bldg" using each of the 
+  heat pump options found in the "options" list.
+  """

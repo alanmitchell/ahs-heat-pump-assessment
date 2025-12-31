@@ -72,5 +72,9 @@ def analyze_options(ui_inputs, client_id):
     err_msgs.append(err_msg)
     return return_errors(err_msgs)
 
+  # --- Do Retrofit analysis on each of the Options and the As Installed building
+
+  # --- Report the Results
+  
   pprint(fit_results.json())
   return {'success': True, 'messages': []}
