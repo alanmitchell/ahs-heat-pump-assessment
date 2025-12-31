@@ -1,7 +1,7 @@
 """Functions to convert values collected by the UI into dictionaries that can
 be used with the Heat Pump Calculator API.
 """
-
+from copy import deepcopy
 from .util import convert
 
 # ----- Auxiliary electric use values (kWh / MMBTU output) for all possible heating system types
@@ -142,3 +142,6 @@ def make_option_buildings(base_bldg, options):
   """Returns a List of buildings created by modifying the "base_bldg" using each of the 
   heat pump options found in the "options" list.
   """
+  option_bldgs = []
+  for option in options:
+    bldg = deepcopy(base_bldg)
