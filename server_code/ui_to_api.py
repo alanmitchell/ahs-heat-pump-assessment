@@ -145,8 +145,31 @@ def make_option_buildings(base_bldg, options):
   option_bldgs = []
   for option in options:
     option_errors = check_option_errors(option)
-    print(option_errors)
-    #bldg = deepcopy(base_bldg)
+    if option_errors:
+      option_bldgs.append(' '.join(option_errors))
+    else:
+      # modify the base building in accordance with the Option description
+      bldg = deepcopy(base_bldg)
+      heat_pump = {
+        'source_type': option['hp_source'],
+        'hspf_type': 'hspf2_reg5',
+        'hspf': option['hspf2'],
+        'cop_32f': option['cop32f'],
+        'max_out_5f': option['max_capacity'] if option['hp_source']=='air' else None,
+        'max_out_32f': option['max_capacity'] if option['hp_source']!='air' else None,
+        'low_temp_cutoff': 5.0,
+        'off_months': None,
+        'frac_exposed_to_hp': option['load_exposed'] / 100.0,
+        'frac_adjacent_to_hp': option['load_adjacent'] / 100.0,
+        'doors_open_to_adjacent': True,
+        'bedroom_temp_tolerance': 'med',
+        'serves_garage': True if dval(option, 'garage_served_by_hp') else False,
+      }
+      bldg['heat_pump'] = heat_pump
+
+      option_bldgs.append(bldg)
+  
+  return option_bldgs
 
 def check_option_errors(option):
   """Checks the heat pump option "option" for errors. Return empty list if error-free. Returns
@@ -155,7 +178,7 @@ def check_option_errors(option):
   msgs = []
   
   vars = ('title', 'hp_source', 'hp_distribution', 'hspf2', 'max_capacity',
-         'load_exposed', 'unserved_source', 'dhw_source', 'cost_hp_install')
+         'load_exposed', 'load_adjacent', 'unserved_source', 'dhw_source', 'cost_hp_install')
   for var in vars:
     val = dval(option, var)
     
@@ -189,6 +212,9 @@ def check_option_errors(option):
         if val is not None and val <= 0:
           msgs.append('Percent of Main Home Load exposed to Heat Pump must be greater than 0.')
 
+      case 'load_adjacent':
+        required('Percent of Main Home Load adjacent to Heat Pump')
+      
       case 'unserved_source':
         required('Source of load not served by Heat Pump')
         if val == 'other':
