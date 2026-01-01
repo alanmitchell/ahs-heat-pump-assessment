@@ -9,7 +9,7 @@ import anvil.server
 
 from .client_data import get_client
 from .past_fuel_use import get_actual_use
-from .ui_to_api import make_base_bldg_inputs, make_energy_model_fit_inputs
+from .ui_to_api import make_base_bldg_inputs, make_energy_model_fit_inputs, make_option_buildings
 
 # Base URL to access heat pump calculator API endpoints.
 CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
@@ -58,12 +58,12 @@ def analyze_options(ui_inputs, client_id):
 
   # ----- Fit the inputs to actual fuel use.
   fit_inputs = make_energy_model_fit_inputs(base_bldg_api_inputs, actual_fuel_use)
-  fit_results = requests.post(
+  fit_response = requests.post(
     CALCULATOR_API_BASE_URL + 'energy/fit-model',
     json=fit_inputs,
     timeout = 30,
   )
-  if fit_results.status_code >= 400:
+  if fit_response.status_code >= 400:
     err = fit_results.json()
     try:
       err_msg = f"{err['detail']} {err['timestamp']}"
@@ -72,9 +72,12 @@ def analyze_options(ui_inputs, client_id):
     err_msgs.append(err_msg)
     return return_errors(err_msgs)
 
-  # --- Do Retrofit analysis on each of the Options and the As Installed building
+  fit_results = fit_response.json()
+  #pprint(fit_results)
 
+  # --- Do Retrofit analysis on each of the Options and the As Installed building
+  make_option_buildings(fit_results['building_description'], ui_inputs['heat_pump_options'])
+  
   # --- Report the Results
   
-  pprint(fit_results.json())
   return {'success': True, 'messages': []}

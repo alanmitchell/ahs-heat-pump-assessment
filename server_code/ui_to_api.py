@@ -144,7 +144,9 @@ def make_option_buildings(base_bldg, options):
   """
   option_bldgs = []
   for option in options:
-    bldg = deepcopy(base_bldg)
+    option_errors = check_option_errors(option)
+    print(option_errors)
+    #bldg = deepcopy(base_bldg)
 
 def check_option_errors(option):
   """Checks the heat pump option "option" for errors. Return empty list if error-free. Returns
@@ -162,7 +164,7 @@ def check_option_errors(option):
       variable.
       """
       if val is None:
-        msgs.append(f'A {var_name} is required.')
+        msgs.append(f'{var_name} is required.')
 
     match var:
       
@@ -177,18 +179,34 @@ def check_option_errors(option):
 
       case 'hspf2':
         if val is None and dval(option, 'cop32f') is None:
-          msgs.append('You must entere either an HSPF2 or a COP.')
+          msgs.append('You must enter either an HSPF2 or a COP.')
 
       case 'max_capacity':
         required('Maximum Capacity at 5 F')
 
       case 'load_exposed':
         required('Percent of Main Home Load exposed to Heat Pump')
-        if val <= 0:
+        if val is not None and val <= 0:
           msgs.append('Percent of Main Home Load exposed to Heat Pump must be greater than 0.')
 
       case 'unserved_source':
         required('Source of load not served by Heat Pump')
         if val == 'other':
-          pass
-        
+          val = dval(option, 'heating_system_unserved.fuel')
+          required('Fuel type of the Heating System for non-heat pump load')
+          val = dval(option, 'heating_system_unserved.system_type')
+          required('System type of the Heating System for non-heat pump load')
+          val = dval(option, 'heating_system_unserved.efficiency')
+          required('Efficiency of the Heating System for non-heat pump load')
+          if val is not None and val <= 0:
+            msgs.append('Efficiency of the Heating System for non-heat pump load must be more than 0.')
+
+      case 'dhw_source':
+        required('Domestic How Water source')
+
+      case 'cost_hp_install':
+        required('Heat Pump Installation Cost')
+        if val is not None and val <= 0:
+          msgs.append('Heat Pump Installation Cost must be greater than 0.')
+
+  return msgs
