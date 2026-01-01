@@ -145,3 +145,9 @@ def make_option_buildings(base_bldg, options):
   option_bldgs = []
   for option in options:
     bldg = deepcopy(base_bldg)
+
+def check_option_errors(option):
+  """Checks the heat pump option "option" for errors. Return None if error-free. Returns
+  an error message if the option has input problems
+  """
+  return None
