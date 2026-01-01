@@ -2,7 +2,7 @@
 be used with the Heat Pump Calculator API.
 """
 from copy import deepcopy
-from .util import convert
+from .util import convert, dval
 
 # ----- Auxiliary electric use values (kWh / MMBTU output) for all possible heating system types
 HEATING_SYS_AUX = {
@@ -147,7 +147,48 @@ def make_option_buildings(base_bldg, options):
     bldg = deepcopy(base_bldg)
 
 def check_option_errors(option):
-  """Checks the heat pump option "option" for errors. Return None if error-free. Returns
-  an error message if the option has input problems
+  """Checks the heat pump option "option" for errors. Return empty list if error-free. Returns
+  a list of error messages if there are input problems.
   """
-  return None
+  msgs = []
+  
+  vars = ('title', 'hp_source', 'hp_distribution', 'hspf2', 'max_capacity',
+         'load_exposed', 'unserved_source', 'dhw_source', 'cost_hp_install')
+  for var in vars:
+    val = dval(option, var)
+    
+    def required(var_name):
+      """Adds a message to 'msgs' if val is None. 'var_name' gives the name of the
+      variable.
+      """
+      if val is None:
+        msgs.append(f'A {var_name} is required.')
+
+    match var:
+      
+      case 'title':
+        required('Title')
+
+      case 'hp_source':
+        required('Heat Source')
+
+      case 'hp_distribution':
+        required('Heat Distribution type')
+
+      case 'hspf2':
+        if val is None and dval(option, 'cop32f') is None:
+          msgs.append('You must entere either an HSPF2 or a COP.')
+
+      case 'max_capacity':
+        required('Maximum Capacity at 5 F')
+
+      case 'load_exposed':
+        required('Percent of Main Home Load exposed to Heat Pump')
+        if val <= 0:
+          msgs.append('Percent of Main Home Load exposed to Heat Pump must be greater than 0.')
+
+      case 'unserved_source':
+        required('Source of load not served by Heat Pump')
+        if val == 'other':
+          pass
+        

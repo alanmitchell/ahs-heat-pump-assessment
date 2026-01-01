@@ -18,3 +18,17 @@ def convert(value, match_list, replacement):
   '''If 'value' is in 'match_list', a Tuple or List, return 'replacement', otherwise return 'value'.
   '''
   return replacement if value in match_list else value
+
+def dval(dictionary, key_str):
+  """Returns a value from a Python dictionary 'dictionary'.  'key_str' is the key of the value
+  that you want to extract, but it can contain dots to access nested dictionaries. If 'key_str'
+  does not exist, None is returned.
+  """
+  val = dictionary
+  for k in key_str.split('.'):
+    val = val.get(k)
+    if val is None:
+      return None
+  return val
+
+  
