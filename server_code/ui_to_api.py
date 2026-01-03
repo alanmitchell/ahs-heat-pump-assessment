@@ -167,6 +167,46 @@ def make_option_buildings(base_bldg, options):
       }
       bldg['heat_pump'] = heat_pump
 
+      # Load not served by heat pump.  Only one additional heating systme is used.
+      match option['unserved_source']:
+        case 'primary':
+          # correct heating system in the primary slot already.
+          pass
+
+        case 'secondary':
+          # Prior to this, make sure secondary inputs are OK
+          # copy secondary system into primary position
+          bldg['conventional_heat'][0] = deepcopy(bldg['conventional_heat'][1])
+          
+
+        case 'other':
+          heater = {
+            'heat_fuel_id': option['heating_system_unserved']['fuel'],
+            'heating_effic': option['heating_system_unserved']['efficiency'] / 100.0,
+            'aux_elec_use': HEATING_SYS_AUX[option['heating_system_unserved']['system_type']],
+          }
+          bldg['conventional_heat'][0] = heater
+
+      # Primary system serves all load after heat pump tries.
+      bldg['conventional_heat'][0]['frac_load_served'] = 1.0
+
+      # DHW system with Heat Pump
+      match option['dhw_source']:
+        case 'as-before':
+          pass
+
+        case 'from-space-hp':
+          pass
+
+        case 'new-tank':
+          pass
+        
+        case 'new-tankless':
+          pass
+
+        case 'new-hpwh':
+          pass
+      
       option_bldgs.append(bldg)
   
   return option_bldgs
