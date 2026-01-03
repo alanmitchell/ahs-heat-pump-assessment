@@ -189,6 +189,7 @@ def make_option_buildings(base_bldg, options):
 
       # Primary system serves all load after heat pump tries.
       bldg['conventional_heat'][0]['frac_load_served'] = 1.0
+      bldg['conventional_heat'][1]['frac_load_served'] = 0.0
 
       # DHW system with Heat Pump
       match option['dhw_source']:
