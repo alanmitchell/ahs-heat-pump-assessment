@@ -177,7 +177,6 @@ def make_option_buildings(base_bldg, options):
           # Prior to this, make sure secondary inputs are OK
           # copy secondary system into primary position
           bldg['conventional_heat'][0] = deepcopy(bldg['conventional_heat'][1])
-          
 
         case 'other':
           heater = {
