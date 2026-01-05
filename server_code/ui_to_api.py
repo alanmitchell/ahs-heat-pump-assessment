@@ -92,9 +92,11 @@ def make_base_bldg_inputs(ui_inputs):
   if inp['dhw_sys_type'] == 'from-space-htr':
     dhw_fuel = conventional_systems[0]['heat_fuel_id']
     dhw_ef = conventional_systems[0]['heating_effic'] - 0.05     # 5% less than Primary Space Heating Efficiency
+    hpwh_source = None
   else:
     dhw_fuel = inp['dhw_fuel']
     dhw_ef = inp['ef_dhw']
+    hpwh_source = inp['hpwh_source'] if inp['dhw_sys_type'] == 'hpwh' else None
 
   existing_building = {
     'city_id': inp['model_city'],
@@ -107,7 +109,8 @@ def make_base_bldg_inputs(ui_inputs):
     'indoor_heat_setpoint': 70.0,
     'ua_per_ft2': 0.19,              # will be changed in model fitting
     'dhw_fuel_id': dhw_fuel,
-    'dhw_ef': dhw_ef,      
+    'dhw_ef': dhw_ef,
+    'dhw_hpwh_source': hpwh_source,
     'clothes_drying_fuel_id': inp['drying_fuel'],
     'cooking_fuel_id': inp['cooking_fuel'],
     'misc_elec_kwh_per_day': 13.0,      # will be changed in model fitting
@@ -196,6 +199,7 @@ def make_option_buildings(base_bldg, options):
           pass
 
         case 'from-space-hp':
+          # ********** FIX ME
           pass
 
         case 'new-tank':

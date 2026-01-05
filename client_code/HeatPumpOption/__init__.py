@@ -17,7 +17,7 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     self.dropdown_menu_hp_source.items = Library.HP_SOURCE
     self.dropdown_menu_hp_distribution.items = Library.HP_HEAT_DISTRIBUTION
     self.dropdown_menu_dhw_source.items = Library.DHW_AFTER_HP
-    self.dropdown_menu_hp_source.items = Library.HEAT_PUMP_WATER_HEATER_SOURCE
+    self.dropdown_menu_hpwh_source.items = Library.HEAT_PUMP_WATER_HEATER_SOURCE
     self.dropdown_menu_dhw_after_fuel.items = Library.FUELS_ALL
     self.dropdown_menu_unserved_source.items = Library.UNSERVED_HP_LOAD
     self.heating_system_unserved.visible = False
@@ -39,7 +39,7 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     self.item['dhw_source'] = dhw_type
     if dhw_type in ("new-tank", "new-tankless", "new-hpwh") :
       self.grid_panel_new_dhw.visible = True
-      self.dropdown_menu_hp_source.visible = (dhw_type == 'new-hpwh')
+      self.dropdown_menu_hpwh_source.visible = (dhw_type == 'new-hpwh')
       self.text_hpwh_source.visible = (dhw_type == 'new-hpwh')
       if dhw_type == "new-hpwh":
         self.dropdown_menu_dhw_after_fuel.selected_value = "elec"
