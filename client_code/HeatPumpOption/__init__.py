@@ -17,6 +17,7 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     self.dropdown_menu_hp_source.items = Library.HP_SOURCE
     self.dropdown_menu_hp_distribution.items = Library.HP_HEAT_DISTRIBUTION
     self.dropdown_menu_dhw_source.items = Library.DHW_AFTER_HP
+    self.dropdown_menu_hp_source.items = Library.HEAT_PUMP_WATER_HEATER_SOURCE
     self.dropdown_menu_dhw_after_fuel.items = Library.FUELS_ALL
     self.dropdown_menu_unserved_source.items = Library.UNSERVED_HP_LOAD
     self.heating_system_unserved.visible = False
@@ -38,6 +39,8 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     self.item['dhw_source'] = dhw_type
     if dhw_type in ("new-tank", "new-tankless", "new-hpwh") :
       self.grid_panel_new_dhw.visible = True
+      self.dropdown_menu_hp_source.visible = (dhw_type == 'new-hpwh')
+      self.text_hpwh_source.visible = (dhw_type == 'new-hpwh')
       if dhw_type == "new-hpwh":
         self.dropdown_menu_dhw_after_fuel.selected_value = "elec"
         self.dropdown_menu_dhw_after_fuel.enabled = False
@@ -76,6 +79,7 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     self.dropdown_menu_dhw_source.selected_value = self.item.get('dhw_source', None)
     self.dropdown_menu_dhw_source_change()
     self.dropdown_menu_dhw_after_fuel.selected_value = self.item.get('dhw_after_fuel', None)
+    self.dropdown_menu_hpwh_source.selected_value = self.item.get('hpwh_source', None)
     self.update_inaccessible_load()
     self.dropdown_menu_unserved_source.selected_value = self.item.get('unserved_source', None)
     self.dropdown_menu_unserved_source_change()
@@ -107,6 +111,9 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     """DHW Fuel after Heat Pump changed"""
     self.item['dhw_after_fuel'] = self.dropdown_menu_dhw_after_fuel.selected_value
 
+  def dropdown_menu_hpwh_sourece_change(self, **event_args):
+    self.item['hpwh_source'] = self.dropdown_menu_hpwh_source.selected_value
+
   def update_inaccessible_load(self, **event_args):
     """This method is called when the text in this component is edited."""
     inaccessible_load = 100.0 - text_to_float(self.text_box_load_exposed) - \
@@ -118,3 +125,4 @@ class HeatPumpOption(HeatPumpOptionTemplate):
     unserved_source = self.dropdown_menu_unserved_source.selected_value
     self.item['unserved_source'] = unserved_source
     self.heating_system_unserved.visible = (unserved_source == 'other')
+

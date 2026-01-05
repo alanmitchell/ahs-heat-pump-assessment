@@ -311,6 +311,20 @@ components:
             name: text_box_ef_new_dhw
             properties: {align: right, label: 0 - 4.0, type: number}
             type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+          - layout_properties: {col_xs: 2, row: DRPMAM, width_xs: 4}
+            name: text_hpwh_source
+            properties:
+              align: right
+              spacing:
+                margin: ['20', null, null, null]
+              style: body
+              text: 'Heat Source for Heat Pump Water Heater:'
+            type: form:dep_lin1x4oec0ytd:_Components.Text
+          - event_bindings: {change: dropdown_menu_hpwh_sourece_change}
+            layout_properties: {col_xs: 6, row: DRPMAM, width_xs: 6}
+            name: dropdown_menu_hpwh_source
+            properties: {visible: true}
+            type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
           layout_properties: {col_xs: 0, row: DLWWWX, width_xs: 12}
           name: grid_panel_new_dhw
           properties: {visible: false}
