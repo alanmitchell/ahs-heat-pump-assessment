@@ -45,6 +45,13 @@ DHW_SYS_TYPES = [
   ('Heat Pump Water Htr', "hpwh")
 ]
 
+# For Heat Pump Water Heaters, location of the evaporator heat extraction
+HEAT_PUMP_WATER_HEATER_SOURCE = [
+  ('Main Home', 'main_home'),
+  ('Garage', 'garage'),
+  ('Outdoors', 'outdoors')
+]
+
 HP_SOURCE = [
   ('Outdoor Air', "air"),
   ('Water (e.g. Lake)', "water"),

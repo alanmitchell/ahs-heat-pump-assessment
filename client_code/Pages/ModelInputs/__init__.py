@@ -44,9 +44,10 @@ class ModelInputs(ModelInputsTemplate):
     self.heating_system_primary.visible = True
     self.heating_system_secondary.visible = False
 
-    # DHW System Type
+    # DHW Inputs
     self.dropdown_menu_dhw_sys_type.items = Library.DHW_SYS_TYPES
     self.dropdown_menu_dhw_fuel.items = Library.FUELS_ALL
+    self.dropdown_menu_hpwh_source.items = Library.HEAT_PUMP_WATER_HEATER_SOURCE
 
     # Fuels for Cooking Clothes Drying
     self.dropdown_menu_cooking_fuel.items = Library.FUELS_DRYING_COOKING
@@ -93,6 +94,7 @@ class ModelInputs(ModelInputsTemplate):
       self.dropdown_menu_dhw_sys_type.selected_value = inp.get('dhw_sys_type', None)
       self.dropdown_menu_dhw_sys_type_change()
       self.dropdown_menu_dhw_fuel.selected_value = inp.get('dhw_fuel', None)
+      self.dropdown_menu_hpwh_source.selected_value = inp.get('hpwh_source', None)
       self.dropdown_menu_cooking_fuel.selected_value = inp.get('cooking_fuel', None)
       self.dropdown_menu_drying_fuel.selected_value = inp.get('drying_fuel', None)
 
@@ -178,6 +180,8 @@ class ModelInputs(ModelInputsTemplate):
       self.text_dhw_fuel.visible = visibility
       self.text_ef_dhw.visible = visibility
       self.text_box_ef_dhw.visible = visibility
+      self.dropdown_menu_hpwh_source.visible = (sys_type == 'hpwh')
+      self.text_hpwh_source.visible = (sys_type == 'hpwh')
       self.dropdown_menu_dhw_fuel.enabled = fuel_enabled
     sys_type = self.dropdown_menu_dhw_sys_type.selected_value
     self.item['dhw_sys_type'] = sys_type
@@ -201,6 +205,9 @@ class ModelInputs(ModelInputsTemplate):
 
   def dropdown_menu_dhw_fuel_change(self, **event_args):
     self.item['dhw_fuel'] = self.dropdown_menu_dhw_fuel.selected_value
+
+  def dropdown_menu_hpwh_source_change(self, **event_args):
+    self.item['hpwh_source'] = self.dropdown_menu_hpwh_source.selected_value
 
   def dropdown_menu_cooking_fuel_change(self, **event_args):
     self.item['cooking_fuel'] = self.dropdown_menu_cooking_fuel.selected_value

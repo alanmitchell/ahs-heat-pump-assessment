@@ -306,7 +306,7 @@ components_by_slot:
                   spacing:
                     margin: ['20', null, null, null]
                   style: body
-                  text: 'System Type:'
+                  text: 'Water Heater System Type:'
                 type: form:dep_lin1x4oec0ytd:_Components.Text
               - event_bindings: {change: dropdown_menu_dhw_sys_type_change}
                 layout_properties: {col_xs: 5, row: URXCKO, width_xs: 7}
@@ -342,6 +342,20 @@ components_by_slot:
                 name: text_box_ef_dhw
                 properties: {align: right, label: 0 - 4.0, type: number}
                 type: form:dep_lin1x4oec0ytd:_Components.TextInput.TextBox
+              - layout_properties: {col_xs: 0, row: AQHEWX, width_xs: 5}
+                name: text_hpwh_source
+                properties:
+                  align: right
+                  spacing:
+                    margin: ['5', null, null, null]
+                  style: body
+                  text: 'Heat Source for Heat Pump Water Heater:'
+                type: form:dep_lin1x4oec0ytd:_Components.Text
+              - event_bindings: {change: dropdown_menu_hpwh_source_change}
+                layout_properties: {col_xs: 5, row: AQHEWX, width_xs: 7}
+                name: dropdown_menu_hpwh_source
+                properties: {}
+                type: form:dep_lin1x4oec0ytd:_Components.DropdownMenu
               layout_properties: {slot: card-content-container-slot}
               name: grid_panel_dhw
               properties:
