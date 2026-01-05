@@ -196,21 +196,28 @@ def make_option_buildings(base_bldg, options):
       # DHW system with Heat Pump
       match option['dhw_source']:
         case 'as-before':
-          pass
+          dhw_fuel = bldg['dhw_fuel_id']
+          dhw_ef = bldg['dhw_ef']
+          hpwh_source = bldg['dhw_hpwh_source']
 
         case 'from-space-hp':
           # ********** FIX ME
           pass
 
-        case 'new-tank':
-          pass
-        
-        case 'new-tankless':
-          pass
+        case 'new-tank' | 'new-tankless':
+          dhw_fuel = option['dhw_after_fuel']
+          dhw_ef = option['ef_new_dhw']
+          hpwh_source = None
 
         case 'new-hpwh':
-          pass
-      
+          dhw_fuel = 'elec'
+          dhw_ef = option['ef_new_dhw']
+          hpwh_source = option['hpwh_source']
+
+      bldg['dhw_fuel_id'] = dhw_fuel
+      bldg['dhw_ef'] = dhw_ef
+      bldg['dhw_hpwh_source'] = hpwh_source
+
       option_bldgs.append(bldg)
   
   return option_bldgs
