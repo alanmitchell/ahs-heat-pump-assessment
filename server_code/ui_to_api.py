@@ -92,7 +92,7 @@ def make_base_bldg_inputs(ui_inputs):
   # determine DHW API inputs
   if inp['dhw_sys_type'] == 'from-space-htr':
     dhw_fuel = conventional_systems[0]['heat_fuel_id']
-    dhw_ef = conventional_systems[0]['heating_effic'] - 0.05     # 5% less than Primary Space Heating Efficiency
+    dhw_ef = conventional_systems[0]['heating_effic'] * 0.96     # Assume 4% tank losses
     hpwh_source = None
   else:
     dhw_fuel = inp['dhw_fuel']
