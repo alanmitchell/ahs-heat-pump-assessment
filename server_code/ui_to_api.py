@@ -1,6 +1,7 @@
 """Functions to convert values collected by the UI into dictionaries that can
 be used with the Heat Pump Calculator API.
 """
+import math
 from copy import deepcopy
 from .util import convert, dval
 
@@ -201,8 +202,31 @@ def make_option_buildings(base_bldg, options):
           hpwh_source = bldg['dhw_hpwh_source']
 
         case 'from-space-hp':
-          # ********** FIX ME
-          pass
+          # Space heating heat pump is being used for DHW as well. Base the DHW efficiency
+          # off of the COP of that heat pump.
+          
+          if option['hspf2']:
+            # assume an HSPF2-region V of 10 corresponds to a seasonal COP of 2.6. This comes
+            # from experience with measured field data in Alaska. Ratio from
+            # that using a square-root function to dampen the change.
+            space_cop = math.sqrt(option['hspf2'] / 10.0) * 2.6
+          else:
+            # COP @ 32F must have been provided.
+            space_cop = option['cop32f']
+
+          # High COP units probably are producing low temperature water (~ 100F) so need resistance
+          # supplment to achieve DHW temperature water. So need to downgrade COP to get the
+          # DHW efficiency. Also, tank losses for water heating reduce COP; use a 0.96 multiplier
+          # for that.
+          if space_cop > 1.6:
+            # space_cop of 1.6 is DHW EF of 1.6, linear to space_cop of 2.6 -> 2.0 EF, not
+            # adjusting for tank losses.
+            dhw_ef = (space_cop - 1.6) * 0.4 + 1.6
+          else:
+            dhw_ef = space_cop
+          dhw_ef *= 0.96         # tank losses
+          dhw_fuel = 'elec'
+          hpwh_source = 'outdoors'
 
         case 'new-tank' | 'new-tankless':
           dhw_fuel = option['dhw_after_fuel']
