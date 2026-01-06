@@ -76,7 +76,8 @@ def analyze_options(ui_inputs, client_id):
   #pprint(fit_results)
 
   # --- Do Retrofit analysis on each of the Options and the As Installed building
-  make_option_buildings(fit_results['building_description'], ui_inputs['heat_pump_options'])
+  option_bldgs = make_option_buildings(fit_results['building_description'], ui_inputs['heat_pump_options'])
+  pprint(option_bldgs)
   
   # --- Report the Results
   

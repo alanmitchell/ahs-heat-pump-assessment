@@ -157,8 +157,8 @@ def make_option_buildings(base_bldg, options):
       heat_pump = {
         'source_type': option['hp_source'],
         'hspf_type': 'hspf2_reg5',
-        'hspf': option['hspf2'],
-        'cop_32f': option['cop32f'],
+        'hspf': option.get('hspf2'),
+        'cop_32f': option.get('cop32f'),
         'max_out_5f': option['max_capacity'] if option['hp_source']=='air' else None,
         'max_out_32f': option['max_capacity'] if option['hp_source']!='air' else None,
         'low_temp_cutoff': 5.0,
@@ -205,7 +205,7 @@ def make_option_buildings(base_bldg, options):
           # Space heating heat pump is being used for DHW as well. Base the DHW efficiency
           # off of the COP of that heat pump.
           
-          if option['hspf2']:
+          if option.get('hspf2'):
             # assume an HSPF2-region V of 10 corresponds to a seasonal COP of 2.6. This comes
             # from experience with measured field data in Alaska. Ratio from
             # that using a square-root function to dampen the change.
