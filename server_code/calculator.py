@@ -11,6 +11,7 @@ from anvil.tables import app_tables
 from .client_data import get_client
 from .past_fuel_use import get_actual_use
 from .ui_to_api import make_base_bldg_inputs, make_energy_model_fit_inputs, make_option_building
+from .util import convert
 
 # Base URL to access heat pump calculator API endpoints.
 CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
@@ -96,6 +97,26 @@ def analyze_options(ui_inputs, client_id):
     option_bldg = make_option_building(fit_results['building_description'], option)
     if type(option_bldg) is dict:
       pprint(option_bldg)
+      # make retrofit cost inputs
+      capital_cost = \
+        convert(option.get('cost_hp_install'), (None, ''), 0.0) + \
+        convert(option.get('cost_electrical'), (None, ''), 0.0) + \
+        convert(option.get('cost_permit'), (None, ''), 0.0) + \
+        convert(option.get('cost_non_hp'), (None, ''), 0.0)
+      rebate_amount = \
+        convert(option.get('hp_incentives'), (None, ''), 0.0) + \
+        convert(option.get('hp_tax_credit'), (None, ''), 0.0)
+
+      retrofit_cost = {
+        'capital_cost': capital_cost,
+        'rebate_amount': rebate_amount,
+        'retrofit_life': int(app_tables.settings.search(key="retrofit-life")[0]["value"]),
+        'op_cost_chg':  0.0,
+        'loan_amount': 0.0,
+        'loan_term': None,
+        'loan_interest': None,
+      }
+      pprint(retrofit_cost)
   
   # --- Report the Results
   
