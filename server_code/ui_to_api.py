@@ -259,7 +259,7 @@ def check_option_errors(option):
       """Adds a message to 'msgs' if val is None. 'var_name' gives the name of the
       variable.
       """
-      if val is None:
+      if val in (None, ''):
         msgs.append(f'{var_name} is required.')
 
     match var:
@@ -274,7 +274,7 @@ def check_option_errors(option):
         required('Heat Distribution type')
 
       case 'hspf2':
-        if val is None and dval(option, 'cop32f') is None:
+        if val in (None, '') and dval(option, 'cop32f') in (None, ''):
           msgs.append('You must enter either an HSPF2 or a COP.')
 
       case 'max_capacity':
@@ -282,7 +282,7 @@ def check_option_errors(option):
 
       case 'load_exposed':
         required('Percent of Main Home Load exposed to Heat Pump')
-        if val is not None and val <= 0:
+        if val not in (None, '') and val <= 0:
           msgs.append('Percent of Main Home Load exposed to Heat Pump must be greater than 0.')
 
       case 'load_adjacent':
@@ -297,7 +297,7 @@ def check_option_errors(option):
           required('System type of the Heating System for non-heat pump load')
           val = dval(option, 'heating_system_unserved.efficiency')
           required('Efficiency of the Heating System for non-heat pump load')
-          if val is not None and val <= 0:
+          if val not in (None, '') and val <= 0:
             msgs.append('Efficiency of the Heating System for non-heat pump load must be more than 0.')
 
       case 'dhw_source':
@@ -305,7 +305,7 @@ def check_option_errors(option):
 
       case 'cost_hp_install':
         required('Heat Pump Installation Cost')
-        if val is not None and val <= 0:
+        if val not in (None, '') and val <= 0:
           msgs.append('Heat Pump Installation Cost must be greater than 0.')
 
   return msgs
