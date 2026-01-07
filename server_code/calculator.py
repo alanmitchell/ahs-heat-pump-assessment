@@ -10,7 +10,7 @@ from anvil.tables import app_tables
 
 from .client_data import get_client
 from .past_fuel_use import get_actual_use
-from .ui_to_api import make_base_bldg_inputs, make_energy_model_fit_inputs, make_option_buildings
+from .ui_to_api import make_base_bldg_inputs, make_energy_model_fit_inputs, make_option_building
 
 # Base URL to access heat pump calculator API endpoints.
 CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
@@ -77,8 +77,6 @@ def analyze_options(ui_inputs, client_id):
   #pprint(fit_results)
 
   # --- Do Retrofit analysis on each of the Options and the As Installed building
-  option_bldgs = make_option_buildings(fit_results['building_description'], ui_inputs['heat_pump_options'])
-  #pprint(option_bldgs)
 
   # make the general economic inputs needed for the retrofit analysis
   general_inflation = float(app_tables.settings.search(key="general-inflation")[0]["value"])
@@ -92,6 +90,12 @@ def analyze_options(ui_inputs, client_id):
     'discount_rate': (1.0 + general_inflation) * (1.0 + disc_rate_real) - 1.0,
     'inflation_rate': general_inflation
   }
+  pprint(econ_inputs)
+
+  for option in ui_inputs['heat_pump_options']:
+    option_bldg = make_option_building(fit_results['building_description'], option)
+    if type(option_bldg) is dict:
+      pprint(option_bldg)
   
   # --- Report the Results
   

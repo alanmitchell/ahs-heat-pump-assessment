@@ -142,109 +142,107 @@ def make_energy_model_fit_inputs(base_bldg, actual_fuel_use):
     "electric_use_by_month": actual_fuel_use['electricity_monthly'],
   }
 
-def make_option_buildings(base_bldg, options):
-  """Returns a List of buildings created by modifying the "base_bldg" using each of the 
-  heat pump options found in the "options" list.
+def make_option_building(base_bldg, option):
+  """Returns a building description dictionary created by modifying the "base_bldg"
+  in accordance with the retrofits described in "option". If there are input errors,
+  return a string describing the input problems.
   """
-  option_bldgs = []
-  for option in options:
-    option_errors = check_option_errors(option)
-    if option_errors:
-      option_bldgs.append(' '.join(option_errors))
-    else:
-      # modify the base building in accordance with the Option description
-      bldg = deepcopy(base_bldg)
-      heat_pump = {
-        'source_type': option['hp_source'],
-        'hspf_type': 'hspf2_reg5',
-        'hspf': option.get('hspf2'),
-        'cop_32f': option.get('cop32f'),
-        'max_out_5f': option['max_capacity'] if option['hp_source']=='air' else None,
-        'max_out_32f': option['max_capacity'] if option['hp_source']!='air' else None,
-        'low_temp_cutoff': 5.0,
-        'off_months': None,
-        'frac_exposed_to_hp': option['load_exposed'] / 100.0,
-        'frac_adjacent_to_hp': option['load_adjacent'] / 100.0,
-        'doors_open_to_adjacent': True,
-        'bedroom_temp_tolerance': 'med',
-        'serves_garage': True if dval(option, 'garage_served_by_hp') else False,
-      }
-      bldg['heat_pump'] = heat_pump
+  option_errors = check_option_errors(option)
+  if option_errors:
+    return ' '.join(option_errors)
+    
+  else:
+    # modify the base building in accordance with the Option description
+    bldg = deepcopy(base_bldg)
+    heat_pump = {
+      'source_type': option['hp_source'],
+      'hspf_type': 'hspf2_reg5',
+      'hspf': option.get('hspf2'),
+      'cop_32f': option.get('cop32f'),
+      'max_out_5f': option['max_capacity'] if option['hp_source']=='air' else None,
+      'max_out_32f': option['max_capacity'] if option['hp_source']!='air' else None,
+      'low_temp_cutoff': 5.0,
+      'off_months': None,
+      'frac_exposed_to_hp': option['load_exposed'] / 100.0,
+      'frac_adjacent_to_hp': option['load_adjacent'] / 100.0,
+      'doors_open_to_adjacent': True,
+      'bedroom_temp_tolerance': 'med',
+      'serves_garage': True if dval(option, 'garage_served_by_hp') else False,
+    }
+    bldg['heat_pump'] = heat_pump
 
-      # Load not served by heat pump.  Only one additional heating systme is used.
-      match option['unserved_source']:
-        case 'primary':
-          # correct heating system in the primary slot already.
-          pass
+    # Load not served by heat pump.  Only one additional heating systme is used.
+    match option['unserved_source']:
+      case 'primary':
+        # correct heating system in the primary slot already.
+        pass
 
-        case 'secondary':
-          # Prior to this, make sure secondary inputs are OK
-          # copy secondary system into primary position
-          bldg['conventional_heat'][0] = deepcopy(bldg['conventional_heat'][1])
+      case 'secondary':
+        # Prior to this, make sure secondary inputs are OK
+        # copy secondary system into primary position
+        bldg['conventional_heat'][0] = deepcopy(bldg['conventional_heat'][1])
 
-        case 'other':
-          heater = {
-            'heat_fuel_id': option['heating_system_unserved']['fuel'],
-            'heating_effic': option['heating_system_unserved']['efficiency'] / 100.0,
-            'aux_elec_use': HEATING_SYS_AUX[option['heating_system_unserved']['system_type']],
-          }
-          bldg['conventional_heat'][0] = heater
+      case 'other':
+        heater = {
+          'heat_fuel_id': option['heating_system_unserved']['fuel'],
+          'heating_effic': option['heating_system_unserved']['efficiency'] / 100.0,
+          'aux_elec_use': HEATING_SYS_AUX[option['heating_system_unserved']['system_type']],
+        }
+        bldg['conventional_heat'][0] = heater
 
-      # Primary system serves all load after heat pump tries.
-      bldg['conventional_heat'][0]['frac_load_served'] = 1.0
-      bldg['conventional_heat'][1]['frac_load_served'] = 0.0
+    # Primary system serves all load after heat pump tries.
+    bldg['conventional_heat'][0]['frac_load_served'] = 1.0
+    bldg['conventional_heat'][1]['frac_load_served'] = 0.0
 
-      # DHW system with Heat Pump
-      match option['dhw_source']:
-        case 'as-before':
-          dhw_fuel = bldg['dhw_fuel_id']
-          dhw_ef = bldg['dhw_ef']
-          hpwh_source = bldg['dhw_hpwh_source']
+    # DHW system with Heat Pump
+    match option['dhw_source']:
+      case 'as-before':
+        dhw_fuel = bldg['dhw_fuel_id']
+        dhw_ef = bldg['dhw_ef']
+        hpwh_source = bldg['dhw_hpwh_source']
 
-        case 'from-space-hp':
-          # Space heating heat pump is being used for DHW as well. Base the DHW efficiency
-          # off of the COP of that heat pump.
-          
-          if option.get('hspf2'):
-            # assume an HSPF2-region V of 10 corresponds to a seasonal COP of 2.6. This comes
-            # from experience with measured field data in Alaska. Ratio from
-            # that using a square-root function to dampen the change.
-            space_cop = math.sqrt(option['hspf2'] / 10.0) * 2.6
-          else:
-            # COP @ 32F must have been provided.
-            space_cop = option['cop32f']
+      case 'from-space-hp':
+        # Space heating heat pump is being used for DHW as well. Base the DHW efficiency
+        # off of the COP of that heat pump.
+        
+        if option.get('hspf2'):
+          # assume an HSPF2-region V of 10 corresponds to a seasonal COP of 2.6. This comes
+          # from experience with measured field data in Alaska. Ratio from
+          # that using a square-root function to dampen the change.
+          space_cop = math.sqrt(option['hspf2'] / 10.0) * 2.6
+        else:
+          # COP @ 32F must have been provided.
+          space_cop = option['cop32f']
 
-          # High COP units probably are producing low temperature water (~ 100F) so need resistance
-          # supplment to achieve DHW temperature water. So need to downgrade COP to get the
-          # DHW efficiency. Also, tank losses for water heating reduce COP; use a 0.96 multiplier
-          # for that.
-          if space_cop > 1.6:
-            # space_cop of 1.6 is DHW EF of 1.6, linear to space_cop of 2.6 -> 2.0 EF, not
-            # adjusting for tank losses.
-            dhw_ef = (space_cop - 1.6) * 0.4 + 1.6
-          else:
-            dhw_ef = space_cop
-          dhw_ef *= 0.96         # tank losses
-          dhw_fuel = 'elec'
-          hpwh_source = 'outdoors'
+        # High COP units probably are producing low temperature water (~ 100F) so need resistance
+        # supplment to achieve DHW temperature water. So need to downgrade COP to get the
+        # DHW efficiency. Also, tank losses for water heating reduce COP; use a 0.96 multiplier
+        # for that.
+        if space_cop > 1.6:
+          # space_cop of 1.6 is DHW EF of 1.6, linear to space_cop of 2.6 -> 2.0 EF, not
+          # adjusting for tank losses.
+          dhw_ef = (space_cop - 1.6) * 0.4 + 1.6
+        else:
+          dhw_ef = space_cop
+        dhw_ef *= 0.96         # tank losses
+        dhw_fuel = 'elec'
+        hpwh_source = 'outdoors'
 
-        case 'new-tank' | 'new-tankless':
-          dhw_fuel = option['dhw_after_fuel']
-          dhw_ef = option['ef_new_dhw']
-          hpwh_source = None
+      case 'new-tank' | 'new-tankless':
+        dhw_fuel = option['dhw_after_fuel']
+        dhw_ef = option['ef_new_dhw']
+        hpwh_source = None
 
-        case 'new-hpwh':
-          dhw_fuel = 'elec'
-          dhw_ef = option['ef_new_dhw']
-          hpwh_source = option['hpwh_source']
+      case 'new-hpwh':
+        dhw_fuel = 'elec'
+        dhw_ef = option['ef_new_dhw']
+        hpwh_source = option['hpwh_source']
 
-      bldg['dhw_fuel_id'] = dhw_fuel
-      bldg['dhw_ef'] = dhw_ef
-      bldg['dhw_hpwh_source'] = hpwh_source
-
-      option_bldgs.append(bldg)
+    bldg['dhw_fuel_id'] = dhw_fuel
+    bldg['dhw_ef'] = dhw_ef
+    bldg['dhw_hpwh_source'] = hpwh_source
   
-  return option_bldgs
+    return bldg
 
 def check_option_errors(option):
   """Checks the heat pump option "option" for errors. Return empty list if error-free. Returns
