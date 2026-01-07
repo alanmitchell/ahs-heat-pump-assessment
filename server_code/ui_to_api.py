@@ -3,6 +3,9 @@ be used with the Heat Pump Calculator API.
 """
 import math
 from copy import deepcopy
+
+from anvil.tables import app_tables
+
 from .util import convert, dval
 
 # ----- Auxiliary electric use values (kWh / MMBTU output) for all possible heating system types
@@ -157,8 +160,8 @@ def make_option_building(base_bldg, option):
     heat_pump = {
       'source_type': option['hp_source'],
       'hspf_type': 'hspf2_reg5',
-      'hspf': option.get('hspf2'),
-      'cop_32f': option.get('cop32f'),
+      'hspf': convert(option.get('hspf2'), ('',), None),
+      'cop_32f': convert(option.get('cop32f'), ('',), None),
       'max_out_5f': option['max_capacity'] if option['hp_source']=='air' else None,
       'max_out_32f': option['max_capacity'] if option['hp_source']!='air' else None,
       'low_temp_cutoff': 5.0,
@@ -309,3 +312,41 @@ def check_option_errors(option):
           msgs.append('Heat Pump Installation Cost must be greater than 0.')
 
   return msgs
+
+def make_econ_inputs():
+  """Returns the dictionary of economic inputs used by the retrofit analysis in the Calculator API.
+  """
+  general_inflation = float(app_tables.settings.search(key="general-inflation")[0]["value"])
+  disc_rate_real = float(app_tables.settings.search(key="discount-rate-real")[0]["value"])
+  elec_esc_real = float(app_tables.settings.search(key="elec-rate-esc-real")[0]["value"])
+  fuel_esc_real = float(app_tables.settings.search(key="fuel-price-esc-real")[0]["value"])
+  
+  return {
+    'elec_rate_forecast': (1.0 + general_inflation) * (1.0 + elec_esc_real) - 1.0,
+    'fuel_price_forecast': (1.0 + general_inflation) * (1.0 + fuel_esc_real) - 1.0,
+    'discount_rate': (1.0 + general_inflation) * (1.0 + disc_rate_real) - 1.0,
+    'inflation_rate': general_inflation
+  }
+
+def make_retrofit_cost(option):
+  """Returns a dictionary of retrofit cost inputs for the Heat Pump Option 'option'.
+  In the format necessary for the Calculator API.
+  """
+  capital_cost = \
+    convert(option.get('cost_hp_install'), (None, ''), 0.0) + \
+    convert(option.get('cost_electrical'), (None, ''), 0.0) + \
+    convert(option.get('cost_permit'), (None, ''), 0.0) + \
+    convert(option.get('cost_non_hp'), (None, ''), 0.0)
+  rebate_amount = \
+    convert(option.get('hp_incentives'), (None, ''), 0.0) + \
+    convert(option.get('hp_tax_credit'), (None, ''), 0.0)
+  
+  return {
+    'capital_cost': capital_cost,
+    'rebate_amount': rebate_amount,
+    'retrofit_life': int(app_tables.settings.search(key="retrofit-life")[0]["value"]),
+    'op_cost_chg':  0.0,
+    'loan_amount': 0.0,
+    'loan_term': None,
+    'loan_interest': None,
+  }

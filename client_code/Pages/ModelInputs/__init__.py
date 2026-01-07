@@ -242,4 +242,4 @@ class ModelInputs(ModelInputsTemplate):
     """This method is called when the component is clicked."""
     self.save_values()
     result = anvil.server.call('analyze_options', self.item, self.client_id)
-    print(result)
+    anvil.server.call('pprint', result)

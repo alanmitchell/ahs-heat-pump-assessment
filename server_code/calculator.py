@@ -6,11 +6,16 @@ import json
 import requests
 from pprint import pprint
 import anvil.server
-from anvil.tables import app_tables
 
 from .client_data import get_client
 from .past_fuel_use import get_actual_use
-from .ui_to_api import make_base_bldg_inputs, make_energy_model_fit_inputs, make_option_building
+from .ui_to_api import (
+  make_base_bldg_inputs, 
+  make_energy_model_fit_inputs, 
+  make_option_building,
+  make_econ_inputs,
+  make_retrofit_cost,
+)
 from .util import convert
 
 # Base URL to access heat pump calculator API endpoints.
@@ -66,7 +71,7 @@ def analyze_options(ui_inputs, client_id):
     timeout = 30,
   )
   if fit_response.status_code >= 400:
-    err = fit_results.json()
+    err = fit_response.json()
     try:
       err_msg = f"{err['detail']} {err['timestamp']}"
     except:
@@ -75,49 +80,43 @@ def analyze_options(ui_inputs, client_id):
     return return_errors(err_msgs)
 
   fit_results = fit_response.json()
+  existing_bldg = fit_results['building_description']
   #pprint(fit_results)
 
   # --- Do Retrofit analysis on each of the Options and the As Installed building
 
   # make the general economic inputs needed for the retrofit analysis
-  general_inflation = float(app_tables.settings.search(key="general-inflation")[0]["value"])
-  disc_rate_real = float(app_tables.settings.search(key="discount-rate-real")[0]["value"])
-  elec_esc_real = float(app_tables.settings.search(key="elec-rate-esc-real")[0]["value"])
-  fuel_esc_real = float(app_tables.settings.search(key="fuel-price-esc-real")[0]["value"])
-
-  econ_inputs = {
-    'elec_rate_forecast': (1.0 + general_inflation) * (1.0 + elec_esc_real) - 1.0,
-    'fuel_price_forecast': (1.0 + general_inflation) * (1.0 + fuel_esc_real) - 1.0,
-    'discount_rate': (1.0 + general_inflation) * (1.0 + disc_rate_real) - 1.0,
-    'inflation_rate': general_inflation
-  }
-  pprint(econ_inputs)
-
-  for option in ui_inputs['heat_pump_options']:
-    option_bldg = make_option_building(fit_results['building_description'], option)
-    if type(option_bldg) is dict:
-      pprint(option_bldg)
-      # make retrofit cost inputs
-      capital_cost = \
-        convert(option.get('cost_hp_install'), (None, ''), 0.0) + \
-        convert(option.get('cost_electrical'), (None, ''), 0.0) + \
-        convert(option.get('cost_permit'), (None, ''), 0.0) + \
-        convert(option.get('cost_non_hp'), (None, ''), 0.0)
-      rebate_amount = \
-        convert(option.get('hp_incentives'), (None, ''), 0.0) + \
-        convert(option.get('hp_tax_credit'), (None, ''), 0.0)
-
-      retrofit_cost = {
-        'capital_cost': capital_cost,
-        'rebate_amount': rebate_amount,
-        'retrofit_life': int(app_tables.settings.search(key="retrofit-life")[0]["value"]),
-        'op_cost_chg':  0.0,
-        'loan_amount': 0.0,
-        'loan_term': None,
-        'loan_interest': None,
-      }
-      pprint(retrofit_cost)
+  econ_inputs = make_econ_inputs()
   
+  for option in ui_inputs['heat_pump_options']:
+    option_bldg = make_option_building(existing_bldg, option)
+    if type(option_bldg) is dict:
+      #pprint(option_bldg)
+      # make retrofit cost inputs
+      retrofit_cost = make_retrofit_cost(option)
+      analyze_inputs = {
+        'pre_bldg': existing_bldg,
+        'post_bldg': option_bldg,
+        'retrofit_cost': retrofit_cost,
+        'economic_inputs': econ_inputs
+      }
+      analyze_response = requests.post(
+        CALCULATOR_API_BASE_URL + 'energy/analyze-retrofit',
+        json=analyze_inputs,
+        timeout = 30,
+      )
+      if analyze_response.status_code >= 400:
+        err = analyze_response.json()
+        try:
+          err_msg = f"{err['detail']} {err['timestamp']}"
+        except:
+          err_msg = str(err)
+        err_msgs.append(err_msg)
+        return return_errors(err_msgs)
+
+      analyze_results = analyze_response.json()
+      pprint(analyze_results['financial'])
+
   # --- Report the Results
   
   return {'success': True, 'messages': []}
