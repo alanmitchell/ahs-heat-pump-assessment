@@ -6,6 +6,7 @@ import json
 import requests
 from pprint import pprint
 import anvil.server
+from anvil.tables import app_tables
 
 from .client_data import get_client
 from .past_fuel_use import get_actual_use
@@ -77,7 +78,20 @@ def analyze_options(ui_inputs, client_id):
 
   # --- Do Retrofit analysis on each of the Options and the As Installed building
   option_bldgs = make_option_buildings(fit_results['building_description'], ui_inputs['heat_pump_options'])
-  pprint(option_bldgs)
+  #pprint(option_bldgs)
+
+  # make the general economic inputs needed for the retrofit analysis
+  general_inflation = float(app_tables.settings.search(key="general-inflation")[0]["value"])
+  disc_rate_real = float(app_tables.settings.search(key="discount-rate-real")[0]["value"])
+  elec_esc_real = float(app_tables.settings.search(key="elec-rate-esc-real")[0]["value"])
+  fuel_esc_real = float(app_tables.settings.search(key="fuel-price-esc-real")[0]["value"])
+
+  econ_inputs = {
+    'elec_rate_forecast': (1.0 + general_inflation) * (1.0 + elec_esc_real) - 1.0,
+    'fuel_price_forecast': (1.0 + general_inflation) * (1.0 + fuel_esc_real) - 1.0,
+    'discount_rate': (1.0 + general_inflation) * (1.0 + disc_rate_real) - 1.0,
+    'inflation_rate': general_inflation
+  }
   
   # --- Report the Results
   
