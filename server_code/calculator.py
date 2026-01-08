@@ -81,7 +81,8 @@ def analyze_options(ui_inputs, client_id):
 
   fit_results = fit_response.json()
   existing_bldg = fit_results['building_description']
-  #pprint(fit_results)
+  print('Model Fit Results:')
+  pprint(fit_results)
 
   # --- Do Retrofit analysis on each of the Options and the As Installed building
 

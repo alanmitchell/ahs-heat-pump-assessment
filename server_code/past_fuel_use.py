@@ -129,11 +129,15 @@ def get_actual_use(historical_use_file_id):
             var_processed[var] = mo_vals
 
           case 'ng_use':
-            try:
-              mo_vals = [float(x) for x in val.split('|')]
-            except Exception as e:
-              raise ValueError('One or more monthly values is missing or not a number.')
-            var_processed['ng_ccf'] = sum(mo_vals)
+            # test to see if no values are present. If so, return a 0 for the annual total.
+            if val == '|'.join(['#DIV/0!'] * 12):
+              var_processed['ng_ccf'] = 0.0
+            else:
+              try:
+                mo_vals = [float(x) for x in val.split('|')]
+              except Exception as e:
+                raise ValueError('One or more monthly values is missing or not a number.')
+              var_processed['ng_ccf'] = sum(mo_vals)
 
       except Exception as e:
         err_msgs.append(f'**{var}**: {e}')
