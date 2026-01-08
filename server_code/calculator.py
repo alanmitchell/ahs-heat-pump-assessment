@@ -81,8 +81,6 @@ def analyze_options(ui_inputs, client_id):
 
   fit_results = fit_response.json()
   existing_bldg = fit_results['building_description']
-  print('Model Fit Results:')
-  pprint(fit_results)
 
   # --- Do Retrofit analysis on each of the Options and the As Installed building
 
@@ -143,5 +141,9 @@ def analyze_options(ui_inputs, client_id):
   # --- Report the Results
   final_results = {
     'fuel_fit_info': fit_results['fuel_fit_info'],
+    'existing_results': existing_result,
+    'option_results': option_results
   }  
-  return {'success': True, 'messages': []}
+  pprint(final_results)
+  
+  return {'success': True, 'results': final_results}
