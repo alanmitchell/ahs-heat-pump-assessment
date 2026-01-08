@@ -88,6 +88,12 @@ def analyze_options(ui_inputs, client_id):
 
   # make the general economic inputs needed for the retrofit analysis
   econ_inputs = make_econ_inputs()
+
+  # Will hold the modeling results for the existing building
+  existing_result = None
+  # Holds modeling results from all options, or input error messages if option input
+  # is not correct.
+  option_results = []
   
   for option in ui_inputs['heat_pump_options']:
     option_bldg = make_option_building(existing_bldg, option)
@@ -116,8 +122,26 @@ def analyze_options(ui_inputs, client_id):
         return return_errors(err_msgs)
 
       analyze_results = analyze_response.json()
-      pprint(analyze_results['financial'])
+      existing_result = {
+        'annual_results': analyze_results['base_case_detail']['annual_results'],
+        'design_heat_temp': analyze_results['base_case_detail']['design_heat_temp'],
+        'design_heat_load': analyze_results['base_case_detail']['design_heat_load']
+      }
+      option_result = {
+        'financial': analyze_results['financial'],
+        'misc':  analyze_results['misc'],
+        'annual_results': analyze_results['with_retrofit_detail']['annual_results'],
+        'design_heat_temp': analyze_results['with_retrofit_detail']['design_heat_temp'],
+        'design_heat_load': analyze_results['with_retrofit_detail']['design_heat_load']
+      }
+      option_results.append(option_result)
+      
+    else:
+      # 'option_bldg' is a string containing input error messages for this option
+      option_results.append(option_bldg)
 
   # --- Report the Results
-  
+  final_results = {
+    'fuel_fit_info': fit_results['fuel_fit_info'],
+  }  
   return {'success': True, 'messages': []}
