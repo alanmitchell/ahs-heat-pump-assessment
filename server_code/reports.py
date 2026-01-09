@@ -4,6 +4,17 @@ from anvil.tables import app_tables
 
 from jinja2 import Environment, FileSystemLoader, BaseLoader
 
+# Map Calculator API Fuel ID to labels and units
+FUEL_INFO = {
+  "oil1": ('Oil', 'gallons'),
+  "propane": ('Propane', 'gallons'),
+  "elec": ('Electricity', 'kWh'),
+  "birch": ('Birch', 'cords'),
+  "spruce": ('Sprucce', 'cords'),
+  "pellets": ('Wood Pellets', 'pounds'),
+  "ng": ('Natural Gas', 'CCF'),
+}
+
 def make_retrofit_report(analyze_results):
   """Returns a Markdown string with the report contents resulting from the 
   Heat Pump analysis. 'analyze_results' is a dictionary containing a calculation success
@@ -25,11 +36,12 @@ def make_retrofit_report(analyze_results):
     # make the model fitting statistics table
     tbl_fit = []
     for fuel_id, info in ar['fuel_fit_info'].items():
+      label, units = FUEL_INFO[fuel_id]
       tbl_fit.append(
         (
-          fuel_id,
-          f'{info[0]: .4g}',
-          f'{info[1]: .4g}',
+          f'{label}, {units}',
+          f'{info[0]: ,.4g}',
+          f'{info[1]: ,.4g}',
           f'{info[2]*100:.1f}%'
         )
       )

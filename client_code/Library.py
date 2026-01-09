@@ -11,7 +11,7 @@ FUELS_ALL = [
   ('Oil', "oil1"),
   ('Propane', "propane"),
   ('Electricity', "elec"),
-  ('Birch/Har', "birch"),
+  ('Birch/Hardwood', "birch"),
   ('Spruce/Softwood', "spruce"),
   ('Wood Pellets', "pellets"),
   ('Natural Gas', "ng")
