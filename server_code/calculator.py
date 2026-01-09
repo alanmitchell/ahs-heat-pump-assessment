@@ -130,8 +130,6 @@ def analyze_options(ui_inputs, client_id):
         'financial': analyze_results['financial'],
         'misc':  analyze_results['misc'],
         'annual_results': analyze_results['with_retrofit_detail']['annual_results'],
-        'design_heat_temp': analyze_results['with_retrofit_detail']['design_heat_temp'],
-        'design_heat_load': analyze_results['with_retrofit_detail']['design_heat_load']
       }
       option_results.append(option_result)
       
