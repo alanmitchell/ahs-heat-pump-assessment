@@ -46,6 +46,8 @@ def make_retrofit_report(analyze_results):
         )
       )
     data['tbl_fit'] = tbl_fit
+
+    # Table of fuel use by End Use and total $ by Fuel
     
     template_text = app_tables.settings.search(key="analyze-report-template")[0]["value"]
     template = env.from_string(template_text)
