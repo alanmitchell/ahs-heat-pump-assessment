@@ -17,6 +17,7 @@ from .ui_to_api import (
   make_retrofit_cost,
 )
 from .util import convert
+from .reports import make_retrofit_report
 
 # Base URL to access heat pump calculator API endpoints.
 CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
@@ -29,10 +30,10 @@ def return_errors(error_messages):
   """Returns the results dictionary used to convey that an error(s) has occurred.
   'error_messages' is a list of error messages.
   """
-  return {
-    "success": False,
-    "messages": error_messages,
-  }
+  return make_retrofit_report({
+    'success': False,
+    'messages': error_messages
+  })
 
 @anvil.server.callable
 def analyze_options(ui_inputs, client_id):
@@ -143,6 +144,9 @@ def analyze_options(ui_inputs, client_id):
     'existing_results': existing_result,
     'option_results': option_results
   }  
-  pprint(final_results)
-  
-  return {'success': True, 'results': final_results}
+  #pprint(final_results)
+    
+  return make_retrofit_report({
+      'success': True,
+      'results': final_results
+    })
