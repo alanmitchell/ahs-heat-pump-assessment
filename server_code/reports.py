@@ -18,11 +18,19 @@ def make_retrofit_report(analyze_results):
   )
 
   if analyze_results['success']:
-    return "## Results go here!"
+    # Report for a successful retrofit analysis
+    data = {}
+    ar = analyze_results    # shortcut variable
+
+    # make the model fitting statistics table
+    for fuel_id in ar[]
+    
+    template_text = app_tables.settings.search(key="analyze-report-template")[0]["value"]
+    template = env.from_string(template_text)
+    return template.render(**data)
 
   else:
-    # Fetch template text
+    # Display input error messages
     template_text = app_tables.settings.search(key="error-report-template")[0]["value"]
     template = env.from_string(template_text)
-
     return template.render(messages=analyze_results['messages'])
