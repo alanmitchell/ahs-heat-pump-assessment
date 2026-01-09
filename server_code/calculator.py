@@ -2,6 +2,7 @@
 from the UI to be used in the Heat Pump Calculator API.
 """
 import json
+import copy
 
 import requests
 from pprint import pprint
@@ -133,7 +134,12 @@ def analyze_options(ui_inputs, client_id):
         'annual_results': analyze_results['with_retrofit_detail']['annual_results'],
       }
       option_results.append(option_result)
-      
+
+      res = copy.deepcopy(option_result)
+      pprint(res['fuel_change'])
+      pprint(res['financial'])
+      pprint(res['misc'])
+
     else:
       # 'option_bldg' is a string containing input error messages for this option
       option_results.append(option_bldg)

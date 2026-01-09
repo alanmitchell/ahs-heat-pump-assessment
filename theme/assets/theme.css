@@ -28,3 +28,12 @@
 td, th {
   padding: 1px 6px;
 }
+
+/* Border under header row of tables */
+table {
+  border-collapse: collapse; /* ensures borders align cleanly */
+}
+
+thead th {
+  border-bottom: 1px solid #999;
+}

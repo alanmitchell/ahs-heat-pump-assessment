@@ -20,10 +20,20 @@ def make_retrofit_report(analyze_results):
   if analyze_results['success']:
     # Report for a successful retrofit analysis
     data = {}
-    ar = analyze_results    # shortcut variable
+    ar = analyze_results['results']    # shortcut variable
 
     # make the model fitting statistics table
-    for fuel_id in ar[]
+    tbl_fit = []
+    for fuel_id, info in ar['fuel_fit_info'].items():
+      tbl_fit.append(
+        (
+          fuel_id,
+          f'{info[0]: .4g}',
+          f'{info[1]: .4g}',
+          f'{info[2]*100:.1f}%'
+        )
+      )
+    data['tbl_fit'] = tbl_fit
     
     template_text = app_tables.settings.search(key="analyze-report-template")[0]["value"]
     template = env.from_string(template_text)
