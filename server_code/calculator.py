@@ -126,6 +126,7 @@ def analyze_options(ui_inputs, client_id):
         'design_heat_load': analyze_results['base_case_detail']['design_heat_load']
       }
       option_result = {
+        'fuel_change': analyze_results['fuel_change'],
         'financial': analyze_results['financial'],
         'misc':  analyze_results['misc'],
         'annual_results': analyze_results['with_retrofit_detail']['annual_results'],
