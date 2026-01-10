@@ -37,3 +37,20 @@ table {
 thead th {
   border-bottom: 1px solid #999;
 }
+
+/* For a numeric table where labels are in first column, numbers is rest */
+.numeric-table td,
+.numeric-table th {
+  text-align: right;
+}
+
+.numeric-table td:first-child,
+.numeric-table th:first-child {
+  text-align: left;
+}
+
+/* Totals row in a table */
+tr.totals td {
+  border-top: 2px solid #999;
+  font-weight: bold;
+}

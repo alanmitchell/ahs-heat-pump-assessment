@@ -22,6 +22,9 @@ class ModelInputs(ModelInputsTemplate):
     self.set_event_handler('show', self.form_show)
     self.set_event_handler('hide', self.save_values)
 
+    self.html_report = HtmlTemplate()
+    self.card_content_container.add_component(self.html_report)
+
     # get base URL for Heatpump Calculator API
     self.calc_api_url = anvil.server.call('calculator_api_base_url')
 
@@ -240,7 +243,9 @@ class ModelInputs(ModelInputsTemplate):
 
   def button_calculate_click(self, **event_args):
     """This method is called when the component is clicked."""
+    self.html_report.html = '<h2>Calculating!</h2>'
     self.save_values()
     report_html = anvil.server.call('analyze_options', self.item, self.client_id)
     print(report_html)
-    self.rich_text_results.content = report_html
+    #self.rich_text_results.content = report_html
+    self.html_report.html = report_html
