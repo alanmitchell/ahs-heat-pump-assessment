@@ -9,13 +9,13 @@ from .util import convert
 
 # Map Calculator API Fuel ID to labels and units
 FUEL_INFO = {
-  "oil1": ('Oil', 'gallons'),
-  "propane": ('Propane', 'gallons'),
-  "elec": ('Electricity', 'kWh'),
-  "birch": ('Birch', 'cords'),
-  "spruce": ('Sprucce', 'cords'),
-  "pellets": ('Wood Pellets', 'pounds'),
-  "ng": ('Natural Gas', 'CCF'),
+  "oil1": ('Oil', 'gallons', ',.0f'),
+  "propane": ('Propane', 'gallons', ',.0f'),
+  "elec": ('Electricity', 'kWh', ',.0f'),
+  "birch": ('Birch', 'cords', ',.2f'),
+  "spruce": ('Sprucce', 'cords', ',.2f'),
+  "pellets": ('Wood Pellets', 'pounds', ',.0f'),
+  "ng": ('Natural Gas', 'CCF', ',.0f'),
 }
 
 END_USE_LABELS = {
@@ -49,12 +49,12 @@ def make_retrofit_report(analyze_results):
     # make the model fitting statistics table
     tbl_fit = []
     for fuel_id, info in ar['fuel_fit_info'].items():
-      label, units = FUEL_INFO[fuel_id]
+      label, units, fmt = FUEL_INFO[fuel_id]
       tbl_fit.append(
         (
           f'{label}, {units}',
-          f'{info[0]: ,.4g}',
-          f'{info[1]: ,.4g}',
+          f'{info[0]:{fmt}}',
+          f'{info[1]:{fmt}}',
           f'{info[2]*100:.1f}%'
         )
       )
@@ -72,7 +72,7 @@ def make_retrofit_report(analyze_results):
     tbl_fuel_by_use = []
     for end_use in end_uses:
       row = [END_USE_LABELS[end_use]]
-      row += [convert(f'{fuel_by_use.get(fuel, end_use):,.3g}', ('0',), '') for fuel in fuels]
+      row += [convert(f'{fuel_by_use.get(fuel, end_use):{FUEL_INFO[fuel][2]}}', ('0', '0.0', '0.00'), '') for fuel in fuels]
       tbl_fuel_by_use.append(row)
     data['tbl_fuel_by_use'] = tbl_fuel_by_use
 
