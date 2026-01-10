@@ -6,7 +6,7 @@ Values are stored in nested dictionaries; The outer dictionary is keyed on key1
 and the inner dictionary is keyed on key2 and holds the floating point values.
 """
 import copy
-from typing import Hashable, Self
+from typing import Hashable
 
 
 class Dict2d:
@@ -59,7 +59,7 @@ class Dict2d:
         result[k] = result.get(k, 0.0) + v
     return result
 
-  def add_object(self, obj: Self) -> Self:
+  def add_object(self, obj: "Dict2d") -> "Dict2d":
     """Adds the values from the Dict2d object 'obj' to this one, returning
     this new updated object.
     """
@@ -68,15 +68,15 @@ class Dict2d:
           self.add(k1, k2, val)
     return self
 
-  def copy(self) -> Self:
+  def copy(self) -> "Dict2d":
     """Returns a copy of this object.
     """
     return Dict2d(copy.deepcopy(self.store))
 
-  def key1_list(self) -> List[Hashable]:
+  def key1_list(self) -> list[Hashable]:
     return sorted(self.store.keys())
 
-  def key2_list(self) -> List[Hashable]:
+  def key2_list(self) -> list[Hashable]:
     """Return a sorted list of all unique keys of the inner dictionary."""
     keys = set()
     for k, inner in self.store.items():
