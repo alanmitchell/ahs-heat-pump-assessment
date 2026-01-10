@@ -75,8 +75,7 @@ def make_retrofit_report(analyze_results):
       row += [convert(f'{fuel_by_use.get(fuel, end_use):{FUEL_INFO[fuel][2]}}', ('0', '0.0', '0.00'), '') for fuel in fuels]
       tbl_fuel_by_use.append(row)
     data['tbl_fuel_by_use'] = tbl_fuel_by_use
-
-    print(data)
+    data['tbl_fuel_by_use_totals'] = ['<b>Totals</b>', '123', '456', '789']
     template_text = app_tables.settings.search(key="analyze-report-template")[0]["value"]
     template = env.from_string(template_text)
     return template.render(**data)
