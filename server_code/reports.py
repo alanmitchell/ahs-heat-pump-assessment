@@ -85,6 +85,10 @@ def make_retrofit_report(analyze_results):
     # get the cost totals by fuel type
     fuel_cost_by_type = ar['existing_results']['annual_results']['fuel_cost']
     data['tbl_fuel_by_use_total_cost'] = ['Total Fuel Cost'] + [f'$ {fuel_cost_by_type.get(fuel, 0.0):,.0f}' for fuel in fuels]
+
+    # Grand total fuel cost and CO2 emissions
+    data['grand_total_fuel_and_elec_cost'] = f"$ {ar['existing_results']['annual_results']['fuel_total_cost']:,.0f}"
+    data['co2_lbs'] = f"{ar['existing_results']['annual_results']['co2_lbs']:,.0f}"
     
     template_text = app_tables.settings.search(key="analyze-report-template")[0]["value"]
     template = env.from_string(template_text)
