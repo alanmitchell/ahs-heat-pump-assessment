@@ -241,5 +241,6 @@ class ModelInputs(ModelInputsTemplate):
   def button_calculate_click(self, **event_args):
     """This method is called when the component is clicked."""
     self.save_values()
-    report_md = anvil.server.call('analyze_options', self.item, self.client_id)
-    self.rich_text_results.content = report_md
+    report_html = anvil.server.call('analyze_options', self.item, self.client_id)
+    print(report_html)
+    self.rich_text_results.content = report_html
