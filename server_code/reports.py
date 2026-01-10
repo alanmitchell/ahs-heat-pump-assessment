@@ -46,7 +46,7 @@ def make_retrofit_report(analyze_results):
     data = {}
     ar = analyze_results['results']    # shortcut variable
 
-    # make the model fitting statistics table
+    # ---------- Make the model fitting statistics table
     tbl_fit = []
     for fuel_id, info in ar['fuel_fit_info'].items():
       label, units, fmt = FUEL_INFO[fuel_id]
@@ -60,22 +60,32 @@ def make_retrofit_report(analyze_results):
       )
     data['tbl_fit'] = tbl_fit
 
-    # Table of fuel use by End Use and total $ by Fuel
+    # --------- Table of fuel use by End Use and total $ by Fuel
     # Get the 2-level dictionary that have fuel by end-use expressed in fuel
     # units.
     fuel_by_use = Dict2d(ar['existing_results']['annual_results']['fuel_use_units'])
     fuels = fuel_by_use.key1_list()
     end_uses = fuel_by_use.key2_list()
+    
     # make the header row
     tbl_fuel_by_use_header = ['End Use'] + [f'{FUEL_INFO[fuel][0]}, {FUEL_INFO[fuel][1]}' for fuel in fuels]
     data['tbl_fuel_by_use_header'] = tbl_fuel_by_use_header
+    
     tbl_fuel_by_use = []
     for end_use in end_uses:
       row = [END_USE_LABELS[end_use]]
       row += [convert(f'{fuel_by_use.get(fuel, end_use):{FUEL_INFO[fuel][2]}}', ('0', '0.0', '0.00'), '') for fuel in fuels]
       tbl_fuel_by_use.append(row)
     data['tbl_fuel_by_use'] = tbl_fuel_by_use
-    data['tbl_fuel_by_use_totals'] = ['Totals', '123', '456', '789']
+    
+    # get the totals by fuel type
+    fuel_totals = fuel_by_use.sum_key1()
+    data['tbl_fuel_by_use_totals'] = ['Totals'] + [f'{fuel_totals.get(fuel, 0.0):{FUEL_INFO[fuel][2]}}' for fuel in fuels]
+
+    # get the cost totals by fuel type
+    fuel_cost_by_type = ar['existing_results']['annual_results']['fuel_cost']
+    data['tbl_fuel_by_use_total_cost'] = ['Total Fuel Cost'] + [f'$ {fuel_cost_by_type.get(fuel, 0.0):,.0f}' for fuel in fuels]
+    
     template_text = app_tables.settings.search(key="analyze-report-template")[0]["value"]
     template = env.from_string(template_text)
     return template.render(**data)

@@ -51,6 +51,9 @@ thead th {
 
 /* Totals row in a table */
 tr.totals td {
-  border-top: 2px solid #999;
+  border-top: 1px solid #999;
+}
+
+tr.totals > :first-child {
   font-weight: bold;
 }
