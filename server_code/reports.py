@@ -68,7 +68,7 @@ def make_retrofit_report(analyze_results):
     end_uses = fuel_by_use.key2_list()
     
     # make the header row
-    tbl_fuel_by_use_header = ['End Use'] + [f'{FUEL_INFO[fuel][0]}, {FUEL_INFO[fuel][1]}' for fuel in fuels]
+    tbl_fuel_by_use_header = ['End Use'] + [f'{FUEL_INFO[fuel][0]}<br>{FUEL_INFO[fuel][1]}' for fuel in fuels]
     data['tbl_fuel_by_use_header'] = tbl_fuel_by_use_header
     
     tbl_fuel_by_use = []
