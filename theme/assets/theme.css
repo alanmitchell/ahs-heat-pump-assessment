@@ -24,6 +24,11 @@
   margin: 16px auto;
 }
 
+hr {
+  border: none;
+  border-top: 1px solid blue;
+}
+
 /* top/bottom left/right */
 td, th {
   padding: 1px 6px;

@@ -102,6 +102,16 @@ def make_retrofit_report(analyze_results):
       row = [label] + [cell_function(ix) for ix in option_indices]
       tbl_options.append(row)
 
+    # -- Fuel Use Change
+    def fuel_change(i):
+      lines = []
+      for fuel, chg in options[i]['fuel_change']['units'].items():
+        if chg != 0.0:
+          name, units, fmt = FUEL_INFO[fuel]
+          lines.append(f"{name}: {chg:+{fmt}} {units}")
+      return '<br>'.join(lines)
+    add_option_row('Annual Change in Fuel Use', fuel_change)          
+        
     # -- Fuel Cost savings
     def cost_savings(i):
       savings = -sum(options[i]['fuel_change']['cost'].values())
@@ -113,6 +123,18 @@ def make_retrofit_report(analyze_results):
       return f"{options[i]['misc']['co2_lbs_saved']:,.0f}"
     add_option_row('CO2 Emissions Savings, lbs / year', co2_savings)
 
+    # -- % of Space Load served by HP
+    def pct_served(i):
+      served = options[i]['annual_results']['hp_load_frac']
+      return f'{served * 100.0:.0f}%'
+    add_option_row('% Space Load served by Heat Pump', pct_served)
+
+    # --Space Heating COP
+    def cop(i):
+      cop = options[i]['annual_results']['cop']
+      return f'{cop:.2f}'
+    add_option_row('Space Heating Heat Pump COP', cop)
+    
     # -- Net Capital Cost
     def net_capital(i):
       capital_cost = -options[i]['financial']['cash_flow_table']['Net Cash'][0]
@@ -136,6 +158,12 @@ def make_retrofit_report(analyze_results):
       else:
         return "NA"
     add_option_row('Tax-Free Rate of Return', irr)
+
+    # -- NPV
+    def npv(i):
+      npv = options[i]['financial']['npv']
+      return f'$ {npv:,.0f}'
+    add_option_row('Net Present Value (>0 is good)', npv)
 
     data['tbl_options'] = tbl_options
 
