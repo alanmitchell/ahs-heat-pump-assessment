@@ -89,7 +89,57 @@ def make_retrofit_report(analyze_results):
     # Grand total fuel cost and CO2 emissions
     data['grand_total_fuel_and_elec_cost'] = f"$ {ar['existing_results']['annual_results']['fuel_total_cost']:,.0f}"
     data['co2_lbs'] = f"{ar['existing_results']['annual_results']['co2_lbs']:,.0f}"
+
+    # -------------- Heat Pump Options Table
+    # identify the Options indices that actually contain results
+    options = ar['option_results']
+    option_indices = [ix for ix, val in enumerate(options) if type(val) is dict]
+    tbl_options_header = [''] + [options[ix]['option_inputs']['title'] for ix in option_indices]
+    data['tbl_options_header'] = tbl_options_header
     
+    tbl_options = []
+    def add_option_row(label, cell_function):
+      row = [label] + [cell_function(ix) for ix in option_indices]
+      tbl_options.append(row)
+
+    # -- Fuel Cost savings
+    def cost_savings(i):
+      savings = -sum(options[i]['fuel_change']['cost'].values())
+      return f'$ {savings:,.0f}'
+    add_option_row('First Year Energy Cost Savings', cost_savings)
+
+    # -- CO2 Savings
+    def co2_savings(i):
+      return f"{options[i]['misc']['co2_lbs_saved']:,.0f}"
+    add_option_row('CO2 Emissions Savings, lbs / year', co2_savings)
+
+    # -- Net Capital Cost
+    def net_capital(i):
+      capital_cost = -options[i]['financial']['cash_flow_table']['Net Cash'][0]
+      return f'$ {capital_cost:,.0f}'
+    add_option_row('Retrofit Cost after Incentives', net_capital)
+
+    # -- Simple Payback
+    def simple_payback(i):
+      payback = options[i]['financial']['simple_payback']
+      if payback is not None:
+        return f'{payback:.1f} years'
+      else:
+        return 'None'
+    add_option_row('Simple Payback', simple_payback)
+
+    # -- Rate of Return
+    def irr(i):
+      irr = options[i]['financial']['irr']
+      if irr is not None:
+        return f'{irr * 100.0: .1f}% / year'
+      else:
+        return "NA"
+    add_option_row('Tax-Free Rate of Return', irr)
+
+    data['tbl_options'] = tbl_options
+
+    # -------------- Render the template
     template_text = app_tables.settings.search(key="analyze-report-template")[0]["value"]
     template = env.from_string(template_text)
     return template.render(**data)

@@ -246,6 +246,4 @@ class ModelInputs(ModelInputsTemplate):
     self.html_report.html = '<h2>Calculating!</h2>'
     self.save_values()
     report_html = anvil.server.call('analyze_options', self.item, self.client_id)
-    print(report_html)
-    #self.rich_text_results.content = report_html
     self.html_report.html = report_html
