@@ -62,3 +62,7 @@ tr.totals td {
 tr.totals > :first-child {
   font-weight: bold;
 }
+
+.striped tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}

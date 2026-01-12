@@ -64,7 +64,7 @@ def make_base_bldg_inputs(ui_inputs):
     'pce_rate_override': None,
     'customer_charge_override': None,
     'co2_lbs_per_kwh_override': None,
-    'fuel_price_overrides': {fuel_id: inp[fuel_name] for fuel_name, fuel_id in fuel_name_to_id.items() if inp.get(fuel_name) is not None},
+    'fuel_price_overrides': {fuel_id: inp[fuel_name] for fuel_name, fuel_id in fuel_name_to_id.items() if inp.get(fuel_name) not in (None, '')},
     'sales_tax_override': None
   }
 
