@@ -18,6 +18,7 @@ from .ui_to_api import (
   make_retrofit_cost,
 )
 from .util import convert
+from .check_inputs import check_main_model_inputs
 from .reports import make_retrofit_report
 
 # Base URL to access heat pump calculator API endpoints.
@@ -42,7 +43,6 @@ def analyze_options(ui_inputs, client_id):
   'input_dict': The dictionary of all the model inputs.
   'client_id': The ID of the client being modeled.
   """
-  #anvil.server.call('pprint', ui_inputs)
 
   # ----- Get the client record with needed fields
   fields = ('historical_use_file_id', )
@@ -59,6 +59,11 @@ def analyze_options(ui_inputs, client_id):
   else:
     err_msgs.append('The Historical Fuel Use Spreadsheet has not been created.')
 
+  if err_msgs:
+    return return_errors(err_msgs)
+
+  # Check the main model inputs
+  err_msgs = check_main_model_inputs(ui_inputs)
   if err_msgs:
     return return_errors(err_msgs)
 
