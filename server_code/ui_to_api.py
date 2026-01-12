@@ -107,22 +107,22 @@ def make_base_bldg_inputs(ui_inputs):
     'energy_prices': energy_prices,
     'conventional_heat': conventional_systems,
     'heat_pump': None,
-    'garage_stall_count': inp['garage_count'],
+    'garage_stall_count': convert(inp.get('garage_count'), (None, ''), 0),
     'bldg_floor_area': inp['floor_area'],
-    'occupant_count': inp['occupant_count'],
+    'occupant_count': convert(inp.get('occupant_count'), (None, ''), 0.0),
     'indoor_heat_setpoint': 70.0,
     'ua_per_ft2': 0.19,              # will be changed in model fitting
     'dhw_fuel_id': dhw_fuel,
     'dhw_ef': dhw_ef,
     'dhw_hpwh_source': hpwh_source,
-    'clothes_drying_fuel_id': inp['drying_fuel'],
-    'cooking_fuel_id': inp['cooking_fuel'],
+    'clothes_drying_fuel_id': inp.get('drying_fuel'),
+    'cooking_fuel_id': inp.get('cooking_fuel'),
     'misc_elec_kwh_per_day': 13.0,      # will be changed in model fitting
     'misc_elec_seasonality': 0.15,      # will be changed in model fitting
-    'ev_charging_miles_per_day': inp['ev_charging_miles_per_day'],
+    'ev_charging_miles_per_day': convert(inp.get('ev_charging_miles_per_day'), (None, ''), 0.0),
     'ev_miles_per_kwh': 3.0,            # will be changed in model fitting
     'ev_seasonality': 0.0,              # will be changed in model fitting
-    'solar_kw': inp['solar_kw'],
+    'solar_kw': convert(inp.get('solar_kw'), (None, ''), 0.0),
     'solar_kwh_per_kw': 650.0,             # will be changed in model fitting
   }
 
