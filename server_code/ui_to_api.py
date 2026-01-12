@@ -6,6 +6,7 @@ from copy import deepcopy
 
 from anvil.tables import app_tables
 
+from .check_inputs import check_option_inputs
 from .util import convert, dval
 
 # ----- Auxiliary electric use values (kWh / MMBTU output) for all possible heating system types
@@ -150,7 +151,8 @@ def make_option_building(base_bldg, option):
   in accordance with the retrofits described in "option". If there are input errors,
   return a string describing the input problems.
   """
-  option_errors = check_option_errors(option)
+  # Check for inputs errors in the heat pump options
+  option_errors = check_option_inputs(option)
   if option_errors:
     return ' '.join(option_errors)
     
@@ -246,72 +248,6 @@ def make_option_building(base_bldg, option):
     bldg['dhw_hpwh_source'] = hpwh_source
   
     return bldg
-
-def check_option_errors(option):
-  """Checks the heat pump option "option" for errors. Return empty list if error-free. Returns
-  a list of error messages if there are input problems.
-  """
-  msgs = []
-  
-  vars = ('title', 'hp_source', 'hp_distribution', 'hspf2', 'max_capacity',
-         'load_exposed', 'load_adjacent', 'unserved_source', 'dhw_source', 'cost_hp_install')
-  for var in vars:
-    val = dval(option, var)
-    
-    def required(var_name):
-      """Adds a message to 'msgs' if val is None. 'var_name' gives the name of the
-      variable.
-      """
-      if val in (None, ''):
-        msgs.append(f'{var_name} is required.')
-
-    match var:
-      
-      case 'title':
-        required('Title')
-
-      case 'hp_source':
-        required('Heat Source')
-
-      case 'hp_distribution':
-        required('Heat Distribution type')
-
-      case 'hspf2':
-        if val in (None, '') and dval(option, 'cop32f') in (None, ''):
-          msgs.append('You must enter either an HSPF2 or a COP.')
-
-      case 'max_capacity':
-        required('Maximum Capacity at 5 F')
-
-      case 'load_exposed':
-        required('Percent of Main Home Load exposed to Heat Pump')
-        if val not in (None, '') and val <= 0:
-          msgs.append('Percent of Main Home Load exposed to Heat Pump must be greater than 0.')
-
-      case 'load_adjacent':
-        required('Percent of Main Home Load adjacent to Heat Pump')
-      
-      case 'unserved_source':
-        required('Source of load not served by Heat Pump')
-        if val == 'other':
-          val = dval(option, 'heating_system_unserved.fuel')
-          required('Fuel type of the Heating System for non-heat pump load')
-          val = dval(option, 'heating_system_unserved.system_type')
-          required('System type of the Heating System for non-heat pump load')
-          val = dval(option, 'heating_system_unserved.efficiency')
-          required('Efficiency of the Heating System for non-heat pump load')
-          if val not in (None, '') and val <= 0:
-            msgs.append('Efficiency of the Heating System for non-heat pump load must be more than 0.')
-
-      case 'dhw_source':
-        required('Domestic How Water source')
-
-      case 'cost_hp_install':
-        required('Heat Pump Installation Cost')
-        if val not in (None, '') and val <= 0:
-          msgs.append('Heat Pump Installation Cost must be greater than 0.')
-
-  return msgs
 
 def make_econ_inputs():
   """Returns the dictionary of economic inputs used by the retrofit analysis in the Calculator API.

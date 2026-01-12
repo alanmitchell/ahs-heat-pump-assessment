@@ -14,6 +14,9 @@ from ...Utility import chg_none, active_client_name
 from ...HeatPumpOption import HeatPumpOption
 from ... import Library
 
+# Report message shown when there are no fresh results.
+NO_RESULTS_MSG = '<h2>No Results Yet. Click Calculate button above.</h2>'
+
 class ModelInputs(ModelInputsTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -23,6 +26,7 @@ class ModelInputs(ModelInputsTemplate):
     self.set_event_handler('hide', self.save_values)
 
     self.html_report = HtmlTemplate()
+    self.html_report.html = NO_RESULTS_MSG
     self.card_content_container.add_component(self.html_report)
 
     # get base URL for Heatpump Calculator API
@@ -237,6 +241,7 @@ class ModelInputs(ModelInputsTemplate):
     self.item['version_model_inputs'] = Library.VERSION_MODEL_INPUTS
     client_rec = {'version_model_inputs': Library.VERSION_MODEL_INPUTS, 'model_inputs': self.item}
     if client_rec != self.last_saved:
+      self.html_report.html = NO_RESULTS_MSG
       anvil.server.call('add_update_client', self.client_id, client_rec)
       print('Saved Values')
       self.last_saved = copy.deepcopy(client_rec)
