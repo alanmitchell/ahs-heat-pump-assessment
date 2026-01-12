@@ -87,8 +87,10 @@ def make_retrofit_report(analyze_results):
     data['tbl_fuel_by_use_total_cost'] = ['Total Fuel Cost'] + [f'$ {fuel_cost_by_type.get(fuel, 0.0):,.0f}' for fuel in fuels]
 
     # Grand total fuel cost and CO2 emissions
-    data['grand_total_fuel_and_elec_cost'] = f"$ {ar['existing_results']['annual_results']['fuel_total_cost']:,.0f}"
-    data['co2_lbs'] = f"{ar['existing_results']['annual_results']['co2_lbs']:,.0f}"
+    total_fuel_elec_cost = ar['existing_results']['annual_results']['fuel_total_cost']
+    data['grand_total_fuel_and_elec_cost'] = f'$ {total_fuel_elec_cost:,.0f}'
+    co2_lbs = ar['existing_results']['annual_results']['co2_lbs']
+    data['co2_lbs'] = f'{co2_lbs:,.0f}'
 
     # -------------- Heat Pump Options Table
     # identify the Options indices that actually contain results
@@ -115,12 +117,15 @@ def make_retrofit_report(analyze_results):
     # -- Fuel Cost savings
     def cost_savings(i):
       savings = -sum(options[i]['fuel_change']['cost'].values())
-      return f'$ {savings:,.0f}'
+      pct_savings = savings / total_fuel_elec_cost * 100.0
+      return f'$ {savings:,.0f} ({pct_savings:.0f}%)'
     add_option_row('First Year Energy Cost Savings', cost_savings)
 
     # -- CO2 Savings
     def co2_savings(i):
-      return f"{options[i]['misc']['co2_lbs_saved']:,.0f}"
+      co2_lbs_saved = options[i]['misc']['co2_lbs_saved']
+      pct_savings = co2_lbs_saved / co2_lbs * 100
+      return f'{co2_lbs_saved:,.0f} ({pct_savings:.0f}%)'
     add_option_row('CO2 Emissions Savings, lbs / year', co2_savings)
 
     # -- % of Space Load served by HP
@@ -166,6 +171,15 @@ def make_retrofit_report(analyze_results):
     add_option_row('Net Present Value (>0 is good)', npv)
 
     data['tbl_options'] = tbl_options
+
+    # ---------------- Options with bad inputs
+    tbl_option_error_messages = []
+    for ix, option in enumerate(options):
+      if ix not in option_indices:
+        label = f'Option {ix+1}' if ix != len(options) - 1 else 'As Installed'
+        message = str(option)
+        tbl_option_error_messages.append((label, message))
+    data['tbl_option_error_messages'] = tbl_option_error_messages
 
     # -------------- Render the template
     template_text = app_tables.settings.search(key="analyze-report-template")[0]["value"]
