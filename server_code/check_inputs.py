@@ -20,17 +20,19 @@ def check_main_model_inputs(inp):
       if val in (None, ''):
         msgs.append(f'{var_name} is required.')
 
-      match var:
+    match var:
 
-        case 'model_city':
-          required('Modeling City')
+      case 'model_city':
+        required('Modeling City')
 
-        case 'rate_sched':
-          required('Electric Rate Schedule')
+      case 'rate_sched':
+        required('Electric Rate Schedule')
 
-        case 'year_built':
-          required('Year Built')
-          
+      case 'year_built':
+        required('Year Built')
+
+  return msgs
+
 def check_option_inputs(option):
   """Checks the heat pump option "option" for errors. Return empty list if error-free. Returns
   a list of error messages if there are input problems.
