@@ -8,29 +8,33 @@ def check_main_model_inputs(inp):
   """
   msgs = []
 
-  vars = ('model_city', 'rate_sched', 'year_built')
+  # Info and constraints on inputs. Format is:
+  # (variable, variable label, required?, 0 or more conditions the variable value must be if the variable is present)
+  vars = (
+    ('model_city', 'Modeling City', True),
+    ('rate_sched', 'Electric Rate Schedule', True),
+    ('year_built', 'Year Built', True, '>= 1880'), 
+    ('floor_area', 'Floor Area', True, '> 0', '< 15000'),
+    ('garage_count', 'Heated Garage Size', True),
+    ('occupant_count', 'Occupant Count', True, '> 0', '<= 15'),
+    ('electrical_service', 'Electrical Service size', True, '> 0', '<= 400')
+  )
 
-  for var in vars:
+  for var_info in vars:
+    
+    var, var_label, is_required = var_info[:3]
     val = dval(inp, var)
 
-    def required(var_name):
-      """Adds a message to 'msgs' if val is None. 'var_name' gives the name of the
-      variable.
-      """
-      if val in (None, ''):
-        msgs.append(f'{var_name} is required.')
+    # if required, test it
+    if is_required and val in (None, ''):
+      msgs.append(f'{var_label} is required.')
 
-    match var:
-
-      case 'model_city':
-        required('Modeling City')
-
-      case 'rate_sched':
-        required('Electric Rate Schedule')
-
-      case 'year_built':
-        required('Year Built')
-
+    # loop through any other test present, if the value is present
+    if val not in (None, ''):
+      for test in var_info[3:]:
+        if not eval(f'{val} {test}'):
+          msgs.append(f'{var_label} must be {test}.')
+      
   return msgs
 
 def check_option_inputs(option):

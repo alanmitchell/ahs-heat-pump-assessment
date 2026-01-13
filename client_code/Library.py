@@ -36,6 +36,16 @@ SPACE_HTG_SYS_TYPES = {
   "ng": [('Boiler', "boiler"), ('Furnace', "furnace"), ('Rinnai or Similar', "hi-effic-space"), ('Non-Electric Space Heater', "no-elec-space")],
 }
 
+GARAGE_SIZE = [
+  ('Please Select...', None),
+  ('No Garage', 0),
+  ('Single-Car', 1),
+  ('Two-Car', 2),
+  ('Three-Car', 3),
+  ('Four-Car', 4),
+  ('Five-Car', 5)
+]
+
 # Water Heating System Types
 DHW_SYS_TYPES = [
   ('Not Present', None),

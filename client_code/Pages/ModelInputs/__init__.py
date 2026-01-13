@@ -47,6 +47,9 @@ class ModelInputs(ModelInputsTemplate):
     # also make a dictionary to map city name to it's ID
     self.city_map = {item['label']: item['id'] for item in resp}
 
+    # Garage choices
+    self.dropdown_menu_garage_count.items = Library.GARAGE_SIZE
+    
     # initial visibility of heating system tabs
     self.heating_system_primary.visible = True
     self.heating_system_secondary.visible = False
@@ -97,7 +100,7 @@ class ModelInputs(ModelInputsTemplate):
         self.autocomplete_model_city.text = rev_city_map[model_city_id]
         self.autocomplete_model_city_change()   # force event to fire
       self.dropdown_menu_rate_sched.selected_value = inp.get('rate_sched', None)
-      self.dropdown_menu_garage_count.selected_value = str(inp.get('garage_count', 0))
+      self.dropdown_menu_garage_count.selected_value = inp.get('garage_count', None)
       self.dropdown_menu_dhw_sys_type.selected_value = inp.get('dhw_sys_type', None)
       self.dropdown_menu_dhw_sys_type_change()
       self.dropdown_menu_dhw_fuel.selected_value = inp.get('dhw_fuel', None)
@@ -205,7 +208,7 @@ class ModelInputs(ModelInputsTemplate):
       controls()
 
   def dropdown_menu_garage_count_change(self, **event_args):
-    self.item['garage_count'] = int(self.dropdown_menu_garage_count.selected_value)
+    self.item['garage_count'] = self.dropdown_menu_garage_count.selected_value
 
   def dropdown_menu_rate_sched_change(self, **event_args):
     self.item['rate_sched'] = self.dropdown_menu_rate_sched.selected_value
@@ -250,5 +253,8 @@ class ModelInputs(ModelInputsTemplate):
     """This method is called when the component is clicked."""
     self.html_report.html = '<h2>Calculating!</h2>'
     self.save_values()
+    anvil.js.call_js("setTimeout", self._do_calc, 0)
+
+  def _do_calc(self):
     report_html = anvil.server.call('analyze_options', self.item, self.client_id)
     self.html_report.html = report_html
