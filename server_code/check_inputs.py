@@ -17,7 +17,9 @@ def check_main_model_inputs(inp):
     ('floor_area', 'Floor Area', True, '> 0', '< 15000'),
     ('garage_count', 'Heated Garage Size', True),
     ('occupant_count', 'Occupant Count', True, '> 0', '<= 15'),
-    ('electrical_service', 'Electrical Service size', True, '> 0', '<= 400')
+    ('electrical_service', 'Electrical Service size', True, '> 0', '<= 400'),
+    ('heating_system_primary.fuel', 'Primary Heating System Fuel type', True),
+    ('heating_system_primary.system_type', 'Primary Heating System System Type', True),
   )
 
   for var_info in vars:
