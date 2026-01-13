@@ -2,11 +2,34 @@
 """
 from .util import dval
 
+def check_vars(var_check_list, input_dict):
+  """Checks the validity of a list of variables (var_check_list) appearing in a dictionary
+  of inputs (input_dict). Any errors found are put in a list of error messages are returned.
+  See the 'check_main_model_inputs' for an example of the format of 'var_check_list'.
+  """
+  msg_list = []
+
+  for var_info in var_check_list:
+
+    var, var_label, is_required = var_info[:3]
+    val = dval(input_dict, var)
+
+    # if required, test it
+    if is_required and val in (None, ''):
+      msg_list.append(f'{var_label} is required.')
+
+    # loop through any other test present, if the value is present
+    if val not in (None, ''):
+      for test in var_info[3:]:
+        if not eval(f'{val} {test}'):
+          msg_list.append(f'{var_label} must be {test}.')
+
+  return msg_list
+
 def check_main_model_inputs(inp):
   """Checks the main model inputs for errors. Returns empty list if error-free. Returns
   a list of error messages if there are input problems
   """
-  msgs = []
 
   # Info and constraints on inputs. Format is:
   # (variable, variable label, required?, 0 or more conditions the variable value must be if the variable is present)
@@ -22,90 +45,42 @@ def check_main_model_inputs(inp):
     ('heating_system_primary.system_type', 'Primary Heating System System Type', True),
   )
 
-  for var_info in vars:
-    
-    var, var_label, is_required = var_info[:3]
-    val = dval(inp, var)
+  msgs = check_vars(vars, inp)
 
-    # if required, test it
-    if is_required and val in (None, ''):
-      msgs.append(f'{var_label} is required.')
-
-    # loop through any other test present, if the value is present
-    if val not in (None, ''):
-      for test in var_info[3:]:
-        if not eval(f'{val} {test}'):
-          msgs.append(f'{var_label} must be {test}.')
-      
   return msgs
-
+  
 def check_option_inputs(option):
   """Checks the heat pump option "option" for errors. Return empty list if error-free. Returns
   a list of error messages if there are input problems.
   """
-  msgs = []
+  vars = (
+    ('title', 'Title', True),
+    ('hp_source', 'Heat Source', True),
+    ('hp_distribution', 'Heat Distribution type', True),
+    ('hspf2', 'HSPF2', False, '> 0', '<= 13'),
+    ('cop32f', 'COP @ 32F', False, '> 0', '<= 4.5'),
+    ('max_capacity', 'Maximum Heat Pump Capacity', True, '> 0', '<= 200000'),
+    ('load_exposed', 'Percent of Main Home Load Exposed to Heat Pump', True, '> 0', '<= 100'), 
+    ('load_adjacent', 'Percent of Main Home Load Adjacent to Heat Pump', True, '>= 0', '< 100'),
+    ('unserved_source', 'Source of Load Not Served by Heat Pump', True),
+    ('dhw_source', 'Domestic How Water Source', True),
+    ('cost_hp_install', 'Heat Pump Installation Cost', True, '> 0', '< 100000'),
+  )
+  msgs = check_vars(vars, option)
 
-  vars = ('title', 'hp_source', 'hp_distribution', 'hspf2', 'max_capacity',
-          'load_exposed', 'load_adjacent', 'unserved_source', 'dhw_source', 'cost_hp_install')
-  for var in vars:
-    val = dval(option, var)
+  # do other, more custom, checks
+  hspf2 = dval(option, 'hspf2')
+  cop32f = dval(option, 'cop32f')
+  if hspf2 in (None, '') and cop32f in (None, ''):
+    msgs.append('You must enter either an HSPF2 or a COP.')
 
-    def required(var_name):
-      """Adds a message to 'msgs' if val is None. 'var_name' gives the name of the
-      variable.
-      """
-      if val in (None, ''):
-        msgs.append(f'{var_name} is required.')
-
-    match var:
-
-      case 'title':
-        required('Title')
-
-      case 'hp_source':
-        required('Heat Source')
-
-      case 'hp_distribution':
-        required('Heat Distribution type')
-
-      case 'hspf2':
-        cop32f = dval(option, 'cop32f')
-        if val in (None, '') and cop32f in (None, ''):
-          msgs.append('You must enter either an HSPF2 or a COP.')
-        if val not in (None, '') and (val <= 0.0 or val > 13.0):
-          msgs.append('The HSPF2 must be greater than 0 and less than 13.0.')
-        if cop32f not in (None, '') and (cop32f <= 0.0 or cop32f > 4.5):
-          msgs.append('The COP @ 32F must be greater than 0 and less than 4.5.')
-
-      case 'max_capacity':
-        required('Maximum Capacity at 5 F')
-
-      case 'load_exposed':
-        required('Percent of Main Home Load exposed to Heat Pump')
-        if val not in (None, '') and val <= 0:
-          msgs.append('Percent of Main Home Load exposed to Heat Pump must be greater than 0.')
-
-      case 'load_adjacent':
-        required('Percent of Main Home Load adjacent to Heat Pump')
-
-      case 'unserved_source':
-        required('Source of load not served by Heat Pump')
-        if val == 'other':
-          val = dval(option, 'heating_system_unserved.fuel')
-          required('Fuel type of the Heating System for non-heat pump load')
-          val = dval(option, 'heating_system_unserved.system_type')
-          required('System type of the Heating System for non-heat pump load')
-          val = dval(option, 'heating_system_unserved.efficiency')
-          required('Efficiency of the Heating System for non-heat pump load')
-          if val not in (None, '') and val <= 0:
-            msgs.append('Efficiency of the Heating System for non-heat pump load must be more than 0.')
-
-      case 'dhw_source':
-        required('Domestic How Water source')
-
-      case 'cost_hp_install':
-        required('Heat Pump Installation Cost')
-        if val not in (None, '') and val <= 0:
-          msgs.append('Heat Pump Installation Cost must be greater than 0.')
+  unserved_source = dval(option, 'unserved_source')
+  if unserved_source == 'other':
+    vars2 = (
+      ('heating_system_unserved.fuel', 'Fuel Type of the Heating System for Non-heat pump Load', True),
+      ('heating_system_unserved.system_type', 'System Type of the Heating System for Non-heat pump Load', True),
+      ('heating_system_unserved.efficiency', 'Efficiency of the Heating System for Non-heat pump Load', True, '> 0', '<= 450'),
+    )
+    msgs += check_vars(vars2, option)
 
   return msgs
