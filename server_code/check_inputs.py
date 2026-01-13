@@ -57,13 +57,13 @@ def check_option_inputs(option):
     ('title', 'Title', True),
     ('hp_source', 'Heat Source', True),
     ('hp_distribution', 'Heat Distribution type', True),
-    ('hspf2', 'HSPF2', False, '> 0', '<= 13'),
-    ('cop32f', 'COP @ 32F', False, '> 0', '<= 4.5'),
+    ('hspf2', 'HSPF2', False, '> 4', '<= 13'),
+    ('cop32f', 'COP @ 32F', False, '> 1.0', '<= 4.5'),
     ('max_capacity', 'Maximum Heat Pump Capacity', True, '> 0', '<= 200000'),
     ('load_exposed', 'Percent of Main Home Load Exposed to Heat Pump', True, '> 0', '<= 100'), 
     ('load_adjacent', 'Percent of Main Home Load Adjacent to Heat Pump', True, '>= 0', '< 100'),
     ('unserved_source', 'Source of Load Not Served by Heat Pump', True),
-    ('dhw_source', 'Domestic How Water Source', True),
+    ('dhw_source', 'Domestic Hot Water Source', True),
     ('cost_hp_install', 'Heat Pump Installation Cost', True, '> 0', '< 100000'),
   )
   msgs = check_vars(vars, option)
@@ -71,16 +71,37 @@ def check_option_inputs(option):
   # do other, more custom, checks
   hspf2 = dval(option, 'hspf2')
   cop32f = dval(option, 'cop32f')
-  if hspf2 in (None, '') and cop32f in (None, ''):
-    msgs.append('You must enter either an HSPF2 or a COP.')
+  hp_source = dval(option, 'hp_source')
+  if hp_source == 'air':
+    if hspf2 in (None, '') and cop32f in (None, ''):
+      msgs.append('You must enter either an HSPF2 or a COP.')
+  else:
+    # ground and water must have a COP value
+    if cop32f in (None, ''):
+      msgs.append(('You must enter a COP @ 32 F for the Heat Pump.'))
 
   unserved_source = dval(option, 'unserved_source')
   if unserved_source == 'other':
     vars2 = (
       ('heating_system_unserved.fuel', 'Fuel Type of the Heating System for Non-heat pump Load', True),
       ('heating_system_unserved.system_type', 'System Type of the Heating System for Non-heat pump Load', True),
-      ('heating_system_unserved.efficiency', 'Efficiency of the Heating System for Non-heat pump Load', True, '> 0', '<= 450'),
+      ('heating_system_unserved.efficiency', 'Efficiency of the Heating System for Non-heat pump Load', True, '> 10', '<= 450'),
     )
     msgs += check_vars(vars2, option)
 
+  dhw_source = dval(option, 'dhw_source')
+  match dhw_source:
+    case "new-tank" | "new-tankless":
+      vars3 = (
+        ('dhw_after_fuel', 'Fuel used in New Water Heater', True),
+        ('ef_new_dhw', 'EF (Energy Factor) of the New Water Heater', True, '> 0.2', '< 1.0')
+      )
+      msgs += check_vars(vars3, option)
+    case "new-hpwh":
+      vars3 = (
+        ('ef_new_dhw', 'EF (Energy Factor) of the New Heat Pump Water Heater', True, '> 1.0', '< 5.0'),
+        ('hpwh_source', 'Source of Heat for New Heat Pump Water Heater', True)
+      )
+      msgs += check_vars(vars3, option)
+      
   return msgs

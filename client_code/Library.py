@@ -57,23 +57,27 @@ DHW_SYS_TYPES = [
 
 # For Heat Pump Water Heaters, location of the evaporator heat extraction
 HEAT_PUMP_WATER_HEATER_SOURCE = [
+  ('Please Select...', None),
   ('Main Home', 'main_home'),
   ('Garage', 'garage'),
   ('Outdoors', 'outdoors')
 ]
 
 HP_SOURCE = [
+  ('Please Select...', None),
   ('Outdoor Air', "air"),
   ('Water (e.g. Lake)', "water"),
   ('Ground', "ground")
 ]
 
 HP_HEAT_DISTRIBUTION = [
+  ('Please Select...', None),
   ('Air', "air"),
   ('Hydronic/Water', "hydronic")
 ]
 
 DHW_AFTER_HP = [
+  ('Please Select...', None),
   ('Same as Before', "as-before"),
   ('From Space Heat Pump', "from-space-hp"),
   ('New Tank', "new-tank"),
@@ -82,6 +86,7 @@ DHW_AFTER_HP = [
 ]
 
 UNSERVED_HP_LOAD = [
+  ('Please Select...', None),
   ('Existing Primary System', 'primary'),
   ('Existing Secondary System', 'secondary'),
   ('Other', 'other')

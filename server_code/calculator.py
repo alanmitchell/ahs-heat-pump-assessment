@@ -142,10 +142,10 @@ def analyze_options(ui_inputs, client_id):
       option_results.append(option_result)
 
       res = copy.deepcopy(option_result)
-      pprint(res['fuel_change'])
+      #pprint(res['fuel_change'])
       #pprint(res['financial'])
-      pprint(res['misc'])
-      pprint(res['option_inputs'])
+      #pprint(res['misc'])
+      #pprint(res['option_inputs'])
 
     else:
       # 'option_bldg' is a string containing input error messages for this option
