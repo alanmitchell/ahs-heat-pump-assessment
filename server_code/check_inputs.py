@@ -43,9 +43,50 @@ def check_main_model_inputs(inp):
     ('electrical_service', 'Electrical Service size', True, '> 0', '<= 400'),
     ('heating_system_primary.fuel', 'Primary Heating System Fuel type', True),
     ('heating_system_primary.system_type', 'Primary Heating System System Type', True),
+    ('ev_charging_miles_per_day', 'Miles per Day of EV Charging', False, '> 0', '< 300'),
+    ('solar_kw', 'kW of Solar Panels', False, '> 0', '<= 30')
   )
 
   msgs = check_vars(vars, inp)
+
+  # Custom Checks below
+  vars = []
+
+  # Primary Htg system efficiency
+  sys_type = dval(inp, 'heating_system_primary.system_type')
+  if sys_type in ('ashp', 'wshp', 'gshp'):
+    vars += [('heating_system_primary.efficiency', 'Primary Heating System Efficiency', True, '> 100', '<= 450')]
+  else:
+    vars += [('heating_system_primary.efficiency', 'Primary Heating System Efficiency', True, '> 10', '<= 100')]
+
+  # Details  on Secondary Heating System if present
+  fuel_type = dval(inp, 'heating_system_secondary.fuel')
+  if fuel_type not in (None, ''):
+    vars += [('heating_system_secondary.system_type', 'Secondary Heating System System Type', True)]
+    sys_type = dval(inp, 'heating_system_secondary.system_type')
+    if sys_type in ('ashp', 'wshp', 'gshp'):
+      vars += [('heating_system_secondary.efficiency', 'Secondary Heating System Efficiency', True, '> 100', '<= 450')]
+    else:
+      vars += [('heating_system_secondary.efficiency', 'Secondary Heating System Efficiency', True, '> 10', '<= 100')]
+
+  # DHW related
+  dhw_sys_type = dval(inp, 'dhw_sys_type')
+  match dhw_sys_type:
+    case None | "from-space-htr":
+      # no further checks required
+      pass
+    case 'tank' | 'tankless':
+      vars += [
+        ('dhw_fuel', 'Hot Water Heating Fuel Type', True),
+        ('ef_dhw', 'EF (Energy Factor) of Hot Water Heater', True, '> 0', '< 1.0')
+      ]
+    case 'hpwh':
+      vars += [
+        ('ef_dhw', 'EF (Energy Factor) of Hot Water Heater', True, '> 1.0', '< 5.0'),
+        ('hpwh_source', 'Source of Heat for the Heat Pump Water Heater', True)
+      ]
+  
+  msgs += check_vars(vars, inp)
 
   return msgs
   
@@ -82,26 +123,26 @@ def check_option_inputs(option):
 
   unserved_source = dval(option, 'unserved_source')
   if unserved_source == 'other':
-    vars2 = (
+    vars = (
       ('heating_system_unserved.fuel', 'Fuel Type of the Heating System for Non-heat pump Load', True),
       ('heating_system_unserved.system_type', 'System Type of the Heating System for Non-heat pump Load', True),
       ('heating_system_unserved.efficiency', 'Efficiency of the Heating System for Non-heat pump Load', True, '> 10', '<= 450'),
     )
-    msgs += check_vars(vars2, option)
+    msgs += check_vars(vars, option)
 
   dhw_source = dval(option, 'dhw_source')
   match dhw_source:
     case "new-tank" | "new-tankless":
-      vars3 = (
+      vars = (
         ('dhw_after_fuel', 'Fuel used in New Water Heater', True),
         ('ef_new_dhw', 'EF (Energy Factor) of the New Water Heater', True, '> 0.2', '< 1.0')
       )
-      msgs += check_vars(vars3, option)
+      msgs += check_vars(vars, option)
     case "new-hpwh":
-      vars3 = (
+      vars = (
         ('ef_new_dhw', 'EF (Energy Factor) of the New Heat Pump Water Heater', True, '> 1.0', '< 5.0'),
         ('hpwh_source', 'Source of Heat for New Heat Pump Water Heater', True)
       )
-      msgs += check_vars(vars3, option)
+      msgs += check_vars(vars, option)
       
   return msgs
