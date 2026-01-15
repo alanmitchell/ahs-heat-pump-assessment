@@ -57,7 +57,7 @@ def analyze_options(ui_inputs, client_id):
     return return_errors(err_msgs)
 
   # Check the main model inputs
-  err_msgs = check_main_model_inputs(ui_inputs)
+  err_msgs = check_main_model_inputs(ui_inputs, actual_fuel_use)
   if err_msgs:
     return return_errors(err_msgs)
 

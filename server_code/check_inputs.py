@@ -45,9 +45,10 @@ def existing_bldg_fuels(inp):
   
   return fuels
 
-def check_main_model_inputs(inp):
+def check_main_model_inputs(inp, actual_fuel_use):
   """Checks the main model inputs for errors. Returns empty list if error-free. Returns
-  a list of error messages if there are input problems
+  a list of error messages if there are input problems. 'inp' is the dictionary of model inputs.
+  'actual_fuel_use' is the dictionary of actual fuel use by fuel type.
   """
 
   # Info and constraints on inputs. Format is:
@@ -70,6 +71,7 @@ def check_main_model_inputs(inp):
 
   # Custom Checks below
 
+  # --------- Check for Necessary Fuel Prices
   # Check to make sure there are fuel prices for every fuel used inin the model.
   # First find all the fuels used by the existing building and heat pump options. (Not concerned
   # about electricity).
@@ -112,7 +114,34 @@ def check_main_model_inputs(inp):
   missing_fuels = fuels - fuels_with_prices
   for fuel in missing_fuels:
     msgs.append(f'There is no Fuel Price for {FUEL_INFO[fuel][0]}, but that fuel is used in the home.')
-  
+
+  # ----------- Check for Actual Fuel Use for Every Fuel Used
+  # maps keys of the actual_fuel_use dictionary into fuel IDs.
+  fuel_map = {
+    'electricity_monthly': 'elec',
+    'oil_gal': 'oil1',
+    'propane_gal': 'propane',
+    'ng_ccf': 'ng',
+    'spruce_cords': 'spruce',
+    'birch_cords': 'birch',
+    'pellet_pounds': 'pellets'
+  }
+  fuels_with_use = set()
+  for fuel_name, val in actual_fuel_use.items():
+    if val:
+      fuels_with_use.add(fuel_map[fuel_name])
+
+  fuels_in_existing = existing_bldg_fuels(inp)
+  missing_fuels = fuels_in_existing - fuels_with_use
+  for fuel in missing_fuels:
+    msgs.append(f'There is no Historical Fuel Use for {FUEL_INFO[fuel][0]}, but that fuel is used in the Existing home.')
+
+  # ------------ Check to see if Secondary Heating System is referenced in the Options list
+  if dval(inp, 'heating_system_secondary.fuel') is None:
+    for option in inp['heat_pump_options']:
+      if dval(option, 'unserved_source') == 'secondary':
+        msgs.append(f"The {option['title']} Heat Pump Option uses the Secondary Heating System for backup, but no Secondary Heating Sytem has been specified.")
+
   # Start a list of variable checks
   vars = []
 
