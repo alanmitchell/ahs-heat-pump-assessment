@@ -2,6 +2,7 @@
 """
 from .util import dval
 
+
 def check_vars(var_check_list, input_dict):
   """Checks the validity of a list of variables (var_check_list) appearing in a dictionary
   of inputs (input_dict). Any errors found are put in a list of error messages are returned.
