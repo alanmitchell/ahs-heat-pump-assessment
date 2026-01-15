@@ -50,6 +50,9 @@ def check_main_model_inputs(inp):
   msgs = check_vars(vars, inp)
 
   # Custom Checks below
+
+  # Check to make sure there are fuel prices for every fuel used inin the model.
+  
   vars = []
 
   # Primary Htg system efficiency
