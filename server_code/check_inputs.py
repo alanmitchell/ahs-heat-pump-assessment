@@ -26,6 +26,22 @@ def check_vars(var_check_list, input_dict):
 
   return msg_list
 
+def existing_bldg_fuels(inp):
+  """Returns a set of fuel types (IDs) that are in use in the existing building. 'inp' is the 
+  inpput dictionary for the building.
+  """
+  fuels = set()
+  fuels.add(dval(inp, 'heating_system_primary.fuel'))
+  fuels.add(dval(inp, 'heating_system_secondary.fuel'))
+  if dval(inp, 'dhw_sys_type') in ('tank', 'tankless'):
+    fuels.add(dval(inp, 'dhw_fuel'))
+    fuels.add(dval(inp, 'cooking_fuel'))
+  fuels.add(dval(inp, 'drying_fuel'))
+  fuels.add('elec')      # electricity always present
+  fuels.discard(None)
+  
+  return fuels
+
 def check_main_model_inputs(inp):
   """Checks the main model inputs for errors. Returns empty list if error-free. Returns
   a list of error messages if there are input problems
@@ -54,21 +70,16 @@ def check_main_model_inputs(inp):
   # Check to make sure there are fuel prices for every fuel used inin the model.
   # First find all the fuels used by the existing building and heat pump options. (Not concerned
   # about electricity).
-  fuels = set()
-  fuels.add(dval(inp, 'heating_system_primary.fuel'))
-  fuels.add(dval(inp, 'heating_system_secondary.fuel'))
-  if dval(inp, 'dhw_sys_type') in ('tank', 'tankless'):
-    fuels.add(dval(inp, 'dhw_fuel'))
-  fuels.add(dval(inp, 'cooking_fuel'))
-  fuels.add(dval(inp, 'drying_fuel'))
+  fuels = existing_bldg_fuels(inp)
   for option in inp['heat_pump_options']:
     if dval(option, 'unserved_source') == 'other':
       fuels.add(dval(option, 'heating_system_unserved.fuel'))
     if dval(option, 'dhw_source') in ('new-tank', 'new-tankless'):
       fuels.add(dval(option, 'dhw_after_fuel'))
-  # get rid of the None if present
-  if None in fuels:
-    fuels.discard(None)
+
+  # get rid of electricity and None if present
+  fuels.discard(None)
+  fuels.discard('elec')
   print(fuels)
 
   # Start a list of variable checks
