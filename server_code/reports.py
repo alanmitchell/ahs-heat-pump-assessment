@@ -4,29 +4,9 @@ from anvil.tables import app_tables
 
 from jinja2 import Environment, FileSystemLoader, BaseLoader
 
+from .calculator_constants import FUEL_INFO, END_USE_LABELS
 from .dict2d import Dict2d
 from .util import convert
-
-# Map Calculator API Fuel ID to labels and units
-FUEL_INFO = {
-  "oil1": ('Oil', 'gallons', ',.0f'),
-  "propane": ('Propane', 'gallons', ',.0f'),
-  "elec": ('Electricity', 'kWh', ',.0f'),
-  "birch": ('Birch', 'cords', ',.2f'),
-  "spruce": ('Sprucce', 'cords', ',.2f'),
-  "pellets": ('Wood Pellets', 'pounds', ',.0f'),
-  "ng": ('Natural Gas', 'CCF', ',.0f'),
-}
-
-END_USE_LABELS = {
-  'space_htg': 'Space Heating',
-  'dhw': 'Domestic Hot Water',
-  'cooking': 'Cooking',
-  'drying': 'Clothes Drying',
-  'misc_elec': 'Miscellaneous Electric',
-  'ev_charging': 'EV Charging',
-  'pv_solar': 'PV Solar',
-}
 
 def make_retrofit_report(analyze_results):
   """Returns a Markdown string with the report contents resulting from the 

@@ -3,7 +3,7 @@
 import requests
 
 from .util import dval
-from .calculator_constants import CALCULATOR_API_BASE_URL, FUEL_NAME_TO_ID
+from .calculator_constants import CALCULATOR_API_BASE_URL, FUEL_NAME_TO_ID, FUEL_INFO
 
 def check_vars(var_check_list, input_dict):
   """Checks the validity of a list of variables (var_check_list) appearing in a dictionary
@@ -107,9 +107,11 @@ def check_main_model_inputs(inp):
   for inp_name, fuel_id in FUEL_NAME_TO_ID:
     if dval(inp, inp_name):
       fuels_with_prices.add(fuel_id)
-        
-  print(fuels)
-  print(fuels_with_prices)
+
+  # determine the missing fuel prices
+  missing_fuels = fuels - fuels_with_prices
+  for fuel in missing_fuels:
+    msgs.append(f'There is no Fuel Price for {FUEL_INFO[fuel][0]}, but that fuel is used in the home.')
   
   # Start a list of variable checks
   vars = []
