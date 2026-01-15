@@ -1,7 +1,9 @@
 """Functioions to check the validity of User inputs are here.
 """
-from .util import dval
+import requests
 
+from .util import dval
+from .calculator import CALCULATOR_API_BASE_URL
 
 def check_vars(var_check_list, input_dict):
   """Checks the validity of a list of variables (var_check_list) appearing in a dictionary
@@ -81,8 +83,27 @@ def check_main_model_inputs(inp):
   # get rid of electricity and None if present
   fuels.discard(None)
   fuels.discard('elec')
-  print(fuels)
 
+  # Now find the set of available fuel prices
+  city_fuel_price_fields = (
+    ('Oil1Price', 'oil1'),
+    ('Oil2Price', 'oil1'),        # we use #2 price if #1 is not available
+    ('PropanePrice', 'propane'),
+    ('GasPrice', 'ng'),
+    ('BirchPrice', 'birch'),
+    ('SprucePrice', 'spruce'),
+    ('WoodPelletsPrice', 'pellets')
+  )
+  fuels_with_prices = set()
+  city_id = dval(inp, 'model_city')
+  if city_id:
+    city_info = requests.get(CALCULATOR_API_BASE_URL + f'lib/cities/{city_id}').json()
+    for col, fuel_id in city_fuel_price_fields:
+      if city_info[col]:
+        fuels_with_prices.add(fuel_id)
+  print(fuels)
+  print(fuels_with_prices)
+  
   # Start a list of variable checks
   vars = []
 
