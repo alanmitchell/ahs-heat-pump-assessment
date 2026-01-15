@@ -52,7 +52,26 @@ def check_main_model_inputs(inp):
   # Custom Checks below
 
   # Check to make sure there are fuel prices for every fuel used inin the model.
-  
+  # First find all the fuels used by the existing building and heat pump options. (Not concerned
+  # about electricity).
+  fuels = set()
+  fuels.add(dval(inp, 'heating_system_primary.fuel'))
+  fuels.add(dval(inp, 'heating_system_secondary.fuel'))
+  if dval(inp, 'dhw_sys_type') in ('tank', 'tankless'):
+    fuels.add(dval(inp, 'dhw_fuel'))
+  fuels.add(dval(inp, 'cooking_fuel'))
+  fuels.add(dval(inp, 'drying_fuel'))
+  for option in inp['heat_pump_options']:
+    if dval(option, 'unserved_source') == 'other':
+      fuels.add(dval(option, 'heating_system_unserved.fuel'))
+    if dval(option, 'dhw_source') in ('new-tank', 'new-tankless'):
+      fuels.add(dval(option, 'dhw_after_fuel'))
+  # get rid of the None if present
+  if None in fuels:
+    fuels.discard(None)
+  print(fuels)
+
+  # Start a list of variable checks
   vars = []
 
   # Primary Htg system efficiency
