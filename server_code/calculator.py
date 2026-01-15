@@ -8,10 +8,11 @@ import requests
 from pprint import pprint
 import anvil.server
 
+from .calculator_constants import CALCULATOR_API_BASE_URL
 from .client_data import get_client
 from .past_fuel_use import get_actual_use
 from .ui_to_api import (
-  make_base_bldg_inputs, 
+  make_base_bldg_inputs,
   make_energy_model_fit_inputs, 
   make_option_building,
   make_econ_inputs,
@@ -20,13 +21,6 @@ from .ui_to_api import (
 from .util import convert
 from .check_inputs import check_main_model_inputs
 from .reports import make_retrofit_report
-
-# Base URL to access heat pump calculator API endpoints.
-CALCULATOR_API_BASE_URL = "https://heatpump-api.energytools.com/"
-
-@anvil.server.callable
-def calculator_api_base_url():
-  return CALCULATOR_API_BASE_URL
 
 def return_errors(error_messages):
   """Returns the results dictionary used to convey that an error(s) has occurred.
@@ -141,7 +135,7 @@ def analyze_options(ui_inputs, client_id):
       }
       option_results.append(option_result)
 
-      res = copy.deepcopy(option_result)
+      #res = copy.deepcopy(option_result)
       #pprint(res['fuel_change'])
       #pprint(res['financial'])
       #pprint(res['misc'])

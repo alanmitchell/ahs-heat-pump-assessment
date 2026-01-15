@@ -6,6 +6,7 @@ from copy import deepcopy
 
 from anvil.tables import app_tables
 
+from .calculator_constants import FUEL_NAME_TO_ID
 from .check_inputs import check_option_inputs
 from .util import convert, dval
 
@@ -50,14 +51,6 @@ def make_base_bldg_inputs(ui_inputs):
   inp = ui_inputs
 
   # Energy Prices sub-dictionary
-  fuel_name_to_id = {
-    'oil_price': 'oil1', 
-    'propane_price': 'propane', 
-    'ng_price': 'ng', 
-    'birch_price': 'birch', 
-    'spruce_price': 'spruce', 
-    'pellet_price': 'pellets'
-  }
   energy_prices = {
     'utility_id': inp['rate_sched'],
     'pce_limit': 750.0,
@@ -65,7 +58,7 @@ def make_base_bldg_inputs(ui_inputs):
     'pce_rate_override': None,
     'customer_charge_override': None,
     'co2_lbs_per_kwh_override': None,
-    'fuel_price_overrides': {fuel_id: inp[fuel_name] for fuel_name, fuel_id in fuel_name_to_id.items() if inp.get(fuel_name) not in (None, '')},
+    'fuel_price_overrides': {fuel_id: inp[fuel_name] for fuel_name, fuel_id in FUEL_NAME_TO_ID if inp.get(fuel_name) not in (None, '')},
     'sales_tax_override': None
   }
 

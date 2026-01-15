@@ -3,7 +3,7 @@
 import requests
 
 from .util import dval
-from .calculator import CALCULATOR_API_BASE_URL
+from .calculator_constants import CALCULATOR_API_BASE_URL, FUEL_NAME_TO_ID
 
 def check_vars(var_check_list, input_dict):
   """Checks the validity of a list of variables (var_check_list) appearing in a dictionary
@@ -85,6 +85,7 @@ def check_main_model_inputs(inp):
   fuels.discard('elec')
 
   # Now find the set of available fuel prices
+  # Start with the ones from the Energy Library
   city_fuel_price_fields = (
     ('Oil1Price', 'oil1'),
     ('Oil2Price', 'oil1'),        # we use #2 price if #1 is not available
@@ -101,6 +102,12 @@ def check_main_model_inputs(inp):
     for col, fuel_id in city_fuel_price_fields:
       if city_info[col]:
         fuels_with_prices.add(fuel_id)
+
+  # Now add the fuel price overrides
+  for inp_name, fuel_id in FUEL_NAME_TO_ID:
+    if dval(inp, inp_name):
+      fuels_with_prices.add(fuel_id)
+        
   print(fuels)
   print(fuels_with_prices)
   
