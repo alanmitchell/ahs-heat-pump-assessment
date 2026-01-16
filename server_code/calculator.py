@@ -49,7 +49,6 @@ def analyze_options(ui_inputs, client_id):
   """
 
   try:
-    #x = 0 / 0
     # ----- Get the client record with needed fields
     fields = ('historical_use_file_id', )
     client = get_client(client_id, fields)
@@ -160,13 +159,8 @@ def analyze_options(ui_inputs, client_id):
         'success': True,
         'results': final_results
       })
-
   except Exception as exc:
-    # Build full traceback string
-    tb_str = "".join(
-      traceback.format_exception(type(exc), exc, exc.__traceback__)
-    )
-    exc_time = alaska_now_str()
-    print(f'{exc_time}: {tb_str}')
-    msg = f'An Error occured in the Application at {exc_time}. Please report that time to the Developer.'  
-    return_errors([msg,])
+    tb_str = traceback.format_exc()
+    ts = datetime.now(ALASKA_TZ).strftime("%Y-%m-%d %H:%M:%S AK Time")
+    print(f'{ts}: {tb_str}')
+    raise()

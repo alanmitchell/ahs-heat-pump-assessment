@@ -1,4 +1,5 @@
 import copy
+from datetime import datetime
 
 from ._anvil_designer import ModelInputsTemplate
 from anvil import *
@@ -256,5 +257,12 @@ class ModelInputs(ModelInputsTemplate):
     anvil.js.call_js("setTimeout", self._do_calc, 0)
 
   def _do_calc(self):
-    report_html = anvil.server.call('analyze_options', self.item, self.client_id)
-    self.html_report.html = report_html
+    try:
+      report_html = anvil.server.call('analyze_options', self.item, self.client_id)
+      self.html_report.html = report_html
+    except Exception as e:
+      ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+      self.html_report.html =f'''
+      <h2>An Application Error Occurred.</h2>
+      <p>Please report the following time to the Developer: {ts}
+      '''
