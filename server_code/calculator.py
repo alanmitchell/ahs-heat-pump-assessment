@@ -82,14 +82,18 @@ def analyze_options(ui_inputs, client_id):
 
   fit_results = fit_response.json()
   existing_bldg = fit_results['building_description']
+  model_results = fit_results['model_results']
+  existing_result = {
+    'annual_results': model_results['annual_results'],
+    'design_heat_temp': model_results['design_heat_temp'],
+    'design_heat_load': model_results['design_heat_load']
+  }
 
   # --- Do Retrofit analysis on each of the Options and the As Installed building
 
   # make the general economic inputs needed for the retrofit analysis
   econ_inputs = make_econ_inputs()
 
-  # Will hold the modeling results for the existing building
-  existing_result = None
   # Holds modeling results from all options, or input error messages if option input
   # is not correct.
   option_results = []
@@ -97,7 +101,6 @@ def analyze_options(ui_inputs, client_id):
   for option in ui_inputs['heat_pump_options']:
     option_bldg = make_option_building(existing_bldg, option)
     if type(option_bldg) is dict:
-      #pprint(option_bldg)
       # make retrofit cost inputs
       retrofit_cost = make_retrofit_cost(option)
       analyze_inputs = {
@@ -121,11 +124,6 @@ def analyze_options(ui_inputs, client_id):
         return return_errors(err_msgs)
 
       analyze_results = analyze_response.json()
-      existing_result = {
-        'annual_results': analyze_results['base_case_detail']['annual_results'],
-        'design_heat_temp': analyze_results['base_case_detail']['design_heat_temp'],
-        'design_heat_load': analyze_results['base_case_detail']['design_heat_load']
-      }
       option_result = {
         'fuel_change': analyze_results['fuel_change'],
         'financial': analyze_results['financial'],
@@ -134,12 +132,6 @@ def analyze_options(ui_inputs, client_id):
         'option_inputs': option
       }
       option_results.append(option_result)
-
-      #res = copy.deepcopy(option_result)
-      #pprint(res['fuel_change'])
-      #pprint(res['financial'])
-      #pprint(res['misc'])
-      #pprint(res['option_inputs'])
 
     else:
       # 'option_bldg' is a string containing input error messages for this option
@@ -151,7 +143,6 @@ def analyze_options(ui_inputs, client_id):
     'existing_results': existing_result,
     'option_results': option_results
   }  
-  pprint(final_results['existing_results'])
     
   return make_retrofit_report({
       'success': True,
