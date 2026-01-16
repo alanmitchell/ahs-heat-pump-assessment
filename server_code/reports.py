@@ -180,4 +180,6 @@ def make_retrofit_report(analyze_results):
     # Display input error messages
     template_text = app_tables.settings.search(key="error-report-template")[0]["value"]
     template = env.from_string(template_text)
-    return template.render(messages=analyze_results['messages'])
+    report = template.render(messages=analyze_results['messages'])
+    print(report)
+    return report
