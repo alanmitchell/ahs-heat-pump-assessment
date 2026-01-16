@@ -12,7 +12,7 @@ FUEL_INFO = {
   "propane": ('Propane', 'gallons', ',.0f'),
   "elec": ('Electricity', 'kWh', ',.0f'),
   "birch": ('Birch', 'cords', ',.2f'),
-  "spruce": ('Sprucce', 'cords', ',.2f'),
+  "spruce": ('Spruce', 'cords', ',.2f'),
   "pellets": ('Wood Pellets', 'pounds', ',.0f'),
   "ng": ('Natural Gas', 'CCF', ',.0f'),
 }

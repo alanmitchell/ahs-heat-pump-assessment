@@ -72,6 +72,7 @@ def make_retrofit_report(analyze_results):
     # Total fuel costs and CO2 emissions
     total_fuel_elec_cost = ar['existing_results']['annual_results']['fuel_total_cost']
     data['grand_total_fuel_and_elec_cost'] = f'$ {total_fuel_elec_cost:,.0f}'
+    
     # Fuel cost for just space and water heating
     heating_cost = 0.0
     for fuel in fuels:
@@ -79,6 +80,11 @@ def make_retrofit_report(analyze_results):
       use_for_heating = fuel_by_use.get(fuel, 'space_htg') + fuel_by_use.get(fuel, 'dhw')
       heating_cost += use_for_heating / tot_use_for_fuel * fuel_cost_by_type.get(fuel, 0.0)
     data['heating_fuel_and_elec_cost'] = f'$ {heating_cost:,.0f}'
+
+    # Design Heating Load
+    design_heat_load = ar['existing_results']['design_heat_load']
+    design_heat_temp = ar['existing_results']['design_heat_temp']
+    print(design_heat_load, design_heat_temp)
     
     co2_lbs = ar['existing_results']['annual_results']['co2_lbs']
     data['co2_lbs'] = f'{co2_lbs:,.0f}'

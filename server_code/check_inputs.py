@@ -214,6 +214,14 @@ def check_option_inputs(option):
     if cop32f in (None, ''):
       msgs.append(('You must enter a COP @ 32 F for the Heat Pump.'))
 
+  # make sure exposed + adjacent is <= 100.
+  exposed = dval(option, 'load_exposed')
+  adjacent = dval(option, 'load_adjacent')
+  if exposed is not None and adjacent is not None:
+    if exposed + adjacent > 100:
+      msgs.append('Load Exposed to the heat pump + Load Adjacent must be 100% or less.')
+      
+  # If Other heating system is specified to back up heat pump, check it's inputs.
   unserved_source = dval(option, 'unserved_source')
   if unserved_source == 'other':
     vars = (
