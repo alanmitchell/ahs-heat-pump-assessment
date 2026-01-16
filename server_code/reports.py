@@ -66,9 +66,20 @@ def make_retrofit_report(analyze_results):
     fuel_cost_by_type = ar['existing_results']['annual_results']['fuel_cost']
     data['tbl_fuel_by_use_total_cost'] = ['Total Fuel Cost'] + [f'$ {fuel_cost_by_type.get(fuel, 0.0):,.0f}' for fuel in fuels]
 
-    # Grand total fuel cost and CO2 emissions
+    # average fuel price
+    data['tbl_fuel_by_use_prices'] = ['Average Fuel Price'] + [f'$ {fuel_cost_by_type.get(fuel, 0.0) / fuel_totals.get(fuel, 0.0):.3g}' for fuel in fuels]
+
+    # Total fuel costs and CO2 emissions
     total_fuel_elec_cost = ar['existing_results']['annual_results']['fuel_total_cost']
     data['grand_total_fuel_and_elec_cost'] = f'$ {total_fuel_elec_cost:,.0f}'
+    # Fuel cost for just space and water heating
+    heating_cost = 0.0
+    for fuel in fuels:
+      tot_use_for_fuel = fuel_totals.get(fuel, 0.0)
+      use_for_heating = fuel_by_use.get(fuel, 'space_htg') + fuel_by_use.get(fuel, 'dhw')
+      heating_cost += use_for_heating / tot_use_for_fuel * fuel_cost_by_type.get(fuel, 0.0)
+    data['heating_fuel_and_elec_cost'] = f'$ {heating_cost:,.0f}'
+    
     co2_lbs = ar['existing_results']['annual_results']['co2_lbs']
     data['co2_lbs'] = f'{co2_lbs:,.0f}'
 
@@ -97,15 +108,14 @@ def make_retrofit_report(analyze_results):
     # -- Fuel Cost savings
     def cost_savings(i):
       savings = -sum(options[i]['fuel_change']['cost'].values())
-      pct_savings = savings / total_fuel_elec_cost * 100.0
+      pct_savings = savings / heating_cost * 100.0
       return f'$ {savings:,.0f} ({pct_savings:.0f}%)'
-    add_option_row('First Year Energy Cost Savings', cost_savings)
+    add_option_row('First Year Energy Cost Savings<br>(% of Space + Water Heating Cost)', cost_savings)
 
     # -- CO2 Savings
     def co2_savings(i):
       co2_lbs_saved = options[i]['misc']['co2_lbs_saved']
-      pct_savings = co2_lbs_saved / co2_lbs * 100
-      return f'{co2_lbs_saved:,.0f} ({pct_savings:.0f}%)'
+      return f'{co2_lbs_saved:,.0f}'
     add_option_row('CO2 Emissions Savings, lbs / year', co2_savings)
 
     # -- % of Space Load served by HP
