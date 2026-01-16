@@ -151,7 +151,7 @@ def analyze_options(ui_inputs, client_id):
     'existing_results': existing_result,
     'option_results': option_results
   }  
-  #pprint(final_results)
+  pprint(final_results['existing_results'])
     
   return make_retrofit_report({
       'success': True,
