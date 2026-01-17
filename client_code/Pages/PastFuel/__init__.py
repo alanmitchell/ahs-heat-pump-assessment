@@ -33,13 +33,21 @@ class PastFuel(PastFuelTemplate):
       historical_file_id = client['historical_use_file_id']  # file id of historical use spreadsheet
       if historical_file_id is None:
         # No spreadsheet created yet, so make one
+        folder_url = client['client_folder_url']
+        if folder_url in (None, ''):
+          alert('There is no Historical Use spreadsheet and there must a Google Link to the Client Folder entered on the General Inputs page in order to create a spreadsheet.')
+          return
         client_name = chg_none_blank(client['full_name'], "Unknown")
         assess_id = chg_none_blank(client['assessment_id'], 'Unknown')
         d = anvil.js.window.Date()
         timestamp_str = f"{d.getFullYear()}-{d.getMonth()+1:02d}-{d.getDate():02d} {d.getHours():02d}:{d.getMinutes():02d}"
-        historical_file_id = anvil.server.call('make_client_historical_use_ss', f"{client_name} {assess_id} Historical Use {timestamp_str}")
-        # save the file ID in the DataTable
-        anvil.server.call('add_update_client', client['row_id'], {'historical_use_file_id': historical_file_id})
+        try:
+          historical_file_id = anvil.server.call('make_client_historical_use_ss', f"{client_name} {assess_id} Historical Use {timestamp_str}", folder_url)
+          # save the file ID in the DataTable
+          anvil.server.call('add_update_client', client['row_id'], {'historical_use_file_id': historical_file_id})
+        except Exception as exc:
+          alert(f'An Error occurred creating the spreadsheet: {exc}.')
+          return
       url = f"https://docs.google.com/spreadsheets/d/{historical_file_id}/edit"
       anvil.js.window.open(url, "_blank")
       
@@ -89,19 +97,22 @@ class PastFuel(PastFuelTemplate):
       client = anvil.server.call('get_client', client_id)
       google_doc_file_id = client['google_doc_file_id']  # file id of historical use spreadsheet
       if google_doc_file_id is None:
-        # No spreadsheet created yet, so make one
+        # No document created yet, so make one
+        folder_url = client['client_folder_url']
+        if folder_url in (None, ''):
+          alert('There is no Google Document and there must a Google Link to the Client Folder entered on the General Inputs page in order to create a document.')
+          return
         client_name = chg_none_blank(client['full_name'], "Unknown")
         assess_id = chg_none_blank(client['assessment_id'], 'Unknown')
-        google_doc_file_id = anvil.server.call('make_client_google_doc', f"{client_name} {assess_id} Pictures/Misc")
-        # save the file ID in the DataTable
-        anvil.server.call('add_update_client', client['row_id'], {'google_doc_file_id': google_doc_file_id})
+        try:
+          google_doc_file_id = anvil.server.call('make_client_google_doc', f"{client_name} {assess_id} Pictures/Misc", folder_url)
+          # save the file ID in the DataTable
+          anvil.server.call('add_update_client', client['row_id'], {'google_doc_file_id': google_doc_file_id})
+        except Exception as exc:
+          alert(f'An Error occurred creating the Document: {exc}.')
+          return
       url = f"https://docs.google.com/document/d/{google_doc_file_id}/edit"
       anvil.js.window.open(url, "_blank")
 
     else:
       alert("There is no Selected Client!")
-
-  @handle("Test", "click")
-  def Test_click(self, **event_args):
-    """This method is called when the component is clicked."""
-    anvil.server.call('make_client_historical_use_ss_new', 'historical-use', '1OazXEMie4O6n7On-MH0gIMTdvIQgssoR')

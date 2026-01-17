@@ -30,7 +30,7 @@ class GeneralInputs(GeneralInputsTemplate):
     # get the client we are currently working on
     self.client_id = get_user()["last_client_id"]
     if self.client_id:
-      fields = ('full_name', 'email', 'address', 'city', 'assessment_id', 'assessor', 'assess_visit_date')
+      fields = ('full_name', 'email', 'address', 'city', 'assessment_id', 'assessor', 'assess_visit_date', 'client_folder_url')
       client = anvil.server.call('get_client', self.client_id, fields)
       if client:
         client.pop('row_id')  # already have this as self.client_id

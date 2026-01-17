@@ -1,6 +1,8 @@
 """Module to interact with Google files and documents.
 """
-import time, json
+import time
+import json
+from urllib.parse import urlparse
 
 from anvil.users import get_user
 from anvil.tables import app_tables
@@ -57,15 +59,22 @@ def copy_template_into_folder(template_file_id: str,     # Google ID of template
   new_file = _retry(copy_req.execute)
   return new_file['id']
 
+def folder_id_from_url(url):
+  """Given a share link to a Google folder, parse and return the ID of the folder.
+  """
+  parsed = urlparse(url)
+  id = parsed.path.split('/')[-1]
+  return id
+
 @anvil.server.callable
-def make_client_historical_use_ss(ss_name: str) -> str:
+def make_client_historical_use_ss(ss_name: str, folder_url: str) -> str:
   """Creates a new Historical Use Google Sheet for a client and returns the Google
   file ID of that Sheet. Uses a template file to create the sheet.
   """
   if get_user():
     # only logged-in users can access.
+    folder_id = folder_id_from_url(folder_url)
     template_id = app_tables.settings.search(key="historical-use-file-id")[0]["value"]
-    folder_id = app_tables.settings.search(key="client-document-folder-id")[0]["value"]
     new_file_id = copy_template_into_folder(template_id, folder_id, ss_name)
     return new_file_id
 
@@ -73,13 +82,13 @@ def make_client_historical_use_ss(ss_name: str) -> str:
     return None
 
 @anvil.server.callable
-def make_client_google_doc(doc_name: str) -> str:
+def make_client_google_doc(doc_name: str, folder_url: str) -> str:
   """Creates a new Google Document for a client and returns the Google
   file ID of that Sheet.
   """
   if get_user():
     # only logged-in users can access.
-    folder_id = app_tables.settings.search(key="client-document-folder-id")[0]["value"]
+    folder_id = folder_id_from_url(folder_url)
     drive = _drive()
     meta = {
       "name": doc_name,
@@ -117,16 +126,3 @@ def get_sheet_values(spreadsheet_id: str, sheet_name: str) -> str:
 def do_nothing():
   return None
 
-@anvil.server.callable
-def make_client_historical_use_ss_new(ss_name: str, folder_id: str) -> str:
-  """Creates a new Historical Use Google Sheet for a client and returns the Google
-  file ID of that Sheet. Uses a template file to create the sheet.
-  """
-  if get_user():
-    # only logged-in users can access.
-    template_id = app_tables.settings.search(key="historical-use-file-id")[0]["value"]
-    new_file_id = copy_template_into_folder(template_id, folder_id, ss_name)
-    return new_file_id
-
-  else:
-    return None
