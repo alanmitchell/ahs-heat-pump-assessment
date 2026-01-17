@@ -13,6 +13,17 @@ import anvil.js
 
 from ...Utility import active_client_name, chg_none_blank
 
+def make_file_name(client, doc_name):
+  """Returns a file name including client name, the assessment ID, a document type and
+  a timestamp. 'client' is the datatable record for the client. 'doc_name' is the type of 
+  document.
+  """
+  client_name = chg_none_blank(client['full_name'], "Unknown")
+  assess_id = chg_none_blank(client['assessment_id'], 'Unknown')
+  d = anvil.js.window.Date()
+  timestamp_str = f"{d.getFullYear()}-{d.getMonth()+1:02d}-{d.getDate():02d} {d.getHours():02d}:{d.getMinutes():02d}"
+  return f"{client_name} {assess_id} {doc_name} {timestamp_str}"
+
 class PastFuel(PastFuelTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -37,12 +48,9 @@ class PastFuel(PastFuelTemplate):
         if folder_url in (None, ''):
           alert('There is no Historical Use spreadsheet and there must a Google Link to the Client Folder entered on the General Inputs page in order to create a spreadsheet.')
           return
-        client_name = chg_none_blank(client['full_name'], "Unknown")
-        assess_id = chg_none_blank(client['assessment_id'], 'Unknown')
-        d = anvil.js.window.Date()
-        timestamp_str = f"{d.getFullYear()}-{d.getMonth()+1:02d}-{d.getDate():02d} {d.getHours():02d}:{d.getMinutes():02d}"
+        file_name = make_file_name(client, 'Historical Use')
         try:
-          historical_file_id = anvil.server.call('make_client_historical_use_ss', f"{client_name} {assess_id} Historical Use {timestamp_str}", folder_url)
+          historical_file_id = anvil.server.call('make_client_historical_use_ss', file_name, folder_url)
           # save the file ID in the DataTable
           anvil.server.call('add_update_client', client['row_id'], {'historical_use_file_id': historical_file_id})
         except Exception as exc:
@@ -102,10 +110,9 @@ class PastFuel(PastFuelTemplate):
         if folder_url in (None, ''):
           alert('There is no Google Document and there must a Google Link to the Client Folder entered on the General Inputs page in order to create a document.')
           return
-        client_name = chg_none_blank(client['full_name'], "Unknown")
-        assess_id = chg_none_blank(client['assessment_id'], 'Unknown')
+        file_name = make_file_name(client, 'Pictures/Misc')
         try:
-          google_doc_file_id = anvil.server.call('make_client_google_doc', f"{client_name} {assess_id} Pictures/Misc", folder_url)
+          google_doc_file_id = anvil.server.call('make_client_google_doc', file_name, folder_url)
           # save the file ID in the DataTable
           anvil.server.call('add_update_client', client['row_id'], {'google_doc_file_id': google_doc_file_id})
         except Exception as exc:
