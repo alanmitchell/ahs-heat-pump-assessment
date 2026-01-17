@@ -107,6 +107,7 @@ native_deps: null
 package_name: AHS_Heat_Pump_Assessment
 runtime_options:
   client_version: '3'
+  server_persist: true
   server_spec: {base: python310-minimal}
   server_version: python3-full
   version: 3
