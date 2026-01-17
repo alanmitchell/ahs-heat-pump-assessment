@@ -6,7 +6,7 @@ from jinja2 import Environment, FileSystemLoader, BaseLoader
 
 from .calculator_constants import FUEL_INFO, END_USE_LABELS
 from .dict2d import Dict2d
-from .util import convert
+from .util import convert, dval
 
 def make_retrofit_report(analyze_results):
   """Returns a Markdown string with the report contents resulting from the 
@@ -112,11 +112,24 @@ def make_retrofit_report(analyze_results):
     add_option_row('Annual Change in Fuel Use', fuel_change)          
         
     # -- Fuel Cost savings
-    def cost_savings(i):
-      savings = -sum(options[i]['fuel_change']['cost'].values())
-      pct_savings = savings / heating_cost * 100.0
-      return f'$ {savings:,.0f} ({pct_savings:.0f}%)'
-    add_option_row('First Year Energy Cost Savings<br>(% of Space + Water Heating Cost)', cost_savings)
+    def cost_change(i):
+      tot_change = sum(options[i]['fuel_change']['cost'].values())
+      elec_change = dval(options[i], 'fuel_change.cost.elec')
+      if elec_change:
+        fuel_change = tot_change - elec_change
+      else:
+        fuel_change = tot_change
+      pct_savings = -tot_change / heating_cost * 100.0
+      lines = []
+      if elec_change:
+        lines += [f"Electricity: ${abs(elec_change):,.0f} {'increase' if elec_change > 0 else 'savings'}"]
+      if fuel_change:
+        lines += [f"Fuels: ${abs(fuel_change):,.0f} {'increase' if fuel_change > 0 else 'savings'}"]
+      lines += ['_________________']
+      lines += [f"Net Savings: ${-tot_change:,.0f}"] 
+      lines += [f"{pct_savings:.0f}% of Space + DHW"]
+      return '<br>'.join(lines)
+    add_option_row('First Year Energy Cost Impact', cost_change)
 
     # -- CO2 Savings
     def co2_savings(i):
