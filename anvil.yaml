@@ -104,6 +104,9 @@ dependencies:
 - dep_id: dep_zvflpaiyb9zl0r
   resolution_hints: {app_id: 4UK6WHQ6UX7AKELK, name: Material 3 Theme, package_name: m3}
   version: {version_tag: v1.2.6}
+- dep_id: dep_j5k1r43r2nma5g
+  resolution_hints: {app_id: C6ZZPAPN4YYF5NVJ, name: Anvil Extras, package_name: anvil_extras}
+  version: {version_tag: v3.6.1}
 metadata: {description: Assesses the performance of a heat pump retrofit., logo_img: 'asset:HEAT-SMART-logo-1-e1604519572587.webp', title: Alaska Heat Smart Heat Pump Assessment}
 name: AHS Heat Pump Assessment
 native_deps: null
