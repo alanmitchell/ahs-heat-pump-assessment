@@ -116,3 +116,17 @@ def get_sheet_values(spreadsheet_id: str, sheet_name: str) -> str:
 @anvil.server.callable
 def do_nothing():
   return None
+
+@anvil.server.callable
+def make_client_historical_use_ss_new(ss_name: str, folder_id: str) -> str:
+  """Creates a new Historical Use Google Sheet for a client and returns the Google
+  file ID of that Sheet. Uses a template file to create the sheet.
+  """
+  if get_user():
+    # only logged-in users can access.
+    template_id = app_tables.settings.search(key="historical-use-file-id")[0]["value"]
+    new_file_id = copy_template_into_folder(template_id, folder_id, ss_name)
+    return new_file_id
+
+  else:
+    return None

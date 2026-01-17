@@ -100,3 +100,8 @@ class PastFuel(PastFuelTemplate):
 
     else:
       alert("There is no Selected Client!")
+
+  @handle("Test", "click")
+  def Test_click(self, **event_args):
+    """This method is called when the component is clicked."""
+    anvil.server.call('make_client_historical_use_ss_new', 'historical-use', '1OazXEMie4O6n7On-MH0gIMTdvIQgssoR')
