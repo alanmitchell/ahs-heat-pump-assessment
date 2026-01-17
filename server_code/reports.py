@@ -84,7 +84,7 @@ def make_retrofit_report(analyze_results):
     # Design Heating Load
     design_heat_load = ar['existing_results']['design_heat_load']
     design_heat_temp = ar['existing_results']['design_heat_temp']
-    print(design_heat_load, design_heat_temp)
+    data['design_heat_load'] = f'{design_heat_load:,.0f} BTU/hr @ {design_heat_temp:.1f}° F'
     
     co2_lbs = ar['existing_results']['annual_results']['co2_lbs']
     data['co2_lbs'] = f'{co2_lbs:,.0f}'
